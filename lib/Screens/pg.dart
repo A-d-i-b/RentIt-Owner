@@ -3,28 +3,30 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class Pghome extends StatefulWidget {
+class PgHome extends StatefulWidget {
+  const PgHome({Key? key}) : super(key: key);
+
   @override
-  State<Pghome> createState() => _PgState();
+  createState() => _PgState();
 }
 
-class _PgState extends State<Pghome> {
-  List<XFile>? pickimages = [];
+class _PgState extends State<PgHome> {
+  List<XFile>? pickImages = [];
   int method = 2;
-  void selectimage() async {
+  void selectImage() async {
     if (method == 0) {
-      List<XFile>? selectimage = await ImagePicker().pickMultiImage();
+      List<XFile>? selectedImages = await ImagePicker().pickMultiImage();
       setState(() {
-        if (selectimage!.isNotEmpty) {
-          pickimages!.addAll(selectimage);
+        if (selectedImages!.isNotEmpty) {
+          pickImages!.addAll(selectedImages);
         }
       });
     } else {
-      XFile? selectimage =
+      XFile? selectedImages =
           await ImagePicker().pickImage(source: ImageSource.camera);
-      if (selectimage != null) {
+      if (selectedImages != null) {
         setState(() {
-          pickimages!.add(selectimage);
+          pickImages!.add(selectedImages);
         });
       }
     }
@@ -51,11 +53,11 @@ class _PgState extends State<Pghome> {
         children: [
           Container(
             height: 190,
-            margin: EdgeInsets.only(top: 30, left: 20, right: 20),
+            margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
             decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                  color: Color(0xFF0EB7B7),
+                  color: const Color(0xFF0EB7B7),
                   width: 1.6,
                 )),
             child: Center(
@@ -63,27 +65,29 @@ class _PgState extends State<Pghome> {
                 alignment: Alignment.center,
                 children: [
                   GridView.builder(
-                      padding: EdgeInsets.all(5),
-                      itemCount: pickimages!.length,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3),
+                      padding: const EdgeInsets.all(5),
+                      itemCount: pickImages!.length,
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3),
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
                             onLongPress: () {
                               setState(() {
-                                pickimages!.removeAt(index);
+                                pickImages!.removeAt(index);
                               });
                             },
                             child: Container(
-                                margin: EdgeInsets.all(2),
+                                margin: const EdgeInsets.all(2),
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(5),
                                     border: Border.all(
-                                        color: Color(0xFF0EB7B7), width: 2)),
+                                        color: const Color(0xFF0EB7B7),
+                                        width: 2)),
                                 child:
-                                    Image.file(File(pickimages![index].path))));
+                                    Image.file(File(pickImages![index].path))));
                       }),
-                  if (pickimages!.isEmpty)
+                  if (pickImages!.isEmpty)
                     Text(
                       "No Images Added",
                       style: TextStyle(color: Colors.grey[400], fontSize: 20),
@@ -93,7 +97,7 @@ class _PgState extends State<Pghome> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(left: 20, right: 20),
+            padding: const EdgeInsets.only(left: 20, right: 20),
             child: Row(
               children: [
                 ElevatedButton(
@@ -102,27 +106,27 @@ class _PgState extends State<Pghome> {
                       method = 0;
                     });
 
-                    selectimage();
+                    selectImage();
                   },
-                  child: Text("Select from gallery"),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF0EB7B7)),
+                        MaterialStateProperty.all(const Color(0xFF0EB7B7)),
                   ),
+                  child: const Text("Select from gallery"),
                 ),
-                Spacer(),
+                const Spacer(),
                 ElevatedButton(
                   onPressed: () {
                     setState(() {
                       method = 1;
                     });
-                    selectimage();
+                    selectImage();
                   },
-                  child: Text("Take a Photo"),
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all(Color(0xFF0EB7B7)),
+                        MaterialStateProperty.all(const Color(0xFF0EB7B7)),
                   ),
+                  child: const Text("Take a Photo"),
                 ),
               ],
             ),

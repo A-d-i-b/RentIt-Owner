@@ -7,10 +7,10 @@ class Example extends StatelessWidget {
     return Scaffold(
       body: Center(
         child: ElevatedButton(
-          child: Text("press"),
+          child: const Text("press"),
           onPressed: () {
             Navigator.push(
-                context, MaterialPageRoute(builder: (context) => Pghome()));
+                context, MaterialPageRoute(builder: (context) => PgHome()));
           },
         ),
       ),
