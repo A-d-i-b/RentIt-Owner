@@ -27,24 +27,27 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
           height: 10,
         ),
         // display assets
-        Row(
-          children: [
-            if (_assets != null)
-              ..._assets!.map(
-                (asset) => Row(
-                  children: [
-                    AssetThumb(
-                      asset: asset,
-                      width: 100,
-                      height: 100,
-                    ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              if (_assets != null)
+                ..._assets!.map(
+                  (asset) => Row(
+                    children: [
+                      AssetThumb(
+                        asset: asset,
+                        width: 100,
+                        height: 100,
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-          ],
+            ],
+          ),
         ),
         const SizedBox(
           height: 10,
