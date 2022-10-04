@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:househunt/Screens/example.dart';
-import 'package:househunt/Screens/pg.dart';
+import 'package:househunt/screens/example.dart';
+import 'package:househunt/screens/pg_screen.dart';
 
-class BottomNavbar extends StatefulWidget {
-  const BottomNavbar({Key? key}) : super(key: key);
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
-  State<BottomNavbar> createState() => _BottomNavbarState();
+  State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _BottomNavbarState extends State<BottomNavbar> {
+class _HomeScreenState extends State<HomeScreen> {
   int index = 0;
   late PageController pageController;
   @override
@@ -83,8 +83,8 @@ class _BottomNavbarState extends State<BottomNavbar> {
       ),
       body: PageView(
         controller: pageController,
-        children: [
-          const PgHome(),
+        children: const [
+          PgHome(),
           Example(),
         ],
         onPageChanged: (page) {

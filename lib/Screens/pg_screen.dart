@@ -55,7 +55,7 @@ class _PgState extends State<PgHome> {
             height: 190,
             margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
+                borderRadius: BorderRadius.circular(10),
                 border: Border.all(
                   color: const Color(0xFF0EB7B7),
                   width: 1.6,
@@ -72,20 +72,24 @@ class _PgState extends State<PgHome> {
                               crossAxisCount: 3),
                       itemBuilder: (BuildContext context, int index) {
                         return InkWell(
-                            onLongPress: () {
-                              setState(() {
-                                pickImages!.removeAt(index);
-                              });
-                            },
-                            child: Container(
-                                margin: const EdgeInsets.all(2),
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    border: Border.all(
-                                        color: const Color(0xFF0EB7B7),
-                                        width: 2)),
-                                child:
-                                    Image.file(File(pickImages![index].path))));
+                          onLongPress: () {
+                            setState(() {
+                              pickImages!.removeAt(index);
+                            });
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.all(2),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              border: Border.all(
+                                  color: const Color(0xFF0EB7B7), width: 1),
+                            ),
+                            child: Image.file(
+                              File(pickImages![index].path),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
                       }),
                   if (pickImages!.isEmpty)
                     Text(
