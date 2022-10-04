@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:househunt/screens/home_screen.dart';
+import 'package:househunt/theme/base_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +12,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
-      home: HomeScreen(),
+    return GetMaterialApp(
+      theme: theme,
+      home: const HomeScreen(),
     );
   }
 }

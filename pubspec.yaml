@@ -37,6 +37,8 @@ dependencies:
   bottom_navy_bar: ^6.0.0
   image_picker: ^0.8.5+3
   get: ^4.6.5
+  wechat_assets_picker: ^8.1.2
+  google_fonts: ^3.0.1
 
 dev_dependencies:
   flutter_test:
