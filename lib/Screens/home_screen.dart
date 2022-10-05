@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:househunt/screens/example.dart';
-import 'package:househunt/screens/pg_screen.dart';
+import 'package:househunt/screens/landing_home_screen.dart';
+import 'package:househunt/theme/base_theme.dart';
+import 'package:househunt/widgets/bottom_bar_icon.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -45,46 +47,19 @@ class _HomeScreenState extends State<HomeScreen> {
             pageController.jumpToPage(index);
           },
           destinations: const [
-            NavigationDestination(
-              icon: Icon(
-                Icons.home,
-                color: Color(0xFF0EB7B7),
-              ),
-              label: "Home",
-              selectedIcon: Icon(
-                Icons.home,
-                color: Color(0xFF0EB7B7),
-              ),
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.apartment,
-                color: Color(0xFF0EB7B7),
-              ),
-              label: "Tenant",
-              selectedIcon: Icon(
-                Icons.apartment,
-                color: Color(0xFF0EB7B7),
-              ),
-            ),
-            NavigationDestination(
-              icon: Icon(
-                Icons.person,
-                color: Color(0xFF0EB7B7),
-              ),
-              label: "Profile",
-              selectedIcon: Icon(
-                Icons.person,
-                color: Color(0xFF0EB7B7),
-              ),
-            ),
+            BottomBarIcon(icon: Icons.home, color: primary),
+            BottomBarIcon(icon: Icons.apartment, color: primary),
+            BottomBarIcon(icon: Icons.person, color: primary),
           ],
         ),
       ),
       body: PageView(
         controller: pageController,
         children: const [
-          PgHome(),
+          // PgHome(),
+          // Example(),
+          LandingHomeScreen(),
+          Example(),
           Example(),
         ],
         onPageChanged: (page) {
