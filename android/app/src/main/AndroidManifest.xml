@@ -1,4 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.example.househunt">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.example.househunt">
   <!-- Remove READ_MEDIA_IMAGES if you don't need to load photos. -->
   <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:node="remove" />
   <!-- Remove READ_MEDIA_VIDEO if you don't need to load videos. -->

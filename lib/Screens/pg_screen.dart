@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:househunt/Forms/pg_form.dart';
 
 class PgHome extends StatefulWidget {
   const PgHome({Key? key}) : super(key: key);
@@ -48,16 +49,19 @@ class _PgState extends State<PgHome> {
         ),
         centerTitle: true,
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 10),
-        child: ListView(
-          children: const [
-            SizedBox(
-              height: 20,
-            ),
-            AssetPickerWidget(),
-          ],
-        ),
+      body: ListView(
+        children: [
+          const SizedBox(
+            height: 20,
+          ),
+          Padding(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              child: const AssetPickerWidget()),
+          const SizedBox(
+            height: 20,
+          ),
+          PgForm(),
+        ],
       ),
     );
   }
