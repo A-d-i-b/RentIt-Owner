@@ -184,7 +184,7 @@ class _PgFormState extends State<PgForm> {
     ]);
   }
 
-  Widget Field(String heading, String hint) {
+  Widget Field(String heading, String hint, dynamic keyboardtype) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -196,6 +196,7 @@ class _PgFormState extends State<PgForm> {
           height: 10,
         ),
         TextField(
+          keyboardType: keyboardtype,
           decoration: InputDecoration(
               hintText: hint,
               border: OutlineInputBorder(
@@ -254,11 +255,11 @@ class _PgFormState extends State<PgForm> {
             height: 20,
           ),
           //
-          Field("Address", "Address"),
+          Field("Address", "Address", TextInputType.text),
           const SizedBox(
             height: 5,
           ),
-          Field("No. of Rooms", "Rooms"),
+          Field("No. of Rooms", "Rooms", TextInputType.number),
           const SizedBox(
             height: 30,
           ),
@@ -468,11 +469,11 @@ class _PgFormState extends State<PgForm> {
             ],
           ),
           const SizedBox(height: 30),
-          Field("Notice Period", "Month"),
+          Field("Notice Period", "Month", TextInputType.text),
           const SizedBox(height: 15),
-          Field("Operating Since", "Year"),
+          Field("Operating Since", "Year", TextInputType.number),
           const SizedBox(height: 15),
-          Field("Description", "Short Description"),
+          Field("Description", "Short Description", TextInputType.text),
           const SizedBox(height: 15),
           Center(
             child: InkWell(
