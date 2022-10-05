@@ -51,22 +51,26 @@ class _PgFormState extends State<PgForm> {
           ),
         ),
         const Spacer(),
-        SizedBox(
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: MediaQuery.of(context).size.height / 13,
-          child: TextField(
-            keyboardType: TextInputType.number,
-            decoration: InputDecoration(
-              hintText: "Enter the amount",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    const BorderSide(color: Color(0xFF0EB7B7), width: 1),
+        Baseline(
+          baseline: 37,
+          baselineType: TextBaseline.alphabetic,
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 2.5,
+            height: MediaQuery.of(context).size.height / 13,
+            child: TextField(
+              keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                hintText: "Enter the amount",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide:
+                      const BorderSide(color: Color(0xFF0EB7B7), width: 1),
+                ),
               ),
+              onChanged: (value) {
+                pgFormController.rents["$type rent"] = value;
+              },
             ),
-            onChanged: (value) {
-              pgFormController.rents["$type rent"] = value;
-            },
           ),
         ),
       ],
@@ -481,7 +485,6 @@ class _PgFormState extends State<PgForm> {
   }
 }
 
-
 // Container(
 //                 decoration: BoxDecoration(
 //                     color: const Color(0xFF0EB7B7),
@@ -513,84 +516,84 @@ class _PgFormState extends State<PgForm> {
 //                 print(pgFormController.rents);
 //                 print(pgFormController.details);
 //               },
-//               child: 
+//               child:
 //             ),
 
 // List<DropdownMenuItem<String>> iteams_0 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Text("N/A"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Students",
-  //     child: Text("Students"),
-  //   ),
-  // ];
-  // List<DropdownMenuItem<String>> iteams_1 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Center(
-  //       child: Text(
-  //         "N/A",
-  //       ),
-  //     ),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Available",
-  //     child: Text("Available"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Not Available",
-  //     child: Text("Not Available"),
-  //   )
-  // ];
-  // List<DropdownMenuItem<String>> iteams_2 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Text("N/A"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Included",
-  //     child: Text("Included"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Not Included",
-  //     child: Text("Not Included"),
-  //   ),
-  // ];
-  // List<DropdownMenuItem<String>> iteams_3 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Text("N/A"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Male",
-  //     child: Text("Male"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Female",
-  //     child: Text("Female"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Both",
-  //     child: Text("Both"),
-  //   ),
-  // ];
-  // List<DropdownMenuItem<String>> iteams_4 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Text("N/A"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Furnished",
-  //     child: Text("Furnished"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Semi Furnished",
-  //     child: Text("Semi Furnished"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Not Furnished",
-  //     child: Text("Not Furnished"),
-  //   ),
-  // ];
+//   const DropdownMenuItem(
+//     value: "N/A",
+//     child: Text("N/A"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Students",
+//     child: Text("Students"),
+//   ),
+// ];
+// List<DropdownMenuItem<String>> iteams_1 = [
+//   const DropdownMenuItem(
+//     value: "N/A",
+//     child: Center(
+//       child: Text(
+//         "N/A",
+//       ),
+//     ),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Available",
+//     child: Text("Available"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Not Available",
+//     child: Text("Not Available"),
+//   )
+// ];
+// List<DropdownMenuItem<String>> iteams_2 = [
+//   const DropdownMenuItem(
+//     value: "N/A",
+//     child: Text("N/A"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Included",
+//     child: Text("Included"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Not Included",
+//     child: Text("Not Included"),
+//   ),
+// ];
+// List<DropdownMenuItem<String>> iteams_3 = [
+//   const DropdownMenuItem(
+//     value: "N/A",
+//     child: Text("N/A"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Male",
+//     child: Text("Male"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Female",
+//     child: Text("Female"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Both",
+//     child: Text("Both"),
+//   ),
+// ];
+// List<DropdownMenuItem<String>> iteams_4 = [
+//   const DropdownMenuItem(
+//     value: "N/A",
+//     child: Text("N/A"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Furnished",
+//     child: Text("Furnished"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Semi Furnished",
+//     child: Text("Semi Furnished"),
+//   ),
+//   const DropdownMenuItem(
+//     value: "Not Furnished",
+//     child: Text("Not Furnished"),
+//   ),
+// ];

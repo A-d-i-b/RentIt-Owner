@@ -56,14 +56,14 @@ class _FlatFormState extends State<FlatForm> {
     List<DropdownMenuItem<String>> temp = [
       const DropdownMenuItem(
         value: "N/A",
-        child: Text("N/A"),
+        child: Center(child: Text("N/A")),
       ),
     ];
     for (int i = 1; i <= maxBhk; i++) {
       temp.add(
         DropdownMenuItem(
           value: "$i",
-          child: Text("$i"),
+          child: Center(child: Text("$i")),
         ),
       );
     }
