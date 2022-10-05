@@ -4,6 +4,7 @@ import 'package:househunt/screens/example.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
+import 'package:househunt/Screens/flat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -58,10 +59,11 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: pageController,
         children: const [
           PgHome(),
+          FlatHome(),
           // Example(),
           // LandingHomeScreen(),
           Example(),
-          Example(),
+          // Example(),
         ],
         onPageChanged: (page) {
           setState(() {
