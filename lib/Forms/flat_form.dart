@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:househunt/controllers/flat_form_controller.dart';
+import 'package:househunt/utils/dropdown_util.dart';
+import 'package:househunt/widgets/dropdown_button.dart';
+import 'package:househunt/widgets/input_field.dart';
 
 class FlatForm extends StatefulWidget {
   const FlatForm({Key? key}) : super(key: key);
@@ -8,6 +13,8 @@ class FlatForm extends StatefulWidget {
 }
 
 class _FlatFormState extends State<FlatForm> {
+  FlatFormController flatFormController = Get.put(FlatFormController());
+
   Map<String, String> extra_details = {
     "Address": "",
     "No. of Rooms": "",
@@ -20,172 +27,48 @@ class _FlatFormState extends State<FlatForm> {
     "Power Backup": "N/A", //index 0
     "AC Rooms": "N/A", //index 1
     "Maintenance": "N/A", //index 2
-    "Electicity Charges": "N/A", //index 3
+    "Electricity Charges": "N/A", //index 3
     "Available for": "N/A", // index 4
-    "Preferd Tenants": "N/A", // index 5
+    "Preferred Tenants": "N/A", // index 5
     "Food": "N/A", // index 6
     "Wifi": "N/A", // index 7
     "Furniture": "N/A",
     "BHK": "N/A", // else
   };
-  List<DropdownMenuItem<String>> iteams_0 = [
-    const DropdownMenuItem(
-      value: "N/A",
-      child: Text("N/A"),
-    ),
-    const DropdownMenuItem(
-      value: "Students",
-      child: Text("Students"),
-    ),
-  ];
-  List<DropdownMenuItem<String>> iteams_1 = [
-    const DropdownMenuItem(
-      value: "N/A",
-      child: Text("N/A"),
-    ),
-    const DropdownMenuItem(
-      value: "Available",
-      child: Text("Available"),
-    ),
-    const DropdownMenuItem(
-      value: "Not Available",
-      child: Text("Not Available"),
-    )
-  ];
-  List<DropdownMenuItem<String>> iteams_2 = [
-    const DropdownMenuItem(
-      value: "N/A",
-      child: Text("N/A"),
-    ),
-    const DropdownMenuItem(
-      value: "Included",
-      child: Text("Included"),
-    ),
-    const DropdownMenuItem(
-      value: "Not Included",
-      child: Text("Not Included"),
-    ),
-  ];
-  List<DropdownMenuItem<String>> iteams_3 = [
-    const DropdownMenuItem(
-      value: "N/A",
-      child: Text("N/A"),
-    ),
-    const DropdownMenuItem(
-      value: "Male",
-      child: Text("Male"),
-    ),
-    const DropdownMenuItem(
-      value: "Female",
-      child: Text("Female"),
-    ),
-    const DropdownMenuItem(
-      value: "Both",
-      child: Text("Both"),
-    ),
-  ];
-  List<DropdownMenuItem<String>> iteams_4 = [
-    const DropdownMenuItem(
-      value: "N/A",
-      child: Text("N/A"),
-    ),
-    const DropdownMenuItem(
-      value: "Furnished",
-      child: Text("Furnished"),
-    ),
-    const DropdownMenuItem(
-      value: "Semi Furnished",
-      child: Text("Semi Furnished"),
-    ),
-    const DropdownMenuItem(
-      value: "Not Furnished",
-      child: Text("Not Furnished"),
-    ),
-  ];
-  List<DropdownMenuItem<String>> Bhk() {
-    List<DropdownMenuItem<String>> iteam_5 = [
+  // List<DropdownMenuItem<String>> items0 = [
+  //   const DropdownMenuItem(
+  //     value: "N/A",
+  //     child: Text("N/A"),
+  //   ),
+  //   const DropdownMenuItem(
+  //     value: "Students",
+  //     child: Text("Students"),
+  //   ),
+  // ];
+
+  final items0 = generateItems(["N/A", "Students"]);
+  final items1 = generateItems(["N/A", "Available", "Not Available"]);
+  final items2 = generateItems(["N/A", "Included", "Not Included"]);
+  final items3 = generateItems(["N/A", "Male", "Female", "Both"]);
+  final items4 =
+      generateItems(["N/A", "Furnished", "Semi Furnished", "Not Furnished"]);
+  final items5 = ((int maxBhk) {
+    List<DropdownMenuItem<String>> temp = [
       const DropdownMenuItem(
         value: "N/A",
         child: Text("N/A"),
       ),
     ];
-    for (int i = 1; i < 5; i++) {
-      iteam_5.add(
+    for (int i = 1; i <= maxBhk; i++) {
+      temp.add(
         DropdownMenuItem(
           value: "$i",
           child: Text("$i"),
         ),
       );
     }
-    return iteam_5;
-  }
-
-  Widget dropdownbutton(String name, List<DropdownMenuItem<String>> iteam,
-      Map<String, String> Details) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(name),
-        SizedBox(height: 6),
-        Container(
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: MediaQuery.of(context).size.height / 13,
-          padding: EdgeInsets.all(6),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                color: Color(0xFF0EB7B7),
-                width: 1,
-              )),
-          child: SizedBox(
-            child: DropdownButton(
-                isExpanded: true,
-                underline: Container(),
-                value: Details[name],
-                items: iteam,
-                onChanged: (value) async {
-                  setState(() {
-                    Details[name] = value.toString();
-                  });
-                }),
-          ),
-        )
-      ],
-    );
-  }
-
-  Widget Field(String heading, String hint, dynamic keyboardtype) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          heading,
-          style: TextStyle(fontSize: 20),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        TextField(
-          keyboardType: keyboardtype,
-          decoration: InputDecoration(
-              hintText: hint,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide:
-                    const BorderSide(color: Color(0xFF0EB7B7), width: 1),
-              )),
-          onChanged: (value) {
-            setState(() {
-              extra_details[heading] = value;
-            });
-          },
-        ),
-        const SizedBox(
-          height: 19,
-        ),
-      ],
-    );
-  }
+    return temp;
+  })(4);
 
   // Expanded TypeSelector(int type, String TypeName) {
   //   return Expanded(
@@ -225,16 +108,42 @@ class _FlatFormState extends State<FlatForm> {
             height: 20,
           ),
           //
-          Field("Address", "Address", TextInputType.text),
+          Field(
+            heading: 'Address',
+            maxLines: 5,
+            hint: 'Address',
+            keyboardType: TextInputType.text,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("Address", value);
+            },
+          ),
           const SizedBox(
             height: 5,
           ),
-          Field("No. of Rooms", "Rooms", TextInputType.number),
-          SizedBox(height: 5),
-          Field("Rent", "Amount", TextInputType.number),
+
+          Field(
+            heading: 'No. of Rooms',
+            hint: 'Rooms',
+            keyboardType: TextInputType.number,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("No. of Rooms", value);
+            },
+          ),
+
+          const SizedBox(height: 5),
+          Field(
+            heading: "Rent",
+            hint: "Amount",
+            keyboardType: TextInputType.number,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("Rent", value);
+            },
+          ),
+
           const SizedBox(
             height: 30,
           ),
+
           const Text(
             "Flat Details",
             style: TextStyle(fontSize: 20),
@@ -242,67 +151,184 @@ class _FlatFormState extends State<FlatForm> {
           const SizedBox(height: 15),
           Row(
             children: [
-              dropdownbutton("Power Backup", iteams_1, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Power Backup",
+                  items: items1,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Power Backup", value);
+                  },
+                  value: flatFormController.details["Power Backup"] ?? "N/A",
+                ),
+              ),
               const Spacer(),
-              dropdownbutton("AC Rooms", iteams_1, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "AC Rooms",
+                  items: items1,
+                  onChange: (value) {
+                    flatFormController.changeDetails("AC Rooms", value);
+                  },
+                  value: flatFormController.details["AC Rooms"] ?? "N/A",
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 15),
           Row(
             children: [
-              dropdownbutton("Maintenance", iteams_2, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Maintenance",
+                  items: items2,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Maintenance", value);
+                  },
+                  value: flatFormController.details["Maintenance"] ?? "N/A",
+                ),
+              ),
               const Spacer(),
-              dropdownbutton("Electicity Charges", iteams_2, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Electricity Charges",
+                  items: items2,
+                  onChange: (value) {
+                    flatFormController.changeDetails(
+                        "Electricity Charges", value);
+                  },
+                  value: flatFormController.details["Electricity Charges"] ??
+                      "N/A",
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 15),
           Row(
             children: [
-              dropdownbutton("Available for", iteams_3, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Available for",
+                  items: items3,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Available for", value);
+                  },
+                  value: flatFormController.details["Available for"] ?? "N/A",
+                ),
+              ),
               const Spacer(),
-              dropdownbutton("Preferd Tenants", iteams_0, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Preferred Tenants",
+                  items: items0,
+                  onChange: (value) {
+                    flatFormController.changeDetails(
+                        "Preferred Tenants", value);
+                  },
+                  value:
+                      flatFormController.details["Preferred Tenants"] ?? "N/A",
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 15),
           Row(
             children: [
-              dropdownbutton("Food", iteams_1, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Food",
+                  items: items1,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Food", value);
+                  },
+                  value: flatFormController.details["Food"] ?? "N/A",
+                ),
+              ),
               const Spacer(),
-              dropdownbutton("Wifi", iteams_1, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Wifi",
+                  items: items1,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Wifi", value);
+                  },
+                  value: flatFormController.details["Wifi"] ?? "N/A",
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 15),
           Row(
             children: [
-              dropdownbutton("Furniture", iteams_4, Details),
+              Obx(
+                () => DropDownButton(
+                  name: "Furniture",
+                  items: items4,
+                  onChange: (value) {
+                    flatFormController.changeDetails("Furniture", value);
+                  },
+                  value: flatFormController.details["Furniture"] ?? "N/A",
+                ),
+              ),
               const Spacer(),
-              dropdownbutton("BHK", Bhk(), Details),
+              Obx(
+                () => DropDownButton(
+                  name: "BHK",
+                  items: items5,
+                  onChange: (value) {
+                    flatFormController.changeDetails("BHK", value);
+                  },
+                  value: flatFormController.details["BHK"] ?? "N/A",
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 30),
-          Field("Notice Period", "Month", TextInputType.text),
+          Field(
+            heading: "Notice Period",
+            hint: "Month",
+            keyboardType: TextInputType.text,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("Notice Period", value);
+            },
+          ),
           const SizedBox(height: 15),
-          Field("Built In", "Year", TextInputType.number),
+          Field(
+            heading: "Built In",
+            hint: "Year",
+            keyboardType: TextInputType.number,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("Built In", value);
+            },
+          ),
           const SizedBox(height: 15),
-          Field("Description", "Short Description", TextInputType.text),
+          Field(
+            heading: "Description",
+            hint: "Short Description",
+            keyboardType: TextInputType.text,
+            maxLines: 5,
+            onChange: (value) {
+              flatFormController.changeExtraDetails("Description", value);
+            },
+          ),
           const SizedBox(height: 15),
           Center(
-            child: InkWell(
-              onTap: () {
+            child: ElevatedButton(
+              onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                print(extra_details);
-                print(Details);
               },
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: const Color(0xFF0EB7B7),
-                    borderRadius: BorderRadius.circular(15),
+              child: SizedBox(
+                width: Get.width / 2.5,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  child: Center(
+                    child: Text(
+                      "Submit",
+                      style: Get.textTheme.headline5!.copyWith(
+                          color: Colors.white, fontWeight: FontWeight.w600),
+                    ),
                   ),
-                  width: MediaQuery.of(context).size.width / 2.1,
-                  height: MediaQuery.of(context).size.height / 15,
-                  child: const Center(
-                    child: Text("Submit"),
-                  )),
+                ),
+              ),
             ),
           ),
           const SizedBox(height: 15),
