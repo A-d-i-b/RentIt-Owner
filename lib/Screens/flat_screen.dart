@@ -50,14 +50,14 @@ class _FlatState extends State<FlatHome> {
         centerTitle: true,
       ),
       body: ListView(
-        children: [
-          const SizedBox(
+        children: const [
+          SizedBox(
             height: 20,
           ),
           Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
-              child: const AssetPickerWidget()),
-          const SizedBox(
+              child: AssetPickerWidget()),
+          SizedBox(
             height: 20,
           ),
           FlatForm(),

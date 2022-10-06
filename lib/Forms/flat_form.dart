@@ -15,37 +15,6 @@ class FlatForm extends StatefulWidget {
 class _FlatFormState extends State<FlatForm> {
   FlatFormController flatFormController = Get.put(FlatFormController());
 
-  Map<String, String> extra_details = {
-    "Address": "",
-    "No. of Rooms": "",
-    "Rent": "",
-    "Notice Period": "",
-    "Description": "",
-  };
-
-  Map<String, String> Details = {
-    "Power Backup": "N/A", //index 0
-    "AC Rooms": "N/A", //index 1
-    "Maintenance": "N/A", //index 2
-    "Electricity Charges": "N/A", //index 3
-    "Available for": "N/A", // index 4
-    "Preferred Tenants": "N/A", // index 5
-    "Food": "N/A", // index 6
-    "Wifi": "N/A", // index 7
-    "Furniture": "N/A",
-    "BHK": "N/A", // else
-  };
-  // List<DropdownMenuItem<String>> items0 = [
-  //   const DropdownMenuItem(
-  //     value: "N/A",
-  //     child: Text("N/A"),
-  //   ),
-  //   const DropdownMenuItem(
-  //     value: "Students",
-  //     child: Text("Students"),
-  //   ),
-  // ];
-
   final items0 = generateItems(["N/A", "Students"]);
   final items1 = generateItems(["N/A", "Available", "Not Available"]);
   final items2 = generateItems(["N/A", "Included", "Not Included"]);
@@ -69,33 +38,6 @@ class _FlatFormState extends State<FlatForm> {
     }
     return temp;
   })(4);
-
-  // Expanded TypeSelector(int type, String TypeName) {
-  //   return Expanded(
-  //     child: ElevatedButton(
-  //       onPressed: () {
-  //         if (type == 0) {
-  //           Room_type.add(TypeName);
-  //         }
-  //         if (type == 1) {
-  //           if (Room_type.isNotEmpty) {
-  //             Room_type.remove(TypeName);
-  //           }
-  //         }
-  //         setState(() {
-  //           type == 0 ? type = 1 : type = 0;
-  //         });
-  //       },
-  //       style: ButtonStyle(
-  //           backgroundColor: MaterialStateProperty.all(
-  //               type == 0 ? Colors.white : const Color(0xFF0EB7B7))),
-  //       child: Text(
-  //         TypeName,
-  //         style: TextStyle(color: Colors.black),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +73,7 @@ class _FlatFormState extends State<FlatForm> {
           ),
 
           const SizedBox(height: 5),
+
           Field(
             heading: "Rent",
             hint: "Amount",

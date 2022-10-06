@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:househunt/Screens/pg_screen.dart';
-import 'package:househunt/screens/example.dart';
+import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
-import 'package:househunt/Screens/flat_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -34,7 +32,10 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.all(
-              const TextStyle(color: Color(0xFF0EB7B7))),
+            const TextStyle(
+              color: primary,
+            ),
+          ),
           elevation: 5,
           indicatorColor: Colors.white,
           backgroundColor: Colors.white,
@@ -58,12 +59,8 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: pageController,
         children: const [
-          PgHome(),
+          LandingHomeScreen(),
           FlatHome(),
-          // Example(),
-          // LandingHomeScreen(),
-          Example(),
-          // Example(),
         ],
         onPageChanged: (page) {
           setState(() {

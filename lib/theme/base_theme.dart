@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const primary = Color(0xFF0EB7B7);
+const primary = Colors.blue;
 
 final theme = ThemeData.light().copyWith(
   textButtonTheme: TextButtonThemeData(

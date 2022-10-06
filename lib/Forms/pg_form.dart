@@ -28,9 +28,6 @@ class _PgFormState extends State<PgForm> {
   final items4 =
       generateItems(["N/A", "Furnished", "Semi Furnished", "Not Furnished"]);
 
-  // Widget dropdownButton(String name, List<DropdownMenuItem<String>> iteam,
-  //         Map<String, String> Details) =>
-
   Widget Button(String type) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,

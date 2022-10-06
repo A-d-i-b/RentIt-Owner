@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:househunt/theme/base_theme.dart';
 
 class DropDownButton extends StatelessWidget {
   const DropDownButton({
@@ -28,7 +29,7 @@ class DropDownButton extends StatelessWidget {
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
               border: Border.all(
-                color: const Color(0xFF0EB7B7),
+                color: primary,
                 width: 1,
               )),
           child: SizedBox(
