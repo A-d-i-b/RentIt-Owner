@@ -12,33 +12,43 @@ class TenantList extends StatefulWidget {
 
 class _TenantListState extends State<TenantList> {
   List<Widget> Cards = [
-    const TenantCard(
-        image: AssetImage(
-            'images/tenantexample.jpeg'), //TODO:Fetch Actual, image name and pg name
-        name: "Tenant Name",
-        pgname: "Pg name"),
-    const TenantCard(
-        image: AssetImage('images/tenantexample.jpeg'),
-        name: "Tenant Name",
-        pgname: "Pg name")
+    TenantCard(
+      image: const AssetImage(
+          'images/tenantexample.jpeg'), //TODO:Fetch Actual, image name and pg name
+      name: "Tenant Name",
+      pgname: "Pg name",
+      onTap: () {
+        Get.toNamed('/tenant-profile');
+      },
+    ),
+    TenantCard(
+      image: const AssetImage('images/tenantexample.jpeg'),
+      name: "Tenant Name",
+      pgname: "Pg name",
+      onTap: () {
+        Get.toNamed('/tenant-profile');
+      },
+    )
   ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          centerTitle: true,
-          elevation: 0.0,
-          foregroundColor: Colors.blue,
-          backgroundColor: Colors.transparent,
-          title: Text(
-            "Tenants",
-            style: Get.textTheme.headline4,
-          ),
+      appBar: AppBar(
+        centerTitle: true,
+        elevation: 0.0,
+        foregroundColor: Colors.blue,
+        backgroundColor: Colors.transparent,
+        title: Text(
+          "Tenants",
+          style: Get.textTheme.headline4,
         ),
-        body: ListView.builder(
-            itemCount: Cards.length,
-            itemBuilder: (BuildContext context, int index) {
-              return Cards[index];
-            }));
+      ),
+      body: ListView.builder(
+        itemCount: Cards.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Cards[index];
+        },
+      ),
+    );
   }
 }

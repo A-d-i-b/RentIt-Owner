@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
-class Clmcard extends StatelessWidget {
-  final IconData cusicon;
-  String a;
-  Clmcard({required this.cusicon, required this.a});
+class ClmCard extends StatelessWidget {
+  final IconData cusIcon;
+  final String a;
+  const ClmCard({required this.cusIcon, required this.a, Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -11,16 +12,16 @@ class Clmcard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Icon(
-          cusicon,
+          cusIcon,
           color: Colors.white,
           size: 30,
         ),
-        SizedBox(
+        const SizedBox(
           width: 20,
         ),
         Text(
           a,
-          style: TextStyle(fontSize: 18, color: Colors.white),
+          style: const TextStyle(fontSize: 18, color: Colors.white),
         )
       ],
     );

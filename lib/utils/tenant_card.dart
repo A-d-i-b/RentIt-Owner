@@ -5,12 +5,14 @@ class TenantCard extends StatefulWidget {
   final ImageProvider image;
   final String name;
   final String pgname;
+  final VoidCallback onTap;
 
   const TenantCard({
     Key? key,
     required this.image,
     required this.name,
     required this.pgname,
+    required this.onTap,
   }) : super(key: key);
 
   @override
@@ -29,9 +31,7 @@ class _TenantCardState extends State<TenantCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Get.toNamed('/tenant-profile');
-      },
+      onTap: widget.onTap,
       child: Container(
         margin: const EdgeInsets.all(20),
         padding: const EdgeInsets.all(20),
