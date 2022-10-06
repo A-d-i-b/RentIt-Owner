@@ -9,35 +9,35 @@ class ReusableCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      onPressed: () {},
-      style: ElevatedButton.styleFrom(
-        primary: color,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(Radius.circular(10)),
-        ),
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        boxShadow: const [
+          BoxShadow(
+            offset: Offset(3, 3),
+            spreadRadius: -3,
+            blurRadius: 10,
+            color: Colors.grey,
+          )
+        ],
+        borderRadius: BorderRadius.circular(10),
+        color: color,
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: childCard,
-      ),
+      child: childCard,
     );
   }
 }
-// Container(
-//       padding: const EdgeInsets.all(20),
-//       margin: const EdgeInsets.all(15),
-//       decoration: BoxDecoration(
-//         boxShadow: const [
-//           BoxShadow(
-//             offset: Offset(3, 3),
-//             spreadRadius: -3,
-//             blurRadius: 10,
-//             color: Colors.grey,
-//           )
-//         ],
-//         borderRadius: BorderRadius.circular(10),
-//         color: color,
+
+// ElevatedButton(
+//       onPressed: () {},
+//       style: ElevatedButton.styleFrom(
+//         primary: color,
+//         shape: const RoundedRectangleBorder(
+//           borderRadius: BorderRadius.all(Radius.circular(10)),
+//         ),
 //       ),
-//       child: childCard,
+//       child: Padding(
+//         padding: const EdgeInsets.all(20.0),
+//         child: childCard,
+//       ),
 //     );
