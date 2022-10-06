@@ -31,13 +31,10 @@ class _TenantProfileState extends State<TenantProfile> {
             const Center(
               //TODO:Remove const when Fetching Image from API
               child: CircleAvatar(
-                backgroundColor: Colors.blueAccent,
                 radius: 82,
-                child: CircleAvatar(
-                  radius: 80,
-                  backgroundImage: AssetImage(
-                      "images/tenantexample.jpeg"), //TODO:Change to tenant image
-                ),
+                backgroundImage: AssetImage(
+                  "images/tenantexample.jpeg",
+                ), //TODO:Change to tenant image
               ),
             ),
             const SizedBox(height: 20),
@@ -51,27 +48,36 @@ class _TenantProfileState extends State<TenantProfile> {
               ),
             ),
             const SizedBox(height: 30),
-            const ReusableCard(
-              color: Colors.blueAccent,
-              childCard: ClmCard(
-                cusIcon: Icons.phone,
-                a: "TenantNumber",
+            Padding(
+              padding: const EdgeInsets.all(15),
+              child: Column(
+                children: const [
+                  ReusableCard(
+                    color: Colors.blueAccent,
+                    childCard: ClmCard(
+                      cusIcon: Icons.phone,
+                      a: "TenantNumber",
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ReusableCard(
+                    color: Colors.blueAccent,
+                    childCard: ClmCard(
+                      cusIcon: Icons.fmd_good_sharp,
+                      a: "Address", //TODO:Enter tenant address
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  ReusableCard(
+                    color: Colors.blueAccent,
+                    childCard: ClmCard(
+                      cusIcon: Icons.apartment,
+                      a: "Pg/Flat Name", //TODO:Enter Pg/flat actual name
+                    ),
+                  ),
+                ],
               ),
             ), //TODO:Enter actuall tenant number
-            const ReusableCard(
-              color: Colors.blueAccent,
-              childCard: ClmCard(
-                cusIcon: Icons.fmd_good_sharp,
-                a: "Address", //TODO:Enter tenant address
-              ),
-            ),
-            const ReusableCard(
-              color: Colors.blueAccent,
-              childCard: ClmCard(
-                cusIcon: Icons.apartment,
-                a: "Pg/Flat Name", //TODO:Enter Pg/flat actual name
-              ),
-            ),
           ],
         ),
       ),
