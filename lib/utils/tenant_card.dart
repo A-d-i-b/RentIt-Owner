@@ -6,7 +6,7 @@ class TenantCard extends StatefulWidget {
   final String name;
   final String pgname;
 
-  TenantCard({
+  const TenantCard({
     Key? key,
     required this.image,
     required this.name,
@@ -15,9 +15,9 @@ class TenantCard extends StatefulWidget {
 
   @override
   State<TenantCard> createState() => _TenantCardState(
-        image: this.image,
-        name: this.name,
-        pgname: this.pgname,
+        image: image,
+        name: name,
+        pgname: pgname,
       );
 }
 
@@ -34,10 +34,12 @@ class _TenantCardState extends State<TenantCard> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Get.toNamed('/tenant-profile');
+      },
       child: Container(
-        margin: EdgeInsets.all(20),
-        padding: EdgeInsets.all(20),
+        margin: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
@@ -59,12 +61,12 @@ class _TenantCardState extends State<TenantCard> {
                 color: Colors.pinkAccent,
               ),
             ),
-            SizedBox(width: 30),
+            const SizedBox(width: 30),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("Tenant Name", style: Get.textTheme.headline6),
-                Text(
+                const Text(
                   "Pg Name",
                   style: TextStyle(fontSize: 13, color: Colors.black),
                 ),

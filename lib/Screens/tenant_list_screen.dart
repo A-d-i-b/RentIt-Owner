@@ -12,12 +12,12 @@ class TenantList extends StatefulWidget {
 
 class _TenantListState extends State<TenantList> {
   List<Widget> Cards = [
-    TenantCard(
+    const TenantCard(
         image: AssetImage(
             'images/tenantexample.jpeg'), //TODO:Fetch Actual, image name and pg name
         name: "Tenant Name",
         pgname: "Pg name"),
-    TenantCard(
+    const TenantCard(
         image: AssetImage('images/tenantexample.jpeg'),
         name: "Tenant Name",
         pgname: "Pg name")
