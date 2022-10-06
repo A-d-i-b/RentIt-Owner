@@ -1,8 +1,6 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:wechat_assets_picker/wechat_assets_picker.dart';
+import 'package:image_picker/image_picker.dart';
 
 class AssetPickerWidget extends StatefulWidget {
   const AssetPickerWidget({Key? key}) : super(key: key);
@@ -12,8 +10,6 @@ class AssetPickerWidget extends StatefulWidget {
 }
 
 class _AssetPickerWidgetState extends State<AssetPickerWidget> {
-  List<AssetEntity>? _assets;
-
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -30,22 +26,22 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
-            children: [
-              if (_assets != null)
-                ..._assets!.map(
-                  (asset) => Row(
-                    children: [
-                      AssetThumb(
-                        asset: asset,
-                        width: 100,
-                        height: 100,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                    ],
-                  ),
-                ),
+            children: const [
+              // if (_assets != null)
+              //   ..._assets!.map(
+              //     (asset) => Row(
+              //       children: [
+              //         AssetThumb(
+              //           asset: asset,
+              //           width: 100,
+              //           height: 100,
+              //         ),
+              //         const SizedBox(
+              //           width: 10,
+              //         ),
+              //       ],
+              //     ),
+              //   ),
             ],
           ),
         ),
@@ -54,56 +50,138 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
         ),
         // pick assets
         ElevatedButton(
-          onPressed: () async {
-            final List<AssetEntity>? assets = await AssetPicker.pickAssets(
-              context,
-              pickerConfig: const AssetPickerConfig(
-                maxAssets: 10,
-              ),
-            );
-            setState(() {
-              _assets = assets;
-            });
-          },
+          onPressed: handleClick,
           child: const Text('Pick Assets'),
         ),
       ],
     );
   }
-}
 
-class AssetThumb extends StatelessWidget {
-  const AssetThumb({
-    Key? key,
-    required this.asset,
-    required this.width,
-    required this.height,
-  }) : super(key: key);
+  handleClick() async {
+    final ImagePicker picker = ImagePicker();
 
-  final AssetEntity asset;
-  final double width;
-  final double height;
+    // show action sheet
 
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      width: width,
-      height: height,
-      child: FutureBuilder(
-        future: asset.file,
-        builder: (context, snapshot) => snapshot.hasData
-            ? Image.file(
-                snapshot.data as File,
-                fit: BoxFit.cover,
-              )
-            : // tween animation container loading
-            Container(
-                color: Colors.grey,
-              ),
+    Get.bottomSheet(
+      Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        height: Get.height * 0.3,
+        padding: const EdgeInsets.all(20),
+        child: ListView(
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Camera'),
+              onTap: () async {
+                final XFile? image = await picker.pickImage(
+                  source: ImageSource.camera,
+                );
+                if (image != null) {
+                  // setState(() {
+                  //   _assets.add(AssetEntity(id: image.path));
+                  // });
+                }
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.videocam),
+              title: const Text('Record'),
+              onTap: () async {
+                final XFile? image = await picker.pickVideo(
+                  source: ImageSource.camera,
+                );
+                if (image != null) {
+                  // setState(() {
+                  //   _assets.add(AssetEntity(id: image.path));
+                  // });
+                }
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo),
+              title: const Text('Gallery'),
+              onTap: () async {
+                final List<XFile>? image = await picker.pickMultiImage(
+                  imageQuality: 50,
+                );
+                if (image != null) {
+                  // setState(() {
+                  //   _assets.add(AssetEntity(id: image.path));
+                  // });
+                }
+                Get.back();
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.video_collection),
+              title: const Text('Video Gallery'),
+              onTap: () async {
+                final XFile? image = await picker.pickVideo(
+                  source: ImageSource.gallery,
+                );
+                if (image != null) {
+                  // setState(() {
+                  //   _assets.add(AssetEntity(id: image.path));
+                  // });
+                }
+                Get.back();
+              },
+            ),
+          ],
+        ),
       ),
     );
+
+    // showBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext context) {
+    //       return Container(
+    //         child: const Text('HELLO'),
+    //       );
+    //     });
   }
 }
+
+// class AssetThumb extends StatelessWidget {
+//   const AssetThumb({
+//     Key? key,
+//     required this.asset,
+//     required this.width,
+//     required this.height,
+//   }) : super(key: key);
+
+//   final AssetEntity asset;
+//   final double width;
+//   final double height;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SizedBox(
+//       width: width,
+//       height: height,
+//       child: FutureBuilder(
+//         future: asset.file,
+//         builder: (context, snapshot) => snapshot.hasData
+//             ? Image.file(
+//                 snapshot.data as File,
+//                 fit: BoxFit.cover,
+//               )
+//             : // tween animation container loading
+//             Container(
+//                 color: Colors.grey,
+//               ),
+//       ),
+//     );
+//   }
+// }
 
 
 //  ElevatedButton(
