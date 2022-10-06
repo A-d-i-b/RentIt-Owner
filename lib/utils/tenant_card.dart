@@ -15,22 +15,17 @@ class TenantCard extends StatefulWidget {
 
   @override
   State<TenantCard> createState() => _TenantCardState(
-        image: image,
-        name: name,
-        pgname: pgname,
+      // image: image,
+      // name: name,
+      // pgname: pgname,
       );
 }
 
 class _TenantCardState extends State<TenantCard> {
-  final ImageProvider image;
-  final String name;
-  final String pgname;
+  // final ImageProvider image;
+  // final String name;
+  // final String pgname;
 
-  _TenantCardState({
-    required this.image,
-    required this.name,
-    required this.pgname,
-  });
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -55,7 +50,7 @@ class _TenantCardState extends State<TenantCard> {
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,
-                  image: image,
+                  image: widget.image,
                 ),
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.pinkAccent,
