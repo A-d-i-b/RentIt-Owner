@@ -15,30 +15,6 @@ class FlatForm extends StatefulWidget {
 class _FlatFormState extends State<FlatForm> {
   FlatFormController flatFormController = Get.put(FlatFormController());
 
-  final items0 = generateItems(["N/A", "Students"]);
-  final items1 = generateItems(["N/A", "Available", "Not Available"]);
-  final items2 = generateItems(["N/A", "Included", "Not Included"]);
-  final items3 = generateItems(["N/A", "Male", "Female", "Both"]);
-  final items4 =
-      generateItems(["N/A", "Furnished", "Semi Furnished", "Not Furnished"]);
-  final items5 = ((int maxBhk) {
-    List<DropdownMenuItem<String>> temp = [
-      const DropdownMenuItem(
-        value: "N/A",
-        child: Center(child: Text("N/A")),
-      ),
-    ];
-    for (int i = 1; i <= maxBhk; i++) {
-      temp.add(
-        DropdownMenuItem(
-          value: "$i",
-          child: Center(child: Text("$i")),
-        ),
-      );
-    }
-    return temp;
-  })(4);
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -56,7 +32,7 @@ class _FlatFormState extends State<FlatForm> {
             hint: 'Address',
             keyboardType: TextInputType.text,
             onChange: (value) {
-              flatFormController.changeExtraDetails("Address", value);
+              flatFormController.flatFormModel.value.address = value;
             },
           ),
           const SizedBox(
@@ -67,8 +43,8 @@ class _FlatFormState extends State<FlatForm> {
             heading: 'No. of Rooms',
             hint: 'Rooms',
             keyboardType: TextInputType.number,
-            onChange: (value) {
-              flatFormController.changeExtraDetails("No. of Rooms", value);
+            onChange: (String value) {
+              flatFormController.flatFormModel.value.noOfRooms = value;
             },
           ),
 
@@ -79,7 +55,7 @@ class _FlatFormState extends State<FlatForm> {
             hint: "Amount",
             keyboardType: TextInputType.number,
             onChange: (value) {
-              flatFormController.changeExtraDetails("Rent", value);
+              flatFormController.flatFormModel.value.rent = value;
             },
           ),
 
@@ -97,22 +73,28 @@ class _FlatFormState extends State<FlatForm> {
               Obx(
                 () => DropDownButton(
                   name: "Power Backup",
-                  items: items1,
+                  items: generateItems(flatFormController
+                      .flatFormModel.value.powerBackUpOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Power Backup", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.powerBackup = value;
+                    });
                   },
-                  value: flatFormController.details["Power Backup"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.powerBackup,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "AC Rooms",
-                  items: items1,
+                  items: generateItems(
+                      flatFormController.flatFormModel.value.acRoomsOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("AC Rooms", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.acRooms = value;
+                    });
                   },
-                  value: flatFormController.details["AC Rooms"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.acRooms,
                 ),
               ),
             ],
@@ -123,24 +105,29 @@ class _FlatFormState extends State<FlatForm> {
               Obx(
                 () => DropDownButton(
                   name: "Maintenance",
-                  items: items2,
+                  items: generateItems(flatFormController
+                      .flatFormModel.value.maintenanceOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Maintenance", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.maintenance = value;
+                    });
                   },
-                  value: flatFormController.details["Maintenance"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.maintenance,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Electricity Charges",
-                  items: items2,
+                  items: generateItems(flatFormController
+                      .flatFormModel.value.electricityOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails(
-                        "Electricity Charges", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.electricityCharges = value;
+                    });
                   },
-                  value: flatFormController.details["Electricity Charges"] ??
-                      "N/A",
+                  value:
+                      flatFormController.flatFormModel.value.electricityCharges,
                 ),
               ),
             ],
@@ -151,24 +138,28 @@ class _FlatFormState extends State<FlatForm> {
               Obx(
                 () => DropDownButton(
                   name: "Available for",
-                  items: items3,
+                  items: generateItems(flatFormController
+                      .flatFormModel.value.availableForOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Available for", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.availableFor = value;
+                    });
                   },
-                  value: flatFormController.details["Available for"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.availableFor,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Preferred Tenants",
-                  items: items0,
+                  items: generateItems(flatFormController
+                      .flatFormModel.value.preferredTenantOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails(
-                        "Preferred Tenants", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.preferredTenant = value;
+                    });
                   },
-                  value:
-                      flatFormController.details["Preferred Tenants"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.preferredTenant,
                 ),
               ),
             ],
@@ -179,22 +170,28 @@ class _FlatFormState extends State<FlatForm> {
               Obx(
                 () => DropDownButton(
                   name: "Food",
-                  items: items1,
+                  items: generateItems(
+                      flatFormController.flatFormModel.value.foodOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Food", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.food = value;
+                    });
                   },
-                  value: flatFormController.details["Food"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.food,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Wifi",
-                  items: items1,
+                  items: generateItems(
+                      flatFormController.flatFormModel.value.wifiOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Wifi", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.wifi = value;
+                    });
                   },
-                  value: flatFormController.details["Wifi"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.wifi,
                 ),
               ),
             ],
@@ -205,22 +202,28 @@ class _FlatFormState extends State<FlatForm> {
               Obx(
                 () => DropDownButton(
                   name: "Furniture",
-                  items: items4,
+                  items: generateItems(
+                      flatFormController.flatFormModel.value.furnitureOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("Furniture", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.furniture = value;
+                    });
                   },
-                  value: flatFormController.details["Furniture"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.furniture,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "BHK",
-                  items: items5,
+                  items: generateItems(
+                      flatFormController.flatFormModel.value.bhkOptions),
                   onChange: (value) {
-                    flatFormController.changeDetails("BHK", value);
+                    flatFormController.flatFormModel.update((val) {
+                      val!.bhk = value;
+                    });
                   },
-                  value: flatFormController.details["BHK"] ?? "N/A",
+                  value: flatFormController.flatFormModel.value.bhk,
                 ),
               ),
             ],
@@ -231,7 +234,7 @@ class _FlatFormState extends State<FlatForm> {
             hint: "Month",
             keyboardType: TextInputType.text,
             onChange: (value) {
-              flatFormController.changeExtraDetails("Notice Period", value);
+              flatFormController.flatFormModel.value.noticePeriod = value;
             },
           ),
           const SizedBox(height: 15),
@@ -240,7 +243,7 @@ class _FlatFormState extends State<FlatForm> {
             hint: "Year",
             keyboardType: TextInputType.number,
             onChange: (value) {
-              flatFormController.changeExtraDetails("Built In", value);
+              flatFormController.flatFormModel.value.builtIn = value;
             },
           ),
           const SizedBox(height: 15),
@@ -250,7 +253,7 @@ class _FlatFormState extends State<FlatForm> {
             keyboardType: TextInputType.text,
             maxLines: 5,
             onChange: (value) {
-              flatFormController.changeExtraDetails("Description", value);
+              flatFormController.flatFormModel.value.description = value;
             },
           ),
           const SizedBox(height: 15),
@@ -258,6 +261,7 @@ class _FlatFormState extends State<FlatForm> {
             child: ElevatedButton(
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
+                print(flatFormController.flatFormModel.value.toJson());
               },
               child: SizedBox(
                 width: Get.width / 2.5,

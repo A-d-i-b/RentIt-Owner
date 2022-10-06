@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/utils/dropdown_util.dart';
+import 'package:househunt/widgets/custom_button.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
 
@@ -13,93 +14,13 @@ class PgForm extends StatefulWidget {
 }
 
 class _PgFormState extends State<PgForm> {
+  // insert controller
+  PgFormController pgFormController = Get.put(PgFormController());
+
   int single = 0;
   int double = 0;
   int triple = 0;
   int quadruple = 0;
-
-  // insert controller
-  PgFormController pgFormController = Get.put(PgFormController());
-
-  final items0 = generateItems(["N/A", "Students"]);
-  final items1 = generateItems(["N/A", "Available", "Not Available"]);
-  final items2 = generateItems(["N/A", "Included", "Not Included"]);
-  final items3 = generateItems(["N/A", "Male", "Female", "Both"]);
-  final items4 =
-      generateItems(["N/A", "Furnished", "Semi Furnished", "Not Furnished"]);
-
-  Widget Button(String type) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: MediaQuery.of(context).size.width / 2.5,
-          height: 70,
-          child: Card(
-            color: const Color(0xFF0EB7B7),
-            elevation: 5,
-            child: Center(
-              child: Text(
-                type,
-                style: const TextStyle(fontSize: 20),
-              ),
-            ),
-          ),
-        ),
-        const Spacer(),
-        Baseline(
-          baseline: 37,
-          baselineType: TextBaseline.alphabetic,
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width / 2.5,
-            height: MediaQuery.of(context).size.height / 13,
-            child: TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                hintText: "Enter the amount",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      const BorderSide(color: Color(0xFF0EB7B7), width: 1),
-                ),
-              ),
-              onChanged: (value) {
-                pgFormController.rents["$type rent"] = value;
-              },
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  // Expanded TypeSelector(int type, String TypeName) {
-  //   return Expanded(
-  //     child: ElevatedButton(
-  //       onPressed: () {
-  //         if (type == 0) {
-  //           Room_type.add(TypeName);
-  //         }
-  //         if (type == 1) {
-  //           if (Room_type.isNotEmpty) {
-  //             Room_type.remove(TypeName);
-  //           }
-  //         }
-  //         setState(() {
-  //           type == 0 ? type = 1 : type = 0;
-  //         });
-  //       },
-  //       style: ButtonStyle(
-  //           backgroundColor: MaterialStateProperty.all(
-  //               type == 0 ? Colors.white : const Color(0xFF0EB7B7))),
-  //       child: Text(
-  //         TypeName,
-  //         style: TextStyle(color: Colors.black),
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +39,7 @@ class _PgFormState extends State<PgForm> {
             hint: 'Address',
             keyboardType: TextInputType.text,
             onChange: (value) {
-              pgFormController.extraDetails['Address'] = value;
+              pgFormController.pgFormModel.value.address = value;
             },
           ),
           const SizedBox(
@@ -130,7 +51,7 @@ class _PgFormState extends State<PgForm> {
             hint: 'Rooms',
             keyboardType: TextInputType.number,
             onChange: (value) {
-              pgFormController.extraDetails['No. of Rooms'] = value;
+              pgFormController.pgFormModel.value.noOfRooms = value;
             },
           ),
           const SizedBox(
@@ -286,14 +207,42 @@ class _PgFormState extends State<PgForm> {
                       const Center(
                         child: Text("Choose appropriate type"),
                       ),
-                    if (single == 1) Button("Single"),
-                    const SizedBox(height: 7),
-                    if (double == 1) Button("Double"),
-                    const SizedBox(height: 7),
-                    if (triple == 1) Button("Triple"),
-                    const SizedBox(height: 7),
-                    if (quadruple == 1) Button("Quadruple"),
-                    const SizedBox(height: 7),
+                    if (single == 1) ...[
+                      CustomButton(
+                          type: "Single",
+                          onPressed: (value) {
+                            pgFormController.pgFormModel.value.singleRoomRent =
+                                value;
+                          }),
+                      const SizedBox(height: 7),
+                    ],
+                    if (double == 1) ...[
+                      CustomButton(
+                          type: "Double",
+                          onPressed: (value) {
+                            pgFormController.pgFormModel.value.doubleRoomRent =
+                                value;
+                          }),
+                      const SizedBox(height: 7),
+                    ],
+                    if (triple == 1) ...[
+                      CustomButton(
+                          type: "Triple",
+                          onPressed: (value) {
+                            pgFormController.pgFormModel.value.tripleRoomRent =
+                                value;
+                          }),
+                      const SizedBox(height: 7),
+                    ],
+                    if (quadruple == 1) ...[
+                      CustomButton(
+                          type: "Quadruple",
+                          onPressed: (value) {
+                            pgFormController.pgFormModel.value.fourRoomRent =
+                                value;
+                          }),
+                      const SizedBox(height: 7),
+                    ],
                   ],
                 ),
               ),
@@ -310,22 +259,28 @@ class _PgFormState extends State<PgForm> {
               Obx(
                 () => DropDownButton(
                   name: "Power Backup",
-                  items: items1,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.powerBackUpOptions),
                   onChange: (value) {
-                    pgFormController.details['Power Backup'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.powerBackup = value;
+                    });
                   },
-                  value: pgFormController.details['Power Backup'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.powerBackup,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "AC Rooms",
-                  items: items1,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.acRoomsOptions),
                   onChange: (value) {
-                    pgFormController.details['AC Rooms'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.acRooms = value;
+                    });
                   },
-                  value: pgFormController.details['AC Rooms'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.acRooms,
                 ),
               ),
             ],
@@ -336,23 +291,28 @@ class _PgFormState extends State<PgForm> {
               Obx(
                 () => DropDownButton(
                   name: "Maintenance",
-                  items: items2,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.maintenanceOptions),
                   onChange: (value) {
-                    pgFormController.details['Maintenance'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.maintenance = value;
+                    });
                   },
-                  value: pgFormController.details['Maintenance'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.maintenance,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Electricity Charges",
-                  items: items2,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.electricityOptions),
                   onChange: (value) {
-                    pgFormController.details['Electricity Charges",'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.electricityCharges = value;
+                    });
                   },
-                  value: pgFormController.details['Electricity Charges",'] ??
-                      "N/A",
+                  value: pgFormController.pgFormModel.value.electricityCharges,
                 ),
               )
             ],
@@ -363,22 +323,28 @@ class _PgFormState extends State<PgForm> {
               Obx(
                 () => DropDownButton(
                   name: "Available for",
-                  items: items3,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.availableForOptions),
                   onChange: (value) {
-                    pgFormController.details['Available for'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.availableFor = value;
+                    });
                   },
-                  value: pgFormController.details['Available for'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.availableFor,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Preferred Tenants",
-                  items: items0,
+                  items: generateItems(pgFormController
+                      .pgFormModel.value.preferredTenantOptions),
                   onChange: (value) {
-                    pgFormController.details['Preferred Tenants'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.preferredTenant = value;
+                    });
                   },
-                  value: pgFormController.details['Preferred Tenants'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.preferredTenant,
                 ),
               ),
             ],
@@ -389,22 +355,28 @@ class _PgFormState extends State<PgForm> {
               Obx(
                 () => DropDownButton(
                   name: "Food",
-                  items: items1,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.foodOptions),
                   onChange: (value) {
-                    pgFormController.details['Food'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.food = value;
+                    });
                   },
-                  value: pgFormController.details['Food'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.food,
                 ),
               ),
               const Spacer(),
               Obx(
                 () => DropDownButton(
                   name: "Wifi",
-                  items: items1,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.wifiOptions),
                   onChange: (value) {
-                    pgFormController.details['Wifi'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.wifi = value;
+                    });
                   },
-                  value: pgFormController.details['Wifi'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.wifi,
                 ),
               ),
             ],
@@ -416,11 +388,14 @@ class _PgFormState extends State<PgForm> {
               Obx(
                 () => DropDownButton(
                   name: "Furniture",
-                  items: items4,
+                  items: generateItems(
+                      pgFormController.pgFormModel.value.furnitureOptions),
                   onChange: (value) {
-                    pgFormController.details['Furniture'] = value;
+                    pgFormController.pgFormModel.update((val) {
+                      val!.furniture = value;
+                    });
                   },
-                  value: pgFormController.details['Furniture'] ?? "N/A",
+                  value: pgFormController.pgFormModel.value.furniture,
                 ),
               ),
               const Spacer(),
@@ -432,7 +407,9 @@ class _PgFormState extends State<PgForm> {
             hint: "Month",
             keyboardType: TextInputType.text,
             onChange: (value) {
-              pgFormController.extraDetails['Notice Period'] = value;
+              pgFormController.pgFormModel.update((val) {
+                val!.noticePeriod = value;
+              });
             },
           ),
           const SizedBox(height: 15),
@@ -441,7 +418,9 @@ class _PgFormState extends State<PgForm> {
             hint: "Year",
             keyboardType: TextInputType.number,
             onChange: (value) {
-              pgFormController.extraDetails['Operating Since'] = value;
+              pgFormController.pgFormModel.update((val) {
+                val!.operatingSince = value;
+              });
             },
           ),
           const SizedBox(height: 15),
@@ -451,7 +430,7 @@ class _PgFormState extends State<PgForm> {
             hint: "Short Description",
             keyboardType: TextInputType.text,
             onChange: (value) {
-              pgFormController.extraDetails['Description'] = value;
+              pgFormController.pgFormModel.value.description = value;
             },
           ),
           const SizedBox(height: 15),

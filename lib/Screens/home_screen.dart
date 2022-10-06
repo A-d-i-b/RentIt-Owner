@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
+import 'package:househunt/screens/pg_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
 
@@ -58,10 +59,7 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: PageView(
         controller: pageController,
-        children: const [
-          LandingHomeScreen(),
-          FlatHome(),
-        ],
+        children: const [LandingHomeScreen(), FlatHome(), PgHome()],
         onPageChanged: (page) {
           setState(() {
             index = page;

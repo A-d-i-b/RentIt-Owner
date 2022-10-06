@@ -1,32 +1,50 @@
 import 'package:get/get.dart';
+import 'package:househunt/models/flat_form_model.dart';
 
-class FlatFormController extends GetxController {
-  RxMap<String, String> extra_details = {
-    "Address": "",
-    "No. of Rooms": "",
-    "Rent": "",
-    "Notice Period": "",
-    "Description": "",
-  }.obs;
+class FlatFormController extends GetxController
+// with
+//     PowerBackup,
+//     AcRooms,
+//     Maintenance,
+//     ElectricityCharges,
+//     AvailableFor,
+//     PreferredTenants,
+//     Food,
+//     Wifi,
+//     Furniture,
+//     BHK
+{
+  Rx<FlatFormModel> flatFormModel = FlatFormModel(
+    flatName: '',
+    address: '',
+    description: '',
+  ).obs;
 
-  RxMap<String, String> details = {
-    "Power Backup": "N/A", //index 0
-    "AC Rooms": "N/A", //index 1
-    "Maintenance": "N/A", //index 2
-    "Electricity Charges": "N/A", //index 3
-    "Available for": "N/A", // index 4
-    "Preferred Tenants": "N/A", // index 5
-    "Food": "N/A", // index 6
-    "Wifi": "N/A", // index 7
-    "Furniture": "N/A",
-    "BHK": "N/A", // else
-  }.obs;
+  // String flatName = '';
+  // String address = '';
+  // String? noOfRooms;
 
-  changeExtraDetails(String key, String value) {
-    extra_details[key] = value;
-  }
+  // String? rent;
 
-  changeDetails(String key, String value) {
-    details[key] = value;
-  }
+  // RxString powerBackup = 'N/A'.obs;
+  // RxString acRooms = 'N/A'.obs;
+  // RxString maintenance = 'N/A'.obs;
+  // RxString electricityCharges = 'N/A'.obs;
+  // RxString availableFor = 'N/A'.obs;
+  // RxString preferredTenant = 'N/A'.obs;
+  // RxString food = 'N/A'.obs;
+  // RxString wifi = 'N/A'.obs;
+  // RxString furniture = 'N/A'.obs;
+  // RxString bhk = 'N/A'.obs;
+
+  // String? noticePeriod;
+  // String? builtIn;
+  // String description = '';
+
+  // updatePowerBackup(String newPowerBackup) {
+  //   flatFormModel.update((val) {
+  //     val!.powerBackup = newPowerBackup;
+  //   });
+  //   update();
+  // }
 }
