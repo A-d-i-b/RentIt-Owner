@@ -18,7 +18,13 @@ class _TenantListState extends State<TenantList> {
       name: "Tenant Name",
       pgname: "Pg name",
       onTap: () {
-        Get.toNamed('/tenant-profile');
+        Get.toNamed('/tenant-profile', arguments: {
+          "TenantImage": const AssetImage("images/tenantexample.jpeg"),
+          "TenantName": "Tenant Name",
+          "PhoneNumber": "8862732723",
+          "PgName": "Pg/flat Name",
+          "Address": "Tenant Address",
+        });
       },
     ),
     TenantCard(
@@ -26,7 +32,13 @@ class _TenantListState extends State<TenantList> {
       name: "Tenant Name",
       pgname: "Pg name",
       onTap: () {
-        Get.toNamed('/tenant-profile');
+        Get.toNamed('/tenant-profile', arguments: {
+          "TenantImage": const AssetImage("images/tenantexample.jpeg"),
+          "TenantName": "Tenant Name",
+          "PhoneNumber": "8862732723",
+          "PgName": "Pg/flat Name",
+          "Address": "Tenant Address",
+        });
       },
     )
   ];

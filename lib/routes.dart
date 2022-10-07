@@ -8,5 +8,5 @@ final routes = [
   GetPage(name: '/', page: () => const HomeScreen()),
   GetPage(name: '/add-pg', page: () => const PgHome()),
   GetPage(name: '/add-flat', page: () => const FlatHome()),
-  GetPage(name: '/tenant-profile', page: () => const TenantProfile()),
+  GetPage(name: '/tenant-profile', page: () => TenantProfile()),
 ];

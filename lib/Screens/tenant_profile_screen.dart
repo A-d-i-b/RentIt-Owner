@@ -4,7 +4,9 @@ import 'package:househunt/utils/child_card.dart';
 import 'package:househunt/utils/reusable_card.dart';
 
 class TenantProfile extends StatefulWidget {
-  const TenantProfile({Key? key}) : super(key: key);
+  TenantProfile({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<TenantProfile> createState() => _TenantProfileState();
@@ -13,6 +15,8 @@ class TenantProfile extends StatefulWidget {
 class _TenantProfileState extends State<TenantProfile> {
   @override
   Widget build(BuildContext context) {
+    var data = Get.arguments;
+    print(data);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,21 +32,18 @@ class _TenantProfileState extends State<TenantProfile> {
         padding: const EdgeInsets.all(20),
         child: ListView(
           children: [
-            const Center(
-              //TODO:Remove const when Fetching Image from API
+            Center(
               child: CircleAvatar(
-                radius: 82,
-                backgroundImage: AssetImage(
-                  "images/tenantexample.jpeg",
-                ), //TODO:Change to tenant image
-              ),
+                  radius: 82,
+                  backgroundImage: data['TenantImage'] ??
+                      AssetImage('images/tenantexample.jpeg')),
             ),
             const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Center(
                 child: Text(
-                  "Tenant Name", //TODO:Enter tenant name
+                  data['TenantName'] ?? "", //TODO:Enter tenant name
                   style: Get.textTheme.headline5,
                 ),
               ),
@@ -51,33 +52,33 @@ class _TenantProfileState extends State<TenantProfile> {
             Padding(
               padding: const EdgeInsets.all(15),
               child: Column(
-                children: const [
+                children: [
                   ReusableCard(
                     color: Colors.blueAccent,
                     childCard: ClmCard(
                       cusIcon: Icons.phone,
-                      a: "TenantNumber",
+                      a: data['PhoneNumber'] ?? "",
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ReusableCard(
                     color: Colors.blueAccent,
                     childCard: ClmCard(
                       cusIcon: Icons.fmd_good_sharp,
-                      a: "Address", //TODO:Enter tenant address
+                      a: data['Address'] ?? "",
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ReusableCard(
                     color: Colors.blueAccent,
                     childCard: ClmCard(
                       cusIcon: Icons.apartment,
-                      a: "Pg/Flat Name", //TODO:Enter Pg/flat actual name
+                      a: data['PgName'] ?? "",
                     ),
                   ),
                 ],
               ),
-            ), //TODO:Enter actuall tenant number
+            ),
           ],
         ),
       ),
