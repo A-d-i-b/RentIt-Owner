@@ -4,7 +4,7 @@ import 'package:househunt/Screens/tenant_list_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
 
 import 'package:househunt/theme/base_theme.dart';
-import 'package:househunt/widgets/bottom_bar_icon.dart';
+
 import 'package:househunt/Screens/tenant_profile_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,9 +53,20 @@ class _HomeScreenState extends State<HomeScreen> {
             pageController.jumpToPage(index);
           },
           destinations: const [
-            BottomBarIcon(icon: Icons.home, color: primary),
-            BottomBarIcon(icon: Icons.apartment, color: primary),
-            BottomBarIcon(icon: Icons.person, color: primary),
+            NavigationDestination(
+              icon: Icon(Icons.home, color: Colors.grey),
+              label: "Home",
+              selectedIcon: Icon(Icons.home, color: primary),
+            ),
+            NavigationDestination(
+                icon: Icon(Icons.apartment, color: Colors.grey),
+                label: "Tenant",
+                selectedIcon: Icon(Icons.apartment, color: primary)),
+            NavigationDestination(
+              icon: Icon(Icons.person, color: Colors.grey),
+              label: "Profile",
+              selectedIcon: Icon(Icons.person, color: primary),
+            ),
           ],
         ),
       ),
