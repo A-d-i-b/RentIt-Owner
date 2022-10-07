@@ -1,0 +1,121 @@
+{
+    "flats": [
+        {
+            "id": 1,
+            "name": "Flat 1",
+            "address": "443/46, 9th Main, 38th Cross, Near-Philips Show Room, Jayanagar, Bengaluru",
+            "no_of_rooms": 2,
+            "rent": 15000,
+            "notice_period": 3,
+            "builtIn": 2017,
+            "description": "Sexy sa flat h aajao bc",
+            "details": {
+                "power_backup": "Available",
+                "ac_rooms": "Available",
+                "maintenance": "Included",
+                "electricity_charges": "Included",
+                "available_for": "Male",
+                "preferred_tenants": "Students",
+                "food": "Not Available",
+                "wifi": "Available",
+                "furniture": "Semi Furnished",
+                "bhk": "2 BHK"
+            }
+        },
+        {
+            "id": 2,
+            "name": "Flat 2",
+            "address": "Dwarka, New Delhi",
+            "no_of_rooms": 4,
+            "rent": 10000,
+            "notice_period": 5,
+            "builtIn": 2012,
+            "description": "Sexy sa flat h aajao bc * 2",
+            "details": {
+                "power_backup": "Available",
+                "ac_rooms": "Available",
+                "maintenance": "Included",
+                "electricity_charges": "Included",
+                "available_for": "Male",
+                "preferred_tenants": "Students",
+                "food": "Not Available",
+                "wifi": "Available",
+                "furniture": "Semi Furnished",
+                "bhk": "2 BHK"
+            }
+        },
+        {
+            "id": 3,
+            "name": "Flat 3",
+            "address": "Amberpet Main Rd, Kamshetty Enclave, Akash Nagar, Amberpet, Hyderabad",
+            "no_of_rooms": 4,
+            "rent": 10000,
+            "notice_period": 5,
+            "builtIn": 2020,
+            "description": "Sexy sa flat h aajao bc * 31",
+            "details": {
+                "power_backup": "Available",
+                "ac_rooms": "Available",
+                "maintenance": "Included",
+                "electricity_charges": "Included",
+                "available_for": "Male",
+                "preferred_tenants": "Students",
+                "food": "Not Available",
+                "wifi": "Available",
+                "furniture": "Semi Furnished",
+                "bhk": "2 BHK"
+            }
+        }
+    ],
+    "pgs": [
+        {
+            "id": 1,
+            "name": "PG 1",
+            "address": "28, Vivekananda Nagar, Vivekananda Nagar, Tanjore",
+            "rents": {
+                "single_sharing": 5000,
+                "double_sharing": 4000,
+                "triple_sharing": 3000,
+                "four_sharing": 2000
+            },
+            "notice_period": 3,
+            "operatingSince": 2017,
+            "description": "Sexy sa flat h aajao bc",
+            "details": {
+                "power_backup": "Available",
+                "ac_rooms": "Available",
+                "maintenance": "Included",
+                "electricity_charges": "Included",
+                "available_for": "Male",
+                "preferred_tenants": "Students",
+                "food": "Not Available",
+                "wifi": "Available",
+                "furniture": "Semi Furnished"
+            }
+        },
+        {
+            "id": 2,
+            "name": "PG 2",
+            "address": "4, RHB Rd, New Matruchaya Society, Vidya Vihar, Mulund West, Mumbai",
+            "rents": {
+                "single_sharing": 5000,
+                "double_sharing": 4000,
+                "triple_sharing": 3000
+            },
+            "notice_period": 3,
+            "operatingSince": 2017,
+            "description": "Sexy sa flat h aajao bc",
+            "details": {
+                "power_backup": "Available",
+                "ac_rooms": "Available",
+                "maintenance": "Included",
+                "electricity_charges": "Included",
+                "available_for": "Male",
+                "preferred_tenants": "Students",
+                "food": "Not Available",
+                "wifi": "Available",
+                "furniture": "Semi Furnished"
+            }
+        }
+    ]
+}

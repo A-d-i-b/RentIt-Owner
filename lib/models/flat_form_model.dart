@@ -12,6 +12,8 @@ class FlatFormModel
         Wifi,
         Furniture,
         BHK {
+  int? id;
+
   String flatName = '';
   String address;
   String? noOfRooms;
@@ -34,6 +36,7 @@ class FlatFormModel
   String description;
 
   FlatFormModel({
+    this.id,
     required this.flatName,
     required this.address,
     this.noOfRooms,
@@ -52,6 +55,31 @@ class FlatFormModel
     this.builtIn,
     required this.description,
   });
+
+  factory FlatFormModel.fromJson({
+    required Map<String, dynamic> json,
+  }) {
+    return FlatFormModel(
+      id: json['id'],
+      flatName: json['name'],
+      address: json['address'],
+      noOfRooms: json['no_of_rooms'].toString(),
+      rent: json['rent'].toString(),
+      powerBackup: json['details']['power_backup'],
+      acRooms: json['details']['ac_rooms'],
+      maintenance: json['details']['maintenance'],
+      electricityCharges: json['details']['electricity_charges'],
+      availableFor: json['details']['available_for'],
+      preferredTenant: json['details']['preferred_tenants'],
+      food: json['details']['food'],
+      wifi: json['details']['wifi'],
+      bhk: json['details']['bhk'],
+      furniture: json['details']['furniture'],
+      noticePeriod: json['noticePeriod'].toString(),
+      builtIn: json['builtIn'].toString(),
+      description: json['description'],
+    );
+  }
 
   toJson() {
     return {

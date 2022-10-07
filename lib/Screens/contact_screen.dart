@@ -24,30 +24,31 @@ class _ContactUsState extends State<ContactUs> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         children: [
           Text("You Can Contact Us On", style: Get.textTheme.headline5),
           const SizedBox(height: 44),
-          DetailCard(detail: "8287382403", icon: Icons.phone),
-          SizedBox(height: 20),
-          DetailCard(detail: "8708558486", icon: Icons.phone),
-          SizedBox(
+          const DetailCard(detail: "8287382403", icon: Icons.phone),
+          const SizedBox(height: 20),
+          const DetailCard(detail: "8708558486", icon: Icons.phone),
+          const SizedBox(
             height: 20,
           ),
-          DetailCard(detail: "8827564943", icon: Icons.phone),
-          SizedBox(
+          const DetailCard(detail: "8827564943", icon: Icons.phone),
+          const SizedBox(
             height: 20,
           ),
-          DetailCard(detail: "9871010603", icon: Icons.phone),
-          SizedBox(
+          const DetailCard(detail: "9871010603", icon: Icons.phone),
+          const SizedBox(
             height: 20,
           ),
-          DetailCard(detail: "8860397569", icon: Icons.phone),
-          SizedBox(height: 30),
+          const DetailCard(detail: "8860397569", icon: Icons.phone),
+          const SizedBox(height: 30),
           Text("Also you can mail your query to us on",
               style: Get.textTheme.headline5),
-          SizedBox(height: 40),
-          DetailCard(detail: "dreamcrushers@gmail.com", icon: Icons.email),
+          const SizedBox(height: 40),
+          const DetailCard(
+              detail: "dreamcrushers@gmail.com", icon: Icons.email),
         ],
       ),
     );

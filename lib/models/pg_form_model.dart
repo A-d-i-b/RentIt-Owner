@@ -11,6 +11,7 @@ class PgFormModel
         Food,
         Furniture,
         Wifi {
+  int? id;
   String pgName = '';
   String address;
   int? noOfRooms;
@@ -35,6 +36,7 @@ class PgFormModel
   String description;
 
   PgFormModel({
+    this.id,
     required this.pgName,
     required this.address,
     this.noOfRooms,
@@ -55,4 +57,31 @@ class PgFormModel
     this.operatingSince,
     required this.description,
   });
+
+  factory PgFormModel.fromJson({
+    required Map<String, dynamic> json,
+  }) {
+    return PgFormModel(
+      id: json['id'],
+      pgName: json['name'],
+      address: json['address'],
+      noOfRooms: json['no_of_rooms'],
+      singleRoomRent: json["rents"]["single_sharing"],
+      doubleRoomRent: json["rents"]["double_sharing"],
+      tripleRoomRent: json["rents"]["triple_sharing"],
+      fourRoomRent: json["rents"]["four_sharing"],
+      powerBackup: json['details']['power_backup'],
+      acRooms: json['details']['ac_rooms'],
+      maintenance: json['details']['maintenance'],
+      electricityCharges: json['details']['electricity_charges'],
+      availableFor: json['details']['available_for'],
+      preferredTenant: json['details']['preferred_tenants'],
+      food: json['details']['food'],
+      wifi: json['details']['wifi'],
+      furniture: json['details']['furniture'],
+      noticePeriod: json['noticePeriod'],
+      operatingSince: json['builtIn'].toString(),
+      description: json['description'],
+    );
+  }
 }

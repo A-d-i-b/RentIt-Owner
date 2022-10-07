@@ -21,14 +21,19 @@ class _DetailCardState extends State<DetailCard> {
             color: primary,
             size: 20,
           ),
-          SizedBox(width: 30),
-          Text(
-            widget.detail,
-            style: TextStyle(fontSize: 20, color: secondary),
+          const SizedBox(width: 30),
+          Flexible(
+            child: Text(
+              widget.detail,
+              style: const TextStyle(
+                fontSize: 20,
+                color: secondary,
+              ),
+            ),
           ),
         ]),
-        SizedBox(height: 10),
-        Divider(
+        const SizedBox(height: 10),
+        const Divider(
           thickness: 2,
           color: primary,
         ),

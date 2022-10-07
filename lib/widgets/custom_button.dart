@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:househunt/theme/base_theme.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({Key? key, required this.type, required this.onPressed})
@@ -17,7 +18,7 @@ class CustomButton extends StatelessWidget {
           width: MediaQuery.of(context).size.width / 2.5,
           height: 70,
           child: Card(
-            color: const Color(0xFF0EB7B7),
+            color: primary,
             elevation: 5,
             child: Center(
               child: Text(
@@ -40,8 +41,10 @@ class CustomButton extends StatelessWidget {
                 hintText: "Enter the amount",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide:
-                      const BorderSide(color: Color(0xFF0EB7B7), width: 1),
+                  borderSide: const BorderSide(
+                    color: primary,
+                    width: 1,
+                  ),
                 ),
               ),
               onChanged: (value) {

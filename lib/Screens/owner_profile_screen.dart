@@ -11,7 +11,7 @@ class OwnerProfile extends StatefulWidget {
 }
 
 class _OwnerProfileState extends State<OwnerProfile> {
-  ImageProvider profileImage = AssetImage('images/ownerpic.jpg');
+  ImageProvider profileImage = const AssetImage('images/ownerpic.jpg');
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
         ),
       ),
       body: ListView(
-        padding: EdgeInsets.all(30),
+        padding: const EdgeInsets.all(30),
         children: [
           Row(
             children: [
@@ -35,15 +35,15 @@ class _OwnerProfileState extends State<OwnerProfile> {
                 radius: 60,
                 backgroundImage: profileImage,
               ),
-              SizedBox(width: 20),
+              const SizedBox(width: 20),
               Column(
                 children: [
-                  Text(
+                  const Text(
                     "Owner Name",
                     style: TextStyle(fontSize: 19, color: secondary),
                     overflow: TextOverflow.ellipsis,
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   SizedBox(
                     height: MediaQuery.of(context).size.height / 20,
                     width: MediaQuery.of(context).size.width / 2.7,
@@ -51,7 +51,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
                       onPressed: () {
                         null; //TODO:Add image picker function and store it in profileImage variable
                       },
-                      child: Text(
+                      child: const Text(
                         "Upload Image",
                         style: TextStyle(color: tri),
                       ),
@@ -62,36 +62,39 @@ class _OwnerProfileState extends State<OwnerProfile> {
             ],
           ),
           const SizedBox(height: 50),
-          DetailCard(
+          const DetailCard(
               detail: "8348932668",
               icon: Icons
                   .phone), //TODO:Fetch actual phone number of owner and pass it here
           const SizedBox(height: 30),
-          DetailCard(
-              detail: "Owner Address",
+          const DetailCard(
+              detail:
+                  "BD20, Sector 1, Salt Lake City, Kolkata, West Bengal, India",
               icon: Icons
                   .fmd_good_sharp), //TODO:Fetch actual Address of owner and pass it here
-          const SizedBox(height: 30),
-          DetailCard(
-              detail: "Owner Email",
-              icon: Icons
-                  .email), //TODO:Fetch actual Email of owner and pass it here
-          SizedBox(height: 50),
+
+          const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {},
-            child: Text(
-              "Edit",
-              style: TextStyle(color: tri, fontSize: 20),
+            child: const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                "Edit",
+                style: TextStyle(color: tri, fontSize: 20),
+              ),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
               Get.toNamed('/contact-screen');
             },
-            child: Text(
-              "Contact Us",
-              style: TextStyle(color: tri, fontSize: 20),
+            child: const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                "Contact Us",
+                style: TextStyle(color: tri, fontSize: 20),
+              ),
             ),
           ),
         ],

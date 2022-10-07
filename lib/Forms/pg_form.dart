@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
+import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/custom_button.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
@@ -82,9 +83,10 @@ class _PgFormState extends State<PgForm> {
                         });
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(single == 0
-                              ? Colors.white
-                              : const Color(0xFF0EB7B7))),
+                        backgroundColor: MaterialStateProperty.all(
+                          single == 0 ? Colors.white : primary,
+                        ),
+                      ),
                       child: const Text(
                         "Single",
                         style: TextStyle(color: Colors.black),
@@ -110,9 +112,10 @@ class _PgFormState extends State<PgForm> {
                         });
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(double == 0
-                              ? Colors.white
-                              : const Color(0xFF0EB7B7))),
+                        backgroundColor: MaterialStateProperty.all(
+                          double == 0 ? Colors.white : primary,
+                        ),
+                      ),
                       child: const Text(
                         "Double",
                         style: TextStyle(color: Colors.black),
@@ -139,9 +142,10 @@ class _PgFormState extends State<PgForm> {
                         });
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(triple == 0
-                              ? Colors.white
-                              : const Color(0xFF0EB7B7))),
+                        backgroundColor: MaterialStateProperty.all(
+                          triple == 0 ? Colors.white : primary,
+                        ),
+                      ),
                       child: const Text(
                         "Triple",
                         style: TextStyle(color: Colors.black),
@@ -167,10 +171,10 @@ class _PgFormState extends State<PgForm> {
                         });
                       },
                       style: ButtonStyle(
-                          backgroundColor: MaterialStateProperty.all(
-                              quadruple == 0
-                                  ? Colors.white
-                                  : const Color(0xFF0EB7B7))),
+                        backgroundColor: MaterialStateProperty.all(
+                          quadruple == 0 ? Colors.white : primary,
+                        ),
+                      ),
                       child: const Text(
                         "Quadruple",
                         style: TextStyle(color: Colors.black),
@@ -193,9 +197,9 @@ class _PgFormState extends State<PgForm> {
               Container(
                 padding: const EdgeInsets.all(6),
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border:
-                        Border.all(width: 1, color: const Color(0xFF0EB7B7))),
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(width: 1, color: primary),
+                ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.stretch,
