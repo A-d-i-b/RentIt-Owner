@@ -261,7 +261,6 @@ class _FlatFormState extends State<FlatForm> {
             child: ElevatedButton(
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-                print(flatFormController.flatFormModel.value.toJson());
               },
               child: SizedBox(
                 width: Get.width / 3.5,

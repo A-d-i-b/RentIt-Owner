@@ -4,7 +4,7 @@ import 'package:househunt/utils/child_card.dart';
 import 'package:househunt/utils/reusable_card.dart';
 
 class TenantProfile extends StatefulWidget {
-  TenantProfile({
+  const TenantProfile({
     Key? key,
   }) : super(key: key);
 
@@ -16,7 +16,7 @@ class _TenantProfileState extends State<TenantProfile> {
   @override
   Widget build(BuildContext context) {
     var data = Get.arguments;
-    print(data);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -36,7 +36,7 @@ class _TenantProfileState extends State<TenantProfile> {
               child: CircleAvatar(
                   radius: 82,
                   backgroundImage: data['TenantImage'] ??
-                      AssetImage('images/tenantexample.jpeg')),
+                      const AssetImage('images/tenantexample.jpeg')),
             ),
             const SizedBox(height: 20),
             Padding(

@@ -18,7 +18,7 @@ class Field extends StatelessWidget {
   final int? maxLines;
   final Function onChange;
 
-  PgFormController pgFormController = Get.put(PgFormController());
+  final PgFormController pgFormController = Get.put(PgFormController());
 
   @override
   Widget build(BuildContext context) {

@@ -2,20 +2,9 @@ import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:househunt/models/flat_form_model.dart';
+import 'package:househunt/utils/file_utils.dart';
 
-class FlatFormController extends GetxController
-// with
-//     PowerBackup,
-//     AcRooms,
-//     Maintenance,
-//     ElectricityCharges,
-//     AvailableFor,
-//     PreferredTenants,
-//     Food,
-//     Wifi,
-//     Furniture,
-//     BHK
-{
+class FlatFormController extends GetxController {
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
     flatName: '',
     address: '',
@@ -24,31 +13,17 @@ class FlatFormController extends GetxController
 
   RxList<File> assets = <File>[].obs;
 
-  // String flatName = '';
-  // String address = '';
-  // String? noOfRooms;
+  late RxList flats;
 
-  // String? rent;
+  @override
+  void onReady() async {
+    final pgFlatRes = await getJsonFromAsset('assets/data/properties.json');
 
-  // RxString powerBackup = 'N/A'.obs;
-  // RxString acRooms = 'N/A'.obs;
-  // RxString maintenance = 'N/A'.obs;
-  // RxString electricityCharges = 'N/A'.obs;
-  // RxString availableFor = 'N/A'.obs;
-  // RxString preferredTenant = 'N/A'.obs;
-  // RxString food = 'N/A'.obs;
-  // RxString wifi = 'N/A'.obs;
-  // RxString furniture = 'N/A'.obs;
-  // RxString bhk = 'N/A'.obs;
+    final flats = pgFlatRes['flats'];
 
-  // String? noticePeriod;
-  // String? builtIn;
-  // String description = '';
+    this.flats =
+        RxList(flats.map((e) => FlatFormModel.fromJson(json: e)).toList());
 
-  // updatePowerBackup(String newPowerBackup) {
-  //   flatFormModel.update((val) {
-  //     val!.powerBackup = newPowerBackup;
-  //   });
-  //   update();
-  // }
+    super.onReady();
+  }
 }
