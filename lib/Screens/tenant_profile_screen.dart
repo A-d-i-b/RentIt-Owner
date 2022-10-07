@@ -43,7 +43,7 @@ class _TenantProfileState extends State<TenantProfile> {
               padding: const EdgeInsets.only(left: 20, right: 20),
               child: Center(
                 child: Text(
-                  data['TenantName'] ?? "", //TODO:Enter tenant name
+                  data['TenantName'] ?? "",
                   style: Get.textTheme.headline5,
                 ),
               ),
