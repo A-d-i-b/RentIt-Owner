@@ -1,8 +1,6 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:flutter/material.dart';
-import 'package:househunt/Screens/tenant_list_screen.dart';
-import 'package:househunt/screens/flat_screen.dart';
+import 'package:househunt/Screens/owner_profile_screen.dart';
+import 'package:househunt/Screens/flat_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
@@ -75,8 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
         controller: pageController,
         children: [
           const LandingHomeScreen(),
-          const TenantList(),
-          FlatHome()
+          FlatHome(),
+          // TenantList(),
+          const OwnerProfile(),
           // PgHome()
         ],
         onPageChanged: (page) {
