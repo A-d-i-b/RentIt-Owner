@@ -4,30 +4,22 @@ import 'package:get/get.dart';
 class TenantCard extends StatefulWidget {
   final ImageProvider image;
   final String name;
-  final String pgname;
+  final String pgName;
   final VoidCallback onTap;
 
   const TenantCard({
     Key? key,
     required this.image,
     required this.name,
-    required this.pgname,
+    required this.pgName,
     required this.onTap,
   }) : super(key: key);
 
   @override
-  State<TenantCard> createState() => _TenantCardState(
-      // image: image,
-      // name: name,
-      // pgname: pgname,
-      );
+  State<TenantCard> createState() => _TenantCardState();
 }
 
 class _TenantCardState extends State<TenantCard> {
-  // final ImageProvider image;
-  // final String name;
-  // final String pgname;
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(

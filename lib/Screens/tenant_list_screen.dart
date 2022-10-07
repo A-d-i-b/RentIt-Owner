@@ -11,12 +11,12 @@ class TenantList extends StatefulWidget {
 }
 
 class _TenantListState extends State<TenantList> {
-  List<Widget> Cards = [
+  List<Widget> cards = [
     TenantCard(
       image: const AssetImage(
           'images/tenantexample.jpeg'), //TODO:Fetch Actual, image name and pg name
       name: "Tenant Name",
-      pgname: "Pg name",
+      pgName: "Pg name",
       onTap: () {
         Get.toNamed('/tenant-profile', arguments: {
           "TenantImage": const AssetImage("images/tenantexample.jpeg"),
@@ -30,7 +30,7 @@ class _TenantListState extends State<TenantList> {
     TenantCard(
       image: const AssetImage('images/tenantexample.jpeg'),
       name: "Tenant Name",
-      pgname: "Pg name",
+      pgName: "Pg name",
       onTap: () {
         Get.toNamed('/tenant-profile', arguments: {
           "TenantImage": const AssetImage("images/tenantexample.jpeg"),
@@ -56,9 +56,9 @@ class _TenantListState extends State<TenantList> {
         ),
       ),
       body: ListView.builder(
-        itemCount: Cards.length,
+        itemCount: cards.length,
         itemBuilder: (BuildContext context, int index) {
-          return Cards[index];
+          return cards[index];
         },
       ),
     );

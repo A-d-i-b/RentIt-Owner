@@ -1,37 +1,16 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/Forms/flat_form.dart';
+import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/widgets/asset_picker.dart';
-import 'package:image_picker/image_picker.dart';
+import 'package:househunt/widgets/asset_thumb.dart';
 
-class FlatHome extends StatefulWidget {
-  const FlatHome({Key? key}) : super(key: key);
+class FlatHome extends StatelessWidget {
+  FlatHome({Key? key}) : super(key: key);
 
-  @override
-  createState() => _FlatState();
-}
-
-class _FlatState extends State<FlatHome> {
-  List<XFile>? pickImages = [];
-  int method = 2;
-  void selectImage() async {
-    if (method == 0) {
-      List<XFile>? selectedImages = await ImagePicker().pickMultiImage();
-      setState(() {
-        if (selectedImages!.isNotEmpty) {
-          pickImages!.addAll(selectedImages);
-        }
-      });
-    } else {
-      XFile? selectedImages =
-          await ImagePicker().pickImage(source: ImageSource.camera);
-      if (selectedImages != null) {
-        setState(() {
-          pickImages!.add(selectedImages);
-        });
-      }
-    }
-  }
+  final FlatFormController flatFormController = Get.put(FlatFormController());
 
   @override
   Widget build(BuildContext context) {
@@ -50,17 +29,58 @@ class _FlatState extends State<FlatHome> {
         centerTitle: true,
       ),
       body: ListView(
-        children: const [
-          SizedBox(
+        children: [
+          const SizedBox(
             height: 20,
           ),
           Padding(
-              padding: EdgeInsets.only(left: 20, right: 20),
-              child: AssetPickerWidget()),
-          SizedBox(
+            padding: const EdgeInsets.only(left: 20, right: 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Add Media',
+                  style: Get.textTheme.headline6,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                // display assets
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Obx(
+                    () => Row(
+                      children: flatFormController.assets
+                          .map(
+                            (element) => AssetThumb(
+                                onRemove: () {
+                                  flatFormController.assets.remove(element);
+                                },
+                                file: element),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                AssetPickerWidget(
+                  onAssetPicked: (items) {
+                    flatFormController.assets.addAll(
+                      items.map(
+                        (e) => File(e.path),
+                      ),
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(
             height: 20,
           ),
-          FlatForm(),
+          const FlatForm(),
         ],
       ),
     );

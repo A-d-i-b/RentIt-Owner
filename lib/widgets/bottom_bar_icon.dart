@@ -5,12 +5,12 @@ class BottomBarIcon extends StatelessWidget {
     Key? key,
     required this.icon,
     required this.color,
-    required this.lableName,
+    required this.labelName,
   }) : super(key: key);
 
   final IconData icon;
   final Color color;
-  final String lableName;
+  final String labelName;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class BottomBarIcon extends StatelessWidget {
         icon,
         color: Colors.grey,
       ),
-      label: lableName,
+      label: labelName,
       selectedIcon: Icon(
         icon,
         color: color,

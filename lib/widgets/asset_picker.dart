@@ -2,58 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class AssetPickerWidget extends StatefulWidget {
-  const AssetPickerWidget({Key? key}) : super(key: key);
+class AssetPickerWidget extends StatelessWidget {
+  const AssetPickerWidget({Key? key, required this.onAssetPicked})
+      : super(key: key);
 
-  @override
-  State<AssetPickerWidget> createState() => _AssetPickerWidgetState();
-}
+  final void Function(List<XFile>) onAssetPicked;
 
-class _AssetPickerWidgetState extends State<AssetPickerWidget> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'Add Media',
-          style: Get.textTheme.headline6,
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        // display assets
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Row(
-            children: const [
-              // if (_assets != null)
-              //   ..._assets!.map(
-              //     (asset) => Row(
-              //       children: [
-              //         AssetThumb(
-              //           asset: asset,
-              //           width: 100,
-              //           height: 100,
-              //         ),
-              //         const SizedBox(
-              //           width: 10,
-              //         ),
-              //       ],
-              //     ),
-              //   ),
-            ],
-          ),
-        ),
-        const SizedBox(
-          height: 10,
-        ),
-        // pick assets
-        ElevatedButton(
-          onPressed: handleClick,
-          child: const Text('Pick Assets'),
-        ),
-      ],
+    return ElevatedButton(
+      onPressed: handleClick,
+      child: const Text('Pick Assets'),
     );
   }
 
@@ -83,9 +42,7 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  // setState(() {
-                  //   _assets.add(AssetEntity(id: image.path));
-                  // });
+                  onAssetPicked([image]);
                 }
                 Get.back();
               },
@@ -98,9 +55,7 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  // setState(() {
-                  //   _assets.add(AssetEntity(id: image.path));
-                  // });
+                  onAssetPicked([image]);
                 }
                 Get.back();
               },
@@ -113,9 +68,7 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
                   imageQuality: 50,
                 );
                 if (image != null) {
-                  // setState(() {
-                  //   _assets.add(AssetEntity(id: image.path));
-                  // });
+                  onAssetPicked(image);
                 }
                 Get.back();
               },
@@ -128,9 +81,7 @@ class _AssetPickerWidgetState extends State<AssetPickerWidget> {
                   source: ImageSource.gallery,
                 );
                 if (image != null) {
-                  // setState(() {
-                  //   _assets.add(AssetEntity(id: image.path));
-                  // });
+                  onAssetPicked([image]);
                 }
                 Get.back();
               },

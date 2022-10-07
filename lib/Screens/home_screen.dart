@@ -1,6 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:househunt/Screens/tenant_list_screen.dart';
-import 'package:househunt/Screens/flat_screen.dart';
+import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
@@ -54,28 +56,27 @@ class _HomeScreenState extends State<HomeScreen> {
             BottomBarIcon(
               icon: Icons.home,
               color: primary,
-              lableName: "Home",
+              labelName: "Home",
             ),
             BottomBarIcon(
               icon: Icons.apartment,
               color: primary,
-              lableName: "Tenant",
+              labelName: "Tenant",
             ),
             BottomBarIcon(
               icon: Icons.person,
               color: primary,
-              lableName: "Profile",
+              labelName: "Profile",
             ),
           ],
         ),
       ),
       body: PageView(
         controller: pageController,
-        children: const [
-          LandingHomeScreen(),
-          FlatHome(),
-          TenantList(),
-
+        children: [
+          const LandingHomeScreen(),
+          const TenantList(),
+          FlatHome()
           // PgHome()
         ],
         onPageChanged: (page) {

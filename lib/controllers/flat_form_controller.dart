@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:get/get.dart';
 import 'package:househunt/models/flat_form_model.dart';
 
@@ -19,6 +21,8 @@ class FlatFormController extends GetxController
     address: '',
     description: '',
   ).obs;
+
+  RxList<File> assets = <File>[].obs;
 
   // String flatName = '';
   // String address = '';

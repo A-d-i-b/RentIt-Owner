@@ -6,7 +6,7 @@ import 'package:househunt/screens/tenant_profile_screen.dart';
 
 final routes = [
   GetPage(name: '/', page: () => const HomeScreen()),
-  GetPage(name: '/add-pg', page: () => const PgHome()),
-  GetPage(name: '/add-flat', page: () => const FlatHome()),
+  GetPage(name: '/add-pg', page: () => PgHome()),
+  GetPage(name: '/add-flat', page: () => FlatHome()),
   GetPage(name: '/tenant-profile', page: () => TenantProfile()),
 ];

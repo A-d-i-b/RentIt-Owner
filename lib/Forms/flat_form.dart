@@ -264,7 +264,7 @@ class _FlatFormState extends State<FlatForm> {
                 print(flatFormController.flatFormModel.value.toJson());
               },
               child: SizedBox(
-                width: Get.width / 2.5,
+                width: Get.width / 3.5,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16.0),
                   child: Center(
