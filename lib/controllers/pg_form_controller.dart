@@ -16,14 +16,16 @@ class PgFormController extends GetxController {
 
   RxList<File> assets = <File>[].obs;
 
-  late RxList<PgFormModel> pgs;
+  RxList pgs = [].obs;
 
   @override
   void onReady() async {
     final pgFlatRes = await getJsonFromAsset('assets/data/properties.json');
 
     final pgs = pgFlatRes['pgs'];
-    this.pgs = RxList(pgs.map((e) => PgFormModel.fromJson(json: e)).toList());
+    this.pgs.addAll(
+          pgs.map((e) => PgFormModel.fromJson(json: e)).toList(),
+        );
 
     super.onReady();
   }

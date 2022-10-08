@@ -263,13 +263,13 @@ class _FlatFormState extends State<FlatForm> {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               child: SizedBox(
-                width: Get.width / 3.5,
+                width: Get.width / 2.75,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Center(
                     child: Text(
                       "Submit",
-                      style: Get.textTheme.headline5!.copyWith(
+                      style: Get.textTheme.headline6!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -277,6 +277,7 @@ class _FlatFormState extends State<FlatForm> {
               ),
             ),
           ),
+
           const SizedBox(height: 15),
         ],
       ),

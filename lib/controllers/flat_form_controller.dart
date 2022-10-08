@@ -13,7 +13,7 @@ class FlatFormController extends GetxController {
 
   RxList<File> assets = <File>[].obs;
 
-  late RxList flats;
+  RxList flats = [].obs;
 
   @override
   void onReady() async {
@@ -21,8 +21,9 @@ class FlatFormController extends GetxController {
 
     final flats = pgFlatRes['flats'];
 
-    this.flats =
-        RxList(flats.map((e) => FlatFormModel.fromJson(json: e)).toList());
+    this.flats.addAll(
+          flats.map((e) => FlatFormModel.fromJson(json: e)).toList(),
+        );
 
     super.onReady();
   }

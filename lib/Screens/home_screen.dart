@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:househunt/Screens/owner_profile_screen.dart';
 import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/landing_home_screen.dart';
+import 'package:househunt/screens/tenant_list_screen.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/bottom_bar_icon.dart';
 
@@ -72,9 +73,9 @@ class _HomeScreenState extends State<HomeScreen> {
       body: PageView(
         controller: pageController,
         children: [
-          const LandingHomeScreen(),
-          FlatHome(),
-          // TenantList(),
+          LandingHomeScreen(),
+
+          const TenantList(),
           const OwnerProfile(),
           // PgHome()
         ],

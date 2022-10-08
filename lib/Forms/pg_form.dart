@@ -444,13 +444,13 @@ class _PgFormState extends State<PgForm> {
                 FocusManager.instance.primaryFocus?.unfocus();
               },
               child: SizedBox(
-                width: Get.width / 2.5,
+                width: Get.width / 2.75,
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
+                  padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Center(
                     child: Text(
                       "Submit",
-                      style: Get.textTheme.headline5!.copyWith(
+                      style: Get.textTheme.headline6!.copyWith(
                           color: Colors.white, fontWeight: FontWeight.w600),
                     ),
                   ),
@@ -464,116 +464,3 @@ class _PgFormState extends State<PgForm> {
     );
   }
 }
-
-// Container(
-//                 decoration: BoxDecoration(
-//                     color: const Color(0xFF0EB7B7),
-//                     borderRadius: BorderRadius.circular(15),
-//                     boxShadow: const [
-//                       BoxShadow(
-//                         offset: Offset(5, 5),
-//                         spreadRadius: -3,
-//                         blurRadius: 5,
-//                         color: Color.fromRGBO(0, 0, 0, 0.4),
-//                       )
-//                     ]),
-//                 width: MediaQuery.of(context).size.width / 2.1,
-//                 height: MediaQuery.of(context).size.height / 15,
-//                 child: Center(
-//                   child: Text(
-//                     "Submit",
-//                     style: Get.textTheme.headline5!.copyWith(
-//                         color: Colors.white, fontWeight: FontWeight.w600),
-//                   ),
-//                 ),
-//               ),
-
-// InkWell(
-//               onTap: () {
-
-//                 print(pgFormController.extra_details);
-//                 print(pgFormController.roomType);
-//                 print(pgFormController.rents);
-//                 print(pgFormController.details);
-//               },
-//               child:
-//             ),
-
-// List<DropdownMenuItem<String>> iteams_0 = [
-//   const DropdownMenuItem(
-//     value: "N/A",
-//     child: Text("N/A"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Students",
-//     child: Text("Students"),
-//   ),
-// ];
-// List<DropdownMenuItem<String>> iteams_1 = [
-//   const DropdownMenuItem(
-//     value: "N/A",
-//     child: Center(
-//       child: Text(
-//         "N/A",
-//       ),
-//     ),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Available",
-//     child: Text("Available"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Not Available",
-//     child: Text("Not Available"),
-//   )
-// ];
-// List<DropdownMenuItem<String>> iteams_2 = [
-//   const DropdownMenuItem(
-//     value: "N/A",
-//     child: Text("N/A"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Included",
-//     child: Text("Included"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Not Included",
-//     child: Text("Not Included"),
-//   ),
-// ];
-// List<DropdownMenuItem<String>> iteams_3 = [
-//   const DropdownMenuItem(
-//     value: "N/A",
-//     child: Text("N/A"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Male",
-//     child: Text("Male"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Female",
-//     child: Text("Female"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Both",
-//     child: Text("Both"),
-//   ),
-// ];
-// List<DropdownMenuItem<String>> iteams_4 = [
-//   const DropdownMenuItem(
-//     value: "N/A",
-//     child: Text("N/A"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Furnished",
-//     child: Text("Furnished"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Semi Furnished",
-//     child: Text("Semi Furnished"),
-//   ),
-//   const DropdownMenuItem(
-//     value: "Not Furnished",
-//     child: Text("Not Furnished"),
-//   ),
-// ];
