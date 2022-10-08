@@ -41,26 +41,53 @@ class LandingHomeScreen extends StatelessWidget {
                 const SizedBox(height: 35),
                 Text('Your properties', style: Get.textTheme.headline6),
                 const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'PG (${pgFormController.pgs.length})',
+                    style: Get.textTheme.labelLarge!.copyWith(
+                      color: Colors.green,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Obx(
                     () => Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        ...pgFormController.pgs
-                            .map(
-                              (pg) => PropertyCard(
-                                  name: pg.pgName, description: pg.description),
-                            )
-                            .toList(),
-                        ...flatFormController.flats
-                            .map(
-                              (flat) => PropertyCard(
-                                  name: flat.flatName,
-                                  description: flat.description),
-                            )
-                            .toList(),
-                      ],
+                      children: pgFormController.pgs
+                          .map(
+                            (pg) => PropertyCard(
+                                name: pg.pgName, description: pg.description),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    'FLATS (${flatFormController.flats.length})',
+                    style: Get.textTheme.labelLarge!.copyWith(
+                      color: Colors.orange,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Obx(
+                    () => Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: flatFormController.flats
+                          .map(
+                            (flat) => PropertyCard(
+                                name: flat.flatName,
+                                description: flat.description),
+                          )
+                          .toList(),
                     ),
                   ),
                 ),

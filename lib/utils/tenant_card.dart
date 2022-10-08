@@ -25,7 +25,6 @@ class _TenantCardState extends State<TenantCard> {
     return GestureDetector(
       onTap: widget.onTap,
       child: Container(
-        margin: const EdgeInsets.all(20),
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
@@ -37,8 +36,8 @@ class _TenantCardState extends State<TenantCard> {
         child: Row(
           children: [
             Container(
-              width: 80,
-              height: 80,
+              width: 90,
+              height: 90,
               decoration: BoxDecoration(
                 image: DecorationImage(
                   fit: BoxFit.cover,

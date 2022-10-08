@@ -23,7 +23,7 @@ class PropertyCard extends StatelessWidget {
             children: [
               SizedBox(
                 height: Get.width / 2.5,
-                width: Get.width / 2.25,
+                width: Get.width / 2,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(8),
                   child: Image.network(

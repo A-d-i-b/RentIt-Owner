@@ -55,11 +55,20 @@ class _TenantListState extends State<TenantList> {
           style: Get.textTheme.headline4,
         ),
       ),
-      body: ListView.builder(
-        itemCount: cards.length,
-        itemBuilder: (BuildContext context, int index) {
-          return cards[index];
-        },
+      body: Padding(
+        padding: const EdgeInsets.only(top: 20.0),
+        child: ListView.separated(
+          itemCount: cards.length,
+          itemBuilder: (BuildContext context, int index) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20.0),
+              child: cards[index],
+            );
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return const SizedBox(height: 20);
+          },
+        ),
       ),
     );
   }
