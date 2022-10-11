@@ -66,7 +66,7 @@ class _TenantListState extends State<TenantList> {
             );
           },
           separatorBuilder: (BuildContext context, int index) {
-            return const SizedBox(height: 20);
+            return const SizedBox(height: 10);
           },
         ),
       ),

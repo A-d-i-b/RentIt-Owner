@@ -16,6 +16,23 @@ class _FlatFormState extends State<FlatForm> {
   FlatFormController flatFormController = Get.put(FlatFormController());
 
   @override
+  void initState() {
+    // get arguments
+    final args = Get.arguments;
+
+    if (args != null) {
+      flatFormController.flatFormModel.update((val) {
+        val!.changeFieldsFromExistingFlat(args['flatFormModel']);
+      });
+
+      flatFormController.updateTextFields(args['flatFormModel'], 'flat');
+      flatFormController.updateDropdowns(args['flatFormModel']);
+    }
+
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -31,6 +48,7 @@ class _FlatFormState extends State<FlatForm> {
             maxLines: 5,
             hint: 'Address',
             keyboardType: TextInputType.text,
+            controller: flatFormController.addressController.value,
             onChange: (value) {
               flatFormController.flatFormModel.value.address = value;
             },
@@ -41,6 +59,7 @@ class _FlatFormState extends State<FlatForm> {
 
           Field(
             heading: 'No. of Rooms',
+            controller: flatFormController.roomsController.value,
             hint: 'Rooms',
             keyboardType: TextInputType.number,
             onChange: (String value) {
@@ -52,6 +71,7 @@ class _FlatFormState extends State<FlatForm> {
 
           Field(
             heading: "Rent",
+            controller: flatFormController.rentController.value,
             hint: "Amount",
             keyboardType: TextInputType.number,
             onChange: (value) {
@@ -230,6 +250,7 @@ class _FlatFormState extends State<FlatForm> {
           ),
           const SizedBox(height: 30),
           Field(
+            controller: flatFormController.noticePeriodController.value,
             heading: "Notice Period",
             hint: "Month",
             keyboardType: TextInputType.text,
@@ -239,6 +260,7 @@ class _FlatFormState extends State<FlatForm> {
           ),
           const SizedBox(height: 15),
           Field(
+            controller: flatFormController.operatingSinceController.value,
             heading: "Built In",
             hint: "Year",
             keyboardType: TextInputType.number,
@@ -248,6 +270,7 @@ class _FlatFormState extends State<FlatForm> {
           ),
           const SizedBox(height: 15),
           Field(
+            controller: flatFormController.descriptionController.value,
             heading: "Description",
             hint: "Short Description",
             keyboardType: TextInputType.text,

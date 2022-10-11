@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:househunt/theme/base_theme.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({Key? key, required this.type, required this.onPressed})
+  const CustomButton(
+      {Key? key,
+      required this.type,
+      required this.onPressed,
+      required this.controller})
       : super(key: key);
 
   final String type;
   final Function onPressed;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +41,7 @@ class CustomButton extends StatelessWidget {
             width: MediaQuery.of(context).size.width / 2.5,
             height: MediaQuery.of(context).size.height / 13,
             child: TextField(
+              controller: controller,
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: "Enter the amount",

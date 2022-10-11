@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
+import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/Forms/pg_form.dart';
 import 'package:househunt/widgets/asset_thumb.dart';
@@ -19,7 +20,7 @@ class PgHome extends StatelessWidget {
       appBar: AppBar(
         elevation: 0.0,
         backgroundColor: Colors.transparent,
-        foregroundColor: const Color(0xFF0EB7B7),
+        foregroundColor: primary,
         title: Text(
           "Paying Guest",
           style: Get.textTheme.headline4!.copyWith(

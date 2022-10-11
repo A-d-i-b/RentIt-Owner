@@ -56,6 +56,26 @@ class FlatFormModel
     required this.description,
   });
 
+  void changeFieldsFromExistingFlat(FlatFormModel flat) {
+    flatName = flat.flatName;
+    address = flat.address;
+    noOfRooms = flat.noOfRooms;
+    rent = flat.rent;
+    powerBackup = flat.powerBackup;
+    acRooms = flat.acRooms;
+    maintenance = flat.maintenance;
+    electricityCharges = flat.electricityCharges;
+    availableFor = flat.availableFor;
+    preferredTenant = flat.preferredTenant;
+    food = flat.food;
+    wifi = flat.wifi;
+    furniture = flat.furniture;
+    bhk = flat.bhk;
+    noticePeriod = flat.noticePeriod;
+    builtIn = flat.builtIn;
+    description = flat.description;
+  }
+
   factory FlatFormModel.fromJson({
     required Map<String, dynamic> json,
   }) {
@@ -75,7 +95,7 @@ class FlatFormModel
       wifi: json['details']['wifi'],
       bhk: json['details']['bhk'],
       furniture: json['details']['furniture'],
-      noticePeriod: json['noticePeriod'].toString(),
+      noticePeriod: json['notice_period'].toString(),
       builtIn: json['builtIn'].toString(),
       description: json['description'],
     );

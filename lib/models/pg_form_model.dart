@@ -14,12 +14,12 @@ class PgFormModel
   int? id;
   String pgName = '';
   String address;
-  int? noOfRooms;
+  String? noOfRooms;
 
-  double? singleRoomRent;
-  double? doubleRoomRent;
-  double? tripleRoomRent;
-  double? fourRoomRent;
+  String? singleRoomRent;
+  String? doubleRoomRent;
+  String? tripleRoomRent;
+  String? fourRoomRent;
 
   String powerBackup;
   String acRooms;
@@ -31,7 +31,7 @@ class PgFormModel
   String wifi;
   String furniture;
 
-  int? noticePeriod;
+  String? noticePeriod;
   String? operatingSince;
   String description;
 
@@ -65,11 +65,11 @@ class PgFormModel
       id: json['id'],
       pgName: json['name'],
       address: json['address'],
-      noOfRooms: json['no_of_rooms'],
-      singleRoomRent: (json["rents"]["single_sharing"])?.toDouble(),
-      doubleRoomRent: (json["rents"]["double_sharing"])?.toDouble(),
-      tripleRoomRent: (json["rents"]["triple_sharing"])?.toDouble(),
-      fourRoomRent: (json["rents"]["four_sharing"])?.toDouble(),
+      noOfRooms: json['no_of_rooms'].toString(),
+      singleRoomRent: (json["rents"]["single_sharing"])?.toString(),
+      doubleRoomRent: (json["rents"]["double_sharing"])?.toString(),
+      tripleRoomRent: (json["rents"]["triple_sharing"])?.toString(),
+      fourRoomRent: (json["rents"]["four_sharing"])?.toString(),
       powerBackup: json['details']['power_backup'],
       acRooms: json['details']['ac_rooms'],
       maintenance: json['details']['maintenance'],
@@ -79,9 +79,60 @@ class PgFormModel
       food: json['details']['food'],
       wifi: json['details']['wifi'],
       furniture: json['details']['furniture'],
-      noticePeriod: json['noticePeriod'],
-      operatingSince: json['builtIn'].toString(),
+      noticePeriod: json['notice_period'].toString(),
+      operatingSince: json['operatingSince'].toString(),
       description: json['description'],
     );
+  }
+
+  void changeFieldsFromExisting(PgFormModel model) {
+    pgName = model.pgName;
+    address = model.address;
+    noOfRooms = model.noOfRooms;
+    singleRoomRent = model.singleRoomRent;
+    doubleRoomRent = model.doubleRoomRent;
+    tripleRoomRent = model.tripleRoomRent;
+    fourRoomRent = model.fourRoomRent;
+    powerBackup = model.powerBackup;
+    acRooms = model.acRooms;
+    maintenance = model.maintenance;
+    electricityCharges = model.electricityCharges;
+    availableFor = model.availableFor;
+    preferredTenant = model.preferredTenant;
+    food = model.food;
+    wifi = model.wifi;
+    furniture = model.furniture;
+    noticePeriod = model.noticePeriod;
+    operatingSince = model.operatingSince;
+    description = model.description;
+  }
+
+  toJson() {
+    return {
+      "id": id,
+      "name": pgName,
+      "address": address,
+      "no_of_rooms": noOfRooms,
+      "rents": {
+        "single_sharing": singleRoomRent,
+        "double_sharing": doubleRoomRent,
+        "triple_sharing": tripleRoomRent,
+        "four_sharing": fourRoomRent,
+      },
+      "details": {
+        "power_backup": powerBackup,
+        "ac_rooms": acRooms,
+        "maintenance": maintenance,
+        "electricity_charges": electricityCharges,
+        "available_for": availableFor,
+        "preferred_tenants": preferredTenant,
+        "food": food,
+        "wifi": wifi,
+        "furniture": furniture,
+      },
+      "notice_period": noticePeriod,
+      "operatingSince": operatingSince,
+      "description": description,
+    };
   }
 }

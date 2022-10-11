@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
+import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/widgets/property_card.dart';
 
 class LandingHomeScreen extends StatelessWidget {
@@ -9,6 +10,7 @@ class LandingHomeScreen extends StatelessWidget {
 
   final PgFormController pgFormController = Get.put(PgFormController());
   final FlatFormController flatFormController = Get.put(FlatFormController());
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
@@ -21,33 +23,36 @@ class LandingHomeScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Hey there,',
-                      style: Get.textTheme.headline4!.copyWith(
-                        color: Get.theme.primaryColor,
+                Obx(
+                  () => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Hey there,',
+                        style: Get.textTheme.headline4!.copyWith(
+                          color: Get.theme.primaryColor,
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      //TODO: Get user name
-                      'Michael',
-                      style: Get.textTheme.displaySmall,
-                    ),
-                  ],
+                      const SizedBox(height: 8),
+                      Text(
+                        userController.user.value.name,
+                        style: Get.textTheme.displaySmall,
+                      ),
+                    ],
+                  ),
                 ),
                 const SizedBox(height: 35),
                 Text('Your properties', style: Get.textTheme.headline6),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'PG (${pgFormController.pgs.length})',
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
+                  child: Obx(
+                    () => Text(
+                      'PG (${pgFormController.pgs.length})',
+                      style: Get.textTheme.labelLarge!.copyWith(
+                        color: Colors.green,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -59,7 +64,14 @@ class LandingHomeScreen extends StatelessWidget {
                       children: pgFormController.pgs
                           .map(
                             (pg) => PropertyCard(
-                                name: pg.pgName, description: pg.description),
+                              name: pg.pgName,
+                              description: pg.description,
+                              onTap: () {
+                                Get.toNamed('/add-pg', arguments: {
+                                  'pgFormModel': pg,
+                                });
+                              },
+                            ),
                           )
                           .toList(),
                     ),
@@ -68,11 +80,13 @@ class LandingHomeScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Text(
-                    'FLATS (${flatFormController.flats.length})',
-                    style: Get.textTheme.labelLarge!.copyWith(
-                      color: Colors.orange,
-                      fontWeight: FontWeight.bold,
+                  child: Obx(
+                    () => Text(
+                      'FLATS (${flatFormController.flats.length})',
+                      style: Get.textTheme.labelLarge!.copyWith(
+                        color: Colors.orange,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
                 ),
@@ -84,8 +98,14 @@ class LandingHomeScreen extends StatelessWidget {
                       children: flatFormController.flats
                           .map(
                             (flat) => PropertyCard(
-                                name: flat.flatName,
-                                description: flat.description),
+                              name: flat.flatName,
+                              description: flat.description,
+                              onTap: () {
+                                Get.toNamed('/add-flat', arguments: {
+                                  'flatFormModel': flat,
+                                });
+                              },
+                            ),
                           )
                           .toList(),
                     ),

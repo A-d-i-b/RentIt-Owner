@@ -1,20 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
 
-class OwnerProfile extends StatefulWidget {
-  const OwnerProfile({Key? key}) : super(key: key);
+class OwnerProfile extends StatelessWidget {
+  OwnerProfile({Key? key}) : super(key: key);
 
-  @override
-  State<OwnerProfile> createState() => _OwnerProfileState();
-}
-
-class _OwnerProfileState extends State<OwnerProfile> {
-  ImageProvider profileImage = const AssetImage('images/ownerpic.jpg');
+  final UserController userController = Get.put(UserController());
 
   @override
   Widget build(BuildContext context) {
+    final profileImage = Image.asset('images/ownerpic.jpg', fit: BoxFit.cover);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -29,50 +27,66 @@ class _OwnerProfileState extends State<OwnerProfile> {
       body: ListView(
         padding: const EdgeInsets.all(30),
         children: [
-          Row(
+          Column(
             children: [
-              CircleAvatar(
-                radius: 60,
-                backgroundImage: profileImage,
-              ),
-              const SizedBox(width: 20),
-              Column(
-                children: [
-                  const Text(
-                    "Owner Name",
-                    style: TextStyle(fontSize: 19, color: secondary),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 20),
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height / 20,
-                    width: MediaQuery.of(context).size.width / 2.7,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        null; //TODO:Add image picker function and store it in profileImage variable
-                      },
-                      child: const Text(
-                        "Upload Image",
-                        style: TextStyle(color: tri),
-                      ),
+              Obx(
+                () => Container(
+                  // radius: 60,
+                  // backgroundImage: profileImage.image,
+                  width: Get.width / 2,
+                  height: Get.width / 2,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      image: profileImage.image,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                ],
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(120),
+                    child: userController.user.value.imageUrl != null
+                        ? ClipRRect(
+                            borderRadius: BorderRadius.circular(60),
+                            child: CachedNetworkImage(
+                              imageUrl: userController.user.value.imageUrl!,
+                              placeholder: (context, url) => const Center(
+                                child: CircularProgressIndicator(),
+                              ),
+                              fit: BoxFit.cover,
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20),
+              Obx(
+                () => Text(
+                  userController.user.value.name,
+                  style: Get.textTheme.headline5!.copyWith(
+                    fontWeight: FontWeight.bold,
+                    letterSpacing: 1.2,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 3,
+                ),
               ),
             ],
           ),
           const SizedBox(height: 50),
-          const DetailCard(
-              detail: "8348932668",
-              icon: Icons
-                  .phone), //TODO:Fetch actual phone number of owner and pass it here
+          Obx(
+            () => DetailCard(
+              detail: userController.user.value.phone,
+              icon: Icons.phone,
+            ),
+          ),
           const SizedBox(height: 30),
-          const DetailCard(
-              detail:
-                  "BD20, Sector 1, Salt Lake City, Kolkata, West Bengal, India",
-              icon: Icons
-                  .fmd_good_sharp), //TODO:Fetch actual Address of owner and pass it here
-
+          Obx(
+            () => DetailCard(
+              detail: userController.user.value.address,
+              icon: Icons.fmd_good_sharp,
+            ),
+          ),
           const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {},

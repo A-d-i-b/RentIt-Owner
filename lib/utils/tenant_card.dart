@@ -24,41 +24,51 @@ class _TenantCardState extends State<TenantCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: widget.onTap,
-      child: Container(
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-          border: Border.all(
-            color: Colors.black,
-            width: 0.5,
-          ),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10.0),
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: widget.image,
+        elevation: 2,
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              color: Colors.black,
+              width: 0.5,
+            ),
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: widget.image,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.pinkAccent,
                 ),
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.pinkAccent,
               ),
-            ),
-            const SizedBox(width: 30),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Tenant Name", style: Get.textTheme.headline6),
-                const Text(
-                  "Pg Name",
-                  style: TextStyle(fontSize: 13, color: Colors.black),
-                ),
-              ],
-            ),
-          ],
+              const SizedBox(width: 30),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Tenant Name",
+                    style: Get.textTheme.headline6,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Text(
+                    "Pg Name",
+                    style: TextStyle(fontSize: 13, color: Colors.black),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -10,6 +10,7 @@ class Field extends StatelessWidget {
     this.keyboardType,
     this.maxLines,
     required this.onChange,
+    required this.controller,
   }) : super(key: key);
 
   final String heading;
@@ -17,6 +18,7 @@ class Field extends StatelessWidget {
   final dynamic keyboardType;
   final int? maxLines;
   final Function onChange;
+  final TextEditingController controller;
 
   final PgFormController pgFormController = Get.put(PgFormController());
 
@@ -39,6 +41,7 @@ class Field extends StatelessWidget {
             hintText: hint,
             hintStyle: const TextStyle(fontSize: 16),
           ),
+          controller: controller,
           onChanged: (value) {
             onChange(value);
           },

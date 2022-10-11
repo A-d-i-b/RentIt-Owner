@@ -18,10 +18,23 @@ class _PgFormState extends State<PgForm> {
   // insert controller
   PgFormController pgFormController = Get.put(PgFormController());
 
-  int single = 0;
-  int double = 0;
-  int triple = 0;
-  int quadruple = 0;
+  @override
+  void initState() {
+    // get arguments
+    final args = Get.arguments;
+    if (args != null) {
+      pgFormController.pgFormModel.update((val) {
+        val!.changeFieldsFromExisting(args['pgFormModel']);
+      });
+
+      pgFormController.updateTextFields(args['pgFormModel'], 'pg');
+      pgFormController.updateDropdowns(args['pgFormModel']);
+      pgFormController.updateRoomRents(args['pgFormModel']);
+      pgFormController.updateRentFields(args['pgFormModel']);
+    }
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +49,7 @@ class _PgFormState extends State<PgForm> {
           //
           Field(
             heading: 'Address',
+            controller: pgFormController.addressController.value,
             maxLines: 5,
             hint: 'Address',
             keyboardType: TextInputType.text,
@@ -50,6 +64,7 @@ class _PgFormState extends State<PgForm> {
           Field(
             heading: 'No. of Rooms',
             hint: 'Rooms',
+            controller: pgFormController.roomsController.value,
             keyboardType: TextInputType.number,
             onChange: (value) {
               pgFormController.pgFormModel.value.noOfRooms = value;
@@ -58,199 +73,212 @@ class _PgFormState extends State<PgForm> {
           const SizedBox(
             height: 30,
           ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Type",
-                style: TextStyle(fontSize: 20),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (single == 0) {
-                          pgFormController.roomType.add("Single");
-                        }
-                        if (single == 1) {
-                          if (pgFormController.roomType.isNotEmpty) {
-                            pgFormController.roomType.remove("Single");
-                          }
-                        }
-                        setState(() {
-                          single == 0 ? single = 1 : single = 0;
-                        });
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          single == 0 ? Colors.white : primary,
-                        ),
-                      ),
-                      child: const Text(
-                        "Single",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (double == 0) {
-                          pgFormController.roomType.add("Double");
-                        }
-                        if (double == 1) {
-                          if (pgFormController.roomType.isNotEmpty) {
-                            pgFormController.roomType.remove("Double");
-                          }
-                        }
-                        setState(() {
-                          double == 0 ? double = 1 : double = 0;
-                        });
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          double == 0 ? Colors.white : primary,
-                        ),
-                      ),
-                      child: const Text(
-                        "Double",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (triple == 0) {
-                          pgFormController.roomType.add("Triple");
-                        }
-                        if (triple == 1) {
-                          if (pgFormController.roomType.isNotEmpty) {
-                            pgFormController.roomType.remove("Triple");
-                          }
-                        }
-                        setState(() {
-                          triple == 0 ? triple = 1 : triple = 0;
-                        });
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          triple == 0 ? Colors.white : primary,
-                        ),
-                      ),
-                      child: const Text(
-                        "Triple",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 50,
-                  ),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (quadruple == 0) {
-                          pgFormController.roomType.add("Quadruple");
-                        }
-                        if (quadruple == 1) {
-                          if (pgFormController.roomType.isNotEmpty) {
-                            pgFormController.roomType.remove("Quadruple");
-                          }
-                        }
-                        setState(() {
-                          quadruple == 0 ? quadruple = 1 : quadruple = 0;
-                        });
-                      },
-                      style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all(
-                          quadruple == 0 ? Colors.white : primary,
-                        ),
-                      ),
-                      child: const Text(
-                        "Quadruple",
-                        style: TextStyle(color: Colors.black),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 20),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Rent",
-                style: TextStyle(fontSize: 20),
-              ),
-              const SizedBox(height: 15),
-              Container(
-                padding: const EdgeInsets.all(6),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  border: Border.all(width: 1, color: primary),
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Type",
+                  style: TextStyle(fontSize: 20),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                Row(
                   children: [
-                    if (single == 0 &&
-                        double == 0 &&
-                        triple == 0 &&
-                        quadruple == 0)
-                      const Center(
-                        child: Text("Choose appropriate type"),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!pgFormController.singleRoom.value) {
+                            pgFormController.roomType.add("Single");
+                          } else {
+                            if (pgFormController.roomType.isNotEmpty) {
+                              pgFormController.roomType.remove("Single");
+                            }
+                          }
+                          pgFormController.singleRoom.value =
+                              !pgFormController.singleRoom.value;
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            !pgFormController.singleRoom.value
+                                ? Colors.white
+                                : primary,
+                          ),
+                        ),
+                        child: const Text(
+                          "Single",
+                          style: TextStyle(color: Colors.black),
+                        ),
                       ),
-                    if (single == 1) ...[
-                      CustomButton(
-                          type: "Single",
-                          onPressed: (value) {
-                            pgFormController.pgFormModel.value.singleRoomRent =
-                                value;
-                          }),
-                      const SizedBox(height: 7),
-                    ],
-                    if (double == 1) ...[
-                      CustomButton(
-                          type: "Double",
-                          onPressed: (value) {
-                            pgFormController.pgFormModel.value.doubleRoomRent =
-                                value;
-                          }),
-                      const SizedBox(height: 7),
-                    ],
-                    if (triple == 1) ...[
-                      CustomButton(
-                          type: "Triple",
-                          onPressed: (value) {
-                            pgFormController.pgFormModel.value.tripleRoomRent =
-                                value;
-                          }),
-                      const SizedBox(height: 7),
-                    ],
-                    if (quadruple == 1) ...[
-                      CustomButton(
-                          type: "Quadruple",
-                          onPressed: (value) {
-                            pgFormController.pgFormModel.value.fourRoomRent =
-                                value;
-                          }),
-                      const SizedBox(height: 7),
-                    ],
+                    ),
+                    const SizedBox(
+                      width: 50,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!pgFormController.doubleRoom.value) {
+                            pgFormController.roomType.add("Double");
+                          } else {
+                            if (pgFormController.roomType.isNotEmpty) {
+                              pgFormController.roomType.remove("Double");
+                            }
+                          }
+                          pgFormController.doubleRoom.value =
+                              !pgFormController.doubleRoom.value;
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            !pgFormController.doubleRoom.value
+                                ? Colors.white
+                                : primary,
+                          ),
+                        ),
+                        child: const Text(
+                          "Double",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ],
+                Row(
+                  children: [
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!pgFormController.tripleRoom.value) {
+                            pgFormController.roomType.add("Triple");
+                          } else {
+                            if (pgFormController.roomType.isNotEmpty) {
+                              pgFormController.roomType.remove("Triple");
+                            }
+                          }
+
+                          pgFormController.tripleRoom.value =
+                              !pgFormController.tripleRoom.value;
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            !pgFormController.tripleRoom.value
+                                ? Colors.white
+                                : primary,
+                          ),
+                        ),
+                        child: const Text(
+                          "Triple",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(
+                      width: 50,
+                    ),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          if (!pgFormController.fourRoom.value) {
+                            pgFormController.roomType.add("Quadruple");
+                          } else {
+                            if (pgFormController.roomType.isNotEmpty) {
+                              pgFormController.roomType.remove("Quadruple");
+                            }
+                          }
+                          pgFormController.fourRoom.value =
+                              !pgFormController.fourRoom.value;
+                        },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStateProperty.all(
+                            !pgFormController.fourRoom.value
+                                ? Colors.white
+                                : primary,
+                          ),
+                        ),
+                        child: const Text(
+                          "Quadruple",
+                          style: TextStyle(color: Colors.black),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 20),
+          Obx(
+            () => Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  "Rent",
+                  style: TextStyle(fontSize: 20),
+                ),
+                const SizedBox(height: 15),
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: 1, color: primary),
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      if (!pgFormController.singleRoom.value &&
+                          !pgFormController.doubleRoom.value &&
+                          !pgFormController.tripleRoom.value &&
+                          !pgFormController.fourRoom.value)
+                        const Center(
+                          child: Text("Choose appropriate type"),
+                        ),
+                      if (pgFormController.singleRoom.value) ...[
+                        CustomButton(
+                            controller:
+                                pgFormController.singleRoomRentController.value,
+                            type: "Single",
+                            onPressed: (value) {
+                              pgFormController
+                                  .pgFormModel.value.singleRoomRent = value;
+                            }),
+                        const SizedBox(height: 7),
+                      ],
+                      if (pgFormController.doubleRoom.value) ...[
+                        CustomButton(
+                            controller:
+                                pgFormController.doubleRoomRentController.value,
+                            type: "Double",
+                            onPressed: (value) {
+                              pgFormController
+                                  .pgFormModel.value.doubleRoomRent = value;
+                            }),
+                        const SizedBox(height: 7),
+                      ],
+                      if (pgFormController.tripleRoom.value) ...[
+                        CustomButton(
+                            controller:
+                                pgFormController.tripleRoomRentController.value,
+                            type: "Triple",
+                            onPressed: (value) {
+                              pgFormController
+                                  .pgFormModel.value.tripleRoomRent = value;
+                            }),
+                        const SizedBox(height: 7),
+                      ],
+                      if (pgFormController.fourRoom.value) ...[
+                        CustomButton(
+                            controller:
+                                pgFormController.fourRoomRentController.value,
+                            type: "Quadruple",
+                            onPressed: (value) {
+                              pgFormController.pgFormModel.value.fourRoomRent =
+                                  value;
+                            }),
+                        const SizedBox(height: 7),
+                      ],
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
           const SizedBox(height: 20),
           const Text(
@@ -409,6 +437,7 @@ class _PgFormState extends State<PgForm> {
           Field(
             heading: "Notice Period",
             hint: "Month",
+            controller: pgFormController.noticePeriodController.value,
             keyboardType: TextInputType.text,
             onChange: (value) {
               pgFormController.pgFormModel.update((val) {
@@ -420,6 +449,7 @@ class _PgFormState extends State<PgForm> {
           Field(
             heading: "Operating Since",
             hint: "Year",
+            controller: pgFormController.operatingSinceController.value,
             keyboardType: TextInputType.number,
             onChange: (value) {
               pgFormController.pgFormModel.update((val) {
@@ -432,6 +462,7 @@ class _PgFormState extends State<PgForm> {
             maxLines: 5,
             heading: "Description",
             hint: "Short Description",
+            controller: pgFormController.descriptionController.value,
             keyboardType: TextInputType.text,
             onChange: (value) {
               pgFormController.pgFormModel.value.description = value;
@@ -442,6 +473,9 @@ class _PgFormState extends State<PgForm> {
             child: ElevatedButton(
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
+
+                // print all the values of the form
+                print(pgFormController.pgFormModel.value.toJson());
               },
               child: SizedBox(
                 width: Get.width / 2.75,
