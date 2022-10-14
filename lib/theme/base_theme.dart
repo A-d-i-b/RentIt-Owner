@@ -7,11 +7,11 @@ const tri = Colors.white;
 final theme = ThemeData.light().copyWith(
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
-      primary: Colors.white,
+      primary: secondary,
       textStyle: const TextStyle(
         fontSize: 16,
         fontWeight: FontWeight.w600,
-        backgroundColor: primary,
+        // backgroundColor: primary,
       ),
     ),
   ),
