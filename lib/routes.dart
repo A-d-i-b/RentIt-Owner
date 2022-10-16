@@ -6,10 +6,14 @@ import 'package:househunt/screens/sign_up_page.dart';
 import 'package:househunt/screens/tenant_profile_screen.dart';
 import 'package:househunt/Screens/contact_screen.dart';
 import 'package:househunt/Screens/home_screen.dart';
+import 'package:househunt/Screens/owner_update_screen.dart';
+import 'Screens/sign_in_page.dart';
 
 final routes = [
-  GetPage(name: '/', page: () => OTPScreen()),
+  GetPage(name: '/', page: () => SignIn()),
+  GetPage(name: '/otp', page: () => OTPScreen()),
   GetPage(name: '/sign-up', page: () => SignUp()),
+  GetPage(name: '/update', page: () => OwnerUpdate()),
   GetPage(name: '/home', page: () => const HomeScreen()),
   GetPage(name: '/add-pg', page: () => PgHome()),
   GetPage(name: '/add-flat', page: () => FlatHome()),

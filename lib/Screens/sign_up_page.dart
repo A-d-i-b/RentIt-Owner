@@ -157,7 +157,7 @@ class SignUp extends StatelessWidget {
             }
 
             signUpController.submitForm();
-            Get.toNamed('/home');
+            Get.toNamed('/otp');
           },
           backgroundColor: Colors.black
               .withOpacity(signUpController.buttonDisabled.value ? 0.5 : 1),

@@ -89,7 +89,9 @@ class OwnerProfile extends StatelessWidget {
           ),
           const SizedBox(height: 50),
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Get.toNamed('/update');
+            },
             child: const Padding(
               padding: EdgeInsets.all(12.0),
               child: Text(
