@@ -96,8 +96,6 @@ class SignUp extends StatelessWidget {
                           child: ListView(
                             // mainAxisAlignment: MainAxisAlignment.start,
                             // crossAxisAlignment: CrossAxisAlignment.start,
-
-                            padding: const EdgeInsets.all(0),
                             children: [
                               // heading SignUp
                               Text(
@@ -155,7 +153,7 @@ class SignUp extends StatelessWidget {
 
                               TextButton(
                                 onPressed: () {
-                                  Get.offAllNamed('/login');
+                                  Get.offAllNamed('/');
                                 },
                                 child: const Text(
                                   'Already Registered?',
