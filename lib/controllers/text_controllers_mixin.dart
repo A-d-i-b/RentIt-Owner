@@ -66,11 +66,4 @@ mixin RentsTextControllers {
       val!.text = x.fourRoomRent.toString();
     });
   }
-
-  void dispose() {
-    singleRoomRentController.value.dispose();
-    doubleRoomRentController.value.dispose();
-    tripleRoomRentController.value.dispose();
-    fourRoomRentController.value.dispose();
-  }
 }

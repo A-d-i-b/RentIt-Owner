@@ -18,6 +18,8 @@ class SignInController extends GetxController {
     if (isValid!) {
       _formKey.currentState?.save();
     }
+    print(mobileController.text);
+    print(passwordController.text);
   }
 
   void loginForm() async {
@@ -29,12 +31,5 @@ class SignInController extends GetxController {
 
     buttonDisabled.value = false;
     return;
-  }
-
-  @override
-  void onClose() {
-    mobileController.dispose();
-    passwordController.dispose();
-    super.onClose();
   }
 }
