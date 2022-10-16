@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:househunt/controllers/sign_up_controller.dart';
 
 class SignInController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final SignUpController signUpController = Get.put(SignUpController());
+
+  final _formKey = GlobalKey<FormState>();
+
+  get formKey => _formKey;
+
   RxBool buttonDisabled = false.obs;
   void trySubmit() {
-    final isvalid = signUpController.formKey.currentState?.validate();
+    final isValid = _formKey.currentState?.validate();
     if (Get.context != null) {
       FocusScope.of(Get.context!).unfocus();
     }
-    if (isvalid!) {
-      signUpController.formKey.currentState?.save();
+    if (isValid!) {
+      _formKey.currentState?.save();
     }
   }
 

@@ -3,13 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:househunt/controllers/sign_in_controller.dart';
 import 'package:get/get.dart';
-import 'package:househunt/controllers/sign_up_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 
 class SignIn extends StatelessWidget {
   SignIn({Key? key}) : super(key: key);
   final SignInController signInController = Get.put(SignInController());
-  final SignUpController signUpController = Get.put(SignUpController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +74,7 @@ class SignIn extends StatelessWidget {
                       child: Padding(
                           padding: const EdgeInsets.all(40.0),
                           child: Form(
-                            key: signUpController.formKey,
+                            key: signInController.formKey,
                             child: ListView(
                               padding: const EdgeInsets.all(0),
                               children: [
@@ -150,7 +149,7 @@ class SignIn extends StatelessWidget {
                                       labelText: 'Password'),
                                   obscureText: true,
                                 ),
-                                SizedBox(height: 25),
+                                const SizedBox(height: 25),
                                 Row(
                                   children: [
                                     TextButton(

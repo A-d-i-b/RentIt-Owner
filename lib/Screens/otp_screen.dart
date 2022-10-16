@@ -113,7 +113,7 @@ class OTPScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
-                                  children: [OtpInput(controller, autoFocus)],
+                                  // children: [OtpInput(controller, autoFocus)],
                                 )
                               ],
                             ),

@@ -13,7 +13,9 @@ class SignUpController extends GetxController {
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+
+  get formKey => _formKey;
 
   RxBool buttonDisabled = false.obs;
 
