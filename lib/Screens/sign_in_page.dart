@@ -21,6 +21,7 @@ class SignIn extends StatelessWidget {
             if (signInController.buttonDisabled.value) {
               return;
             }
+            Get.toNamed('/home');
           },
           backgroundColor: Colors.black
               .withOpacity(signInController.buttonDisabled.value ? 0.5 : 1),
