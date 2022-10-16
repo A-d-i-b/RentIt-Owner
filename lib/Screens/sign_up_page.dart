@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/sign_up_controller.dart';
@@ -48,102 +50,132 @@ class SignUp extends StatelessWidget {
             bottom: 0,
             left: 0,
             right: 0,
-            child: Container(
-              height: Get.height * 60 / 100,
-              decoration: const BoxDecoration(
-                color: tri,
-                // rounded
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(40),
-                  topRight: Radius.circular(40),
-                ),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black12,
-                    blurRadius: 10,
-                    spreadRadius: 5,
-                  ),
-                ],
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(40.0),
-                child: Form(
-                  key: signUpController.formKey,
-                  child: ListView(
-                    // mainAxisAlignment: MainAxisAlignment.start,
-                    // crossAxisAlignment: CrossAxisAlignment.start,
-
-                    padding: const EdgeInsets.all(0),
-                    children: [
-                      // heading SignUp
-                      Text(
-                        "Sign Up",
-                        style: Get.textTheme.headline4!.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+            child: Stack(
+              children: [
+                SizedBox(
+                  width: Get.width,
+                  height: Get.height * 0.6,
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      // color: Colors.white.withOpacity(0.1),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(40),
+                        topRight: Radius.circular(40),
                       ),
-                      const SizedBox(height: 10),
-                      // name field
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          SizedBox(
-                            width: Get.width / 2.75,
-                            child: SignUpPageField(
-                              labelText: 'First Name',
-                              controller: signUpController.firstNameController,
-                            ),
-                          ),
-                          SizedBox(
-                            width: Get.width / 2.75,
-                            child: SignUpPageField(
-                              labelText: 'Last Name',
-                              controller: signUpController.lastNameController,
-                            ),
+                    ),
+                  ),
+                ),
+                ClipRRect(
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40),
+                  ),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      height: Get.height * 60 / 100,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.8),
+                        // rounded
+                        borderRadius: const BorderRadius.only(
+                          topLeft: Radius.circular(40),
+                          topRight: Radius.circular(40),
+                        ),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black12,
+                            blurRadius: 10,
+                            spreadRadius: 5,
                           ),
                         ],
                       ),
-                      const SizedBox(height: 10),
-                      SignUpPageField(
-                        labelText: 'Mobile No.',
-                        textInputType: TextInputType.phone,
-                        validator: RegExp(r"^(\+\d{1,3}[- ]?)?\d{10}$"),
-                        controller: signUpController.mobileController,
-                      ),
-                      const SizedBox(height: 10),
-                      EmailField(
-                        controller: signUpController.emailController,
-                      ),
-                      const SizedBox(height: 10),
-                      PasswordField(
-                        passwordController: signUpController.passwordController,
-                        confirmPasswordController:
-                            signUpController.confirmPasswordController,
-                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(40.0),
+                        child: Form(
+                          key: signUpController.formKey,
+                          child: ListView(
+                            // mainAxisAlignment: MainAxisAlignment.start,
+                            // crossAxisAlignment: CrossAxisAlignment.start,
 
-                      const SizedBox(
-                        height: 10,
-                      ),
+                            padding: const EdgeInsets.all(0),
+                            children: [
+                              // heading SignUp
+                              Text(
+                                "Sign Up",
+                                style: Get.textTheme.headline4!.copyWith(
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              // name field
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  SizedBox(
+                                    width: Get.width / 2.75,
+                                    child: SignUpPageField(
+                                      labelText: 'First Name',
+                                      controller:
+                                          signUpController.firstNameController,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: Get.width / 2.75,
+                                    child: SignUpPageField(
+                                      labelText: 'Last Name',
+                                      controller:
+                                          signUpController.lastNameController,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 10),
+                              SignUpPageField(
+                                labelText: 'Mobile No.',
+                                textInputType: TextInputType.phone,
+                                validator: RegExp(r"^(\+\d{1,3}[- ]?)?\d{10}$"),
+                                controller: signUpController.mobileController,
+                              ),
+                              const SizedBox(height: 10),
+                              EmailField(
+                                controller: signUpController.emailController,
+                              ),
+                              const SizedBox(height: 10),
+                              PasswordField(
+                                passwordController:
+                                    signUpController.passwordController,
+                                confirmPasswordController:
+                                    signUpController.confirmPasswordController,
+                              ),
 
-                      TextButton(
-                        onPressed: () {
-                          Get.offAllNamed('/login');
-                        },
-                        child: const Text(
-                          'Already Registered?',
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            // underline
-                            decoration: TextDecoration.underline,
+                              const SizedBox(
+                                height: 10,
+                              ),
+
+                              TextButton(
+                                onPressed: () {
+                                  Get.offAllNamed('/login');
+                                },
+                                child: const Text(
+                                  'Already Registered?',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                    // underline
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              )
+                            ],
                           ),
                         ),
-                      )
-                    ],
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
           )
         ],
