@@ -61,17 +61,4 @@ class SignUpController extends GetxController {
       buttonDisabled.value = false;
     }
   }
-
-  @override
-  void onClose() {
-    // delete the controllers, remove global key
-    firstNameController.dispose();
-    lastNameController.dispose();
-    mobileController.dispose();
-    emailController.dispose();
-    passwordController.dispose();
-    confirmPasswordController.dispose();
-
-    super.onClose();
-  }
 }

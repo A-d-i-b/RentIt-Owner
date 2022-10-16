@@ -45,9 +45,5 @@ class FlatFormController extends GetxController with TextControllers {
   }
 
   // dispose all text controllers
-  @override
-  void onClose() {
-    disposeTextControllers();
-    super.onClose();
-  }
+
 }

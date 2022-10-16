@@ -66,10 +66,5 @@ class PgFormController extends GetxController
   }
 
   // dispose all text controllers
-  @override
-  void onClose() {
-    disposeTextControllers();
-    dispose();
-    super.onClose();
-  }
+
 }
