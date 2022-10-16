@@ -141,7 +141,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                   labelText: 'Phone No.'),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Obx(
             () => TextField(
               maxLines: 4,
@@ -177,7 +177,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                   labelText: 'Address'),
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           SizedBox(
             height: Get.height / 16,
             child: ElevatedButton(

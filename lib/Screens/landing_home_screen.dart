@@ -135,7 +135,7 @@ class LandingHomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    const SizedBox(width: 16),
+                    const Spacer(),
                     ElevatedButton(
                       onPressed: () {
                         Get.toNamed('/add-flat');
