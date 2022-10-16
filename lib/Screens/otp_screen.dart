@@ -27,7 +27,7 @@ class OTPScreen extends StatelessWidget {
             top: Get.height * 0.1,
             left: Get.width * 0.1,
             child: Text(
-              "Welcome \nBack !!",
+              "Code\nVerification",
               style: Get.textTheme.headline3!.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
@@ -64,21 +64,12 @@ class OTPScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Code Verification",
-                          style: Get.textTheme.headline4!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[900],
-                          ),
-                        ),
-                        const SizedBox(height: 10),
-                        Text(
                           "Enter the 6 digit code sent to your phone number",
-                          style: Get.textTheme.bodyLarge!.copyWith(
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[900],
+                          style: Get.textTheme.caption!.copyWith(
+                            color: Colors.grey[600],
                           ),
                         ),
-                        const SizedBox(height: 30),
+                        const SizedBox(height: 20),
                         Obx(
                           () => Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
