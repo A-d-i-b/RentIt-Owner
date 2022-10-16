@@ -475,7 +475,6 @@ class _PgFormState extends State<PgForm> {
                 FocusManager.instance.primaryFocus?.unfocus();
 
                 // print all the values of the form
-                print(pgFormController.pgFormModel.value.toJson());
               },
               child: SizedBox(
                 width: Get.width / 2.75,

@@ -15,6 +15,13 @@ class SignUp extends StatelessWidget {
       extendBodyBehindAppBar: true,
       body: Stack(
         children: [
+          Obx(
+            () => (signUpController.buttonDisabled.value)
+                ? const Center(
+                    child: CircularProgressIndicator(),
+                  )
+                : const Center(),
+          ),
           Image.asset(
             'images/signup-bg.png',
             fit: BoxFit.fill,
@@ -77,23 +84,41 @@ class SignUp extends StatelessWidget {
                       ),
                       const SizedBox(height: 10),
                       // name field
-                      const SignUpPageField(
-                        labelText: 'Name',
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          SizedBox(
+                            width: Get.width / 2.75,
+                            child: SignUpPageField(
+                              labelText: 'First Name',
+                              controller: signUpController.firstNameController,
+                            ),
+                          ),
+                          SizedBox(
+                            width: Get.width / 2.75,
+                            child: SignUpPageField(
+                              labelText: 'Last Name',
+                              controller: signUpController.lastNameController,
+                            ),
+                          ),
+                        ],
                       ),
                       const SizedBox(height: 10),
-                      const SignUpPageField(
+                      SignUpPageField(
                         labelText: 'Mobile No.',
                         textInputType: TextInputType.phone,
+                        validator: RegExp(r"^(\+\d{1,3}[- ]?)?\d{10}$"),
+                        controller: signUpController.mobileController,
                       ),
                       const SizedBox(height: 10),
                       EmailField(
-                        controller: signUpController.email,
+                        controller: signUpController.emailController,
                       ),
                       const SizedBox(height: 10),
                       PasswordField(
-                        passwordController: signUpController.password,
+                        passwordController: signUpController.passwordController,
                         confirmPasswordController:
-                            signUpController.confirmPassword,
+                            signUpController.confirmPasswordController,
                       ),
 
                       const SizedBox(
@@ -101,7 +126,9 @@ class SignUp extends StatelessWidget {
                       ),
 
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Get.offAllNamed('/login');
+                        },
                         child: const Text(
                           'Already Registered?',
                           style: TextStyle(
@@ -121,20 +148,28 @@ class SignUp extends StatelessWidget {
           )
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          if (signUpController.formKey.currentState!.validate()) {
-            print('validated');
-          }
+      floatingActionButton: Obx(
+        () => FloatingActionButton(
+          onPressed: () {
+            print(signUpController.buttonDisabled.value);
+            if (signUpController.buttonDisabled.value) {
+              return;
+            }
 
-          signUpController.submitForm();
-        },
-        backgroundColor: Colors.black,
-        elevation: 2,
-        child: const Icon(
-          Icons.arrow_forward,
-          color: Colors.white,
-          size: 32,
+            if (!signUpController.formKey.currentState!.validate()) {
+              return;
+            }
+
+            signUpController.submitForm();
+          },
+          backgroundColor: Colors.black
+              .withOpacity(signUpController.buttonDisabled.value ? 0.5 : 1),
+          elevation: 2,
+          child: const Icon(
+            Icons.arrow_forward,
+            color: Colors.white,
+            size: 32,
+          ),
         ),
       ),
     );
@@ -146,16 +181,20 @@ class SignUpPageField extends StatelessWidget {
     Key? key,
     required this.labelText,
     this.textInputType = TextInputType.text,
+    required this.controller,
+    this.validator,
   }) : super(key: key);
 
   final String labelText;
 
   final TextInputType textInputType;
+  final TextEditingController controller;
+  final RegExp? validator;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      // keyboard type
+      controller: controller,
       keyboardType: textInputType,
       decoration: InputDecoration(
         labelText: labelText,
@@ -177,11 +216,21 @@ class SignUpPageField extends StatelessWidget {
             color: Colors.red,
           ),
         ),
+        focusedErrorBorder: const UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+        ),
       ),
       validator: (value) {
         if (value!.isEmpty) {
           return 'Please enter $labelText';
         }
+
+        if (validator != null && !validator!.hasMatch(value)) {
+          return 'Please enter valid $labelText';
+        }
+
         return null;
       },
     );
@@ -221,6 +270,11 @@ class EmailField extends StatelessWidget {
             color: Colors.red,
           ),
         ),
+        focusedErrorBorder: UnderlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red,
+          ),
+        ),
       ),
       validator: (value) {
         if (value!.isEmpty) {
@@ -254,6 +308,7 @@ class _PasswordFieldState extends State<PasswordField> {
     return Column(
       children: [
         TextFormField(
+          controller: widget.passwordController,
           obscureText: _obscureText,
           decoration: InputDecoration(
             suffixIcon: IconButton(
@@ -286,6 +341,11 @@ class _PasswordFieldState extends State<PasswordField> {
               ),
             ),
             errorMaxLines: 2,
+            focusedErrorBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+              ),
+            ),
           ),
           validator: (value) {
             if (value!.isEmpty) {
@@ -303,6 +363,7 @@ class _PasswordFieldState extends State<PasswordField> {
           height: 10,
         ),
         TextFormField(
+          controller: widget.confirmPasswordController,
           obscureText: _obscureText,
           decoration: InputDecoration(
             suffixIcon: IconButton(
@@ -334,11 +395,13 @@ class _PasswordFieldState extends State<PasswordField> {
                 color: primary,
               ),
             ),
+            focusedErrorBorder: const UnderlineInputBorder(
+              borderSide: BorderSide(
+                color: Colors.red,
+              ),
+            ),
           ),
           validator: (value) {
-            print(
-                "${widget.confirmPasswordController.value.text} ${widget.passwordController.value.text}");
-
             if (widget.confirmPasswordController.value.text !=
                 widget.passwordController.value.text) {
               return 'Password does not match';

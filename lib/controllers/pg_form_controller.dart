@@ -45,8 +45,6 @@ class PgFormController extends GetxController
     tripleRoom.value = pg.tripleRoomRent != null;
     fourRoom.value = pg.fourRoomRent != null;
 
-    print('singleRoom.value: ${singleRoom.value}');
-
     pgFormModel.update((val) {
       val!.singleRoomRent = pg.singleRoomRent;
       val.doubleRoomRent = pg.doubleRoomRent;
