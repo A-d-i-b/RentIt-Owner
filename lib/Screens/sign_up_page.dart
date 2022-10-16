@@ -30,11 +30,6 @@ class SignUp extends StatelessWidget {
             width: Get.width,
             height: Get.height,
           ),
-          Container(
-            width: Get.width,
-            height: Get.height,
-            color: Colors.transparent,
-          ),
           Positioned(
             top: Get.height * 0.1,
             left: Get.width * 0.1,
