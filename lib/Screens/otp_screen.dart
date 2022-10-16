@@ -183,11 +183,12 @@ class OtpButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: 80,
-      height: 70,
+      width: Get.width * 0.1860,
+      height: Get.width * 0.17,
       child: ElevatedButton(
         onPressed: () {
           if (onPressed != null) {
+            print(Get.width);
             onPressed!();
           }
         },
