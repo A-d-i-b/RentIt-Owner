@@ -24,11 +24,6 @@ class SignUpController extends GetxController {
 
     buttonDisabled.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
-
-    buttonDisabled.value = false;
-    return;
-
     final response = {
       "firstName": firstNameController.text,
       "lastName": lastNameController.text,
@@ -38,7 +33,7 @@ class SignUpController extends GetxController {
     };
 
     // make a post request
-    final res = await signUpUser(
+    final res = await postData(
       uri: REGISTER_URL,
       body: json.encoder.convert(response),
     );
@@ -60,5 +55,7 @@ class SignUpController extends GetxController {
     } else {
       buttonDisabled.value = false;
     }
+
+    buttonDisabled.value = false;
   }
 }

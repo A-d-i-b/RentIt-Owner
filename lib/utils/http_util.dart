@@ -1,6 +1,6 @@
 import 'package:http/http.dart' as http;
 
-Future<http.Response> signUpUser(
+Future<http.Response> postData(
     {required String uri, Map<String, String>? headers, required String body}) {
   return http.post(
     Uri.parse(uri),

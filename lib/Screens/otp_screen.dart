@@ -188,7 +188,6 @@ class OtpButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: () {
           if (onPressed != null) {
-            print(Get.width);
             onPressed!();
           }
         },

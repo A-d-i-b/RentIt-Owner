@@ -1,5 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/secrets.dart';
+
+import '../utils/http_util.dart';
 
 class SignInController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
@@ -27,7 +32,17 @@ class SignInController extends GetxController {
 
     buttonDisabled.value = true;
 
-    await Future.delayed(const Duration(seconds: 2));
+    final response = {
+      "phone": mobileController.text,
+      "password": passwordController.text,
+    };
+
+    final res = await postData(
+      uri: LOGIN_URL,
+      body: json.encoder.convert(response),
+    );
+
+    final Map<String, dynamic> resBody = await json.decode(res.body);
 
     buttonDisabled.value = false;
     return;
