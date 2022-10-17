@@ -81,13 +81,13 @@ class OwnerProfile extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 30),
-          Obx(
-            () => DetailCard(
-              detail: userController.user.value.address,
-              icon: Icons.fmd_good_sharp,
-            ),
-          ),
-          const SizedBox(height: 50),
+          // Obx(
+          //   () => DetailCard(
+          //     detail: userController.user.value.address,
+          //     icon: Icons.fmd_good_sharp,
+          //   ),
+          // ),
+          // const SizedBox(height: 50),
           ElevatedButton(
             onPressed: () {
               Get.toNamed('/update');

@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/sign_up_controller.dart';
@@ -107,9 +105,7 @@ class SignUp extends StatelessWidget {
                         controller: signUpController.mobileController,
                       ),
                       const SizedBox(height: 10),
-                      EmailField(
-                        controller: signUpController.emailController,
-                      ),
+
                       const SizedBox(height: 10),
                       PasswordField(
                         passwordController: signUpController.passwordController,
@@ -147,7 +143,6 @@ class SignUp extends StatelessWidget {
       floatingActionButton: Obx(
         () => FloatingActionButton(
           onPressed: () {
-            print(signUpController.buttonDisabled.value);
             if (signUpController.buttonDisabled.value) {
               return;
             }
@@ -157,7 +152,6 @@ class SignUp extends StatelessWidget {
             }
 
             signUpController.submitForm();
-            Get.toNamed('/otp');
           },
           backgroundColor: Colors.black
               .withOpacity(signUpController.buttonDisabled.value ? 0.5 : 1),
@@ -229,55 +223,6 @@ class SignUpPageField extends StatelessWidget {
         }
 
         return null;
-      },
-    );
-  }
-}
-
-class EmailField extends StatelessWidget {
-  const EmailField({
-    Key? key,
-    required this.controller,
-  }) : super(key: key);
-
-  final TextEditingController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: TextInputType.emailAddress,
-      decoration: const InputDecoration(
-        labelText: 'Email',
-        labelStyle: TextStyle(
-          color: Colors.black,
-        ),
-        enabledBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primary,
-          ),
-        ),
-        focusedBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primary,
-          ),
-        ),
-        errorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-          ),
-        ),
-        focusedErrorBorder: UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
-          ),
-        ),
-      ),
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'Field is required';
-        }
-        return isValidEmail(value) ? null : 'Invalid Email';
       },
     );
   }

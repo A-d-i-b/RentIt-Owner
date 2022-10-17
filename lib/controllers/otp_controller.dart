@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:househunt/secrets.dart';
+import 'package:househunt/utils/http_util.dart';
 
 class OTPController extends GetxController {
   RxList<String> otp = <String>[].obs;
@@ -20,7 +24,7 @@ class OTPController extends GetxController {
 
   @override
   void onInit() {
-    ever(otp, (List<String> value) {
+    ever(otp, (List<String> value) async {
       if (value.length == 6) {
         _disabled = true;
         loading.value = true;
@@ -31,7 +35,29 @@ class OTPController extends GetxController {
         // });
 
         // make http request to verify otp
+        if (Get.arguments != null) {
+          final res = await postData(
+            uri: OTP_URL,
+            body: json.encode(
+              {
+                "otp": otp.join(),
+                "phone": Get.arguments,
+              },
+            ),
+          );
 
+          if (res.statusCode == 200) {
+            Get.offAllNamed('/home');
+          } else {
+            Get.snackbar(
+              "Error",
+              "Invalid OTP",
+              snackPosition: SnackPosition.BOTTOM,
+            );
+
+            loading.value = false;
+          }
+        }
       }
     });
 

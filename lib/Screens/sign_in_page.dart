@@ -15,12 +15,9 @@ class SignIn extends StatelessWidget {
           onPressed: () async {
             signInController.trySubmit();
 
-            // print(signInController.buttonDisabled.value);
             if (signInController.buttonDisabled.value) {
               return;
             }
-
-            signInController.loginForm();
 
             // Get.toNamed('/home');
           },

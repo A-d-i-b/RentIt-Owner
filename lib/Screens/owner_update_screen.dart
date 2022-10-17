@@ -142,41 +142,41 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             ),
           ),
           const SizedBox(height: 20),
-          Obx(
-            () => TextField(
-              maxLines: 4,
-              onChanged: (val) {
-                //TODO:change the value of name
-              },
-              controller: TextEditingController(
-                  text: userController.user.value.address),
-              decoration: const InputDecoration(
-                  prefixIcon: Padding(
-                      padding: EdgeInsets.all(20),
-                      child: Icon(Icons.fmd_good_sharp)),
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: primary,
-                    ),
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: primary,
-                    ),
-                  ),
-                  errorBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                  ),
-                  focusedErrorBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: Colors.red,
-                    ),
-                  ),
-                  labelText: 'Address'),
-            ),
-          ),
+          // Obx(
+          //   () => TextField(
+          //     maxLines: 4,
+          //     onChanged: (val) {
+          //       //TODO:change the value of name
+          //     },
+          //     controller: TextEditingController(
+          //         text: userController.user.value.address),
+          //     decoration: const InputDecoration(
+          //         prefixIcon: Padding(
+          //             padding: EdgeInsets.all(20),
+          //             child: Icon(Icons.fmd_good_sharp)),
+          //         enabledBorder: UnderlineInputBorder(
+          //           borderSide: BorderSide(
+          //             color: primary,
+          //           ),
+          //         ),
+          //         focusedBorder: UnderlineInputBorder(
+          //           borderSide: BorderSide(
+          //             color: primary,
+          //           ),
+          //         ),
+          //         errorBorder: UnderlineInputBorder(
+          //           borderSide: BorderSide(
+          //             color: Colors.red,
+          //           ),
+          //         ),
+          //         focusedErrorBorder: UnderlineInputBorder(
+          //           borderSide: BorderSide(
+          //             color: Colors.red,
+          //           ),
+          //         ),
+          //         labelText: 'Address'),
+          //   ),
+          // ),
           const SizedBox(height: 20),
           SizedBox(
             height: Get.height / 16,

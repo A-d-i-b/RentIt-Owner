@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
+import 'package:househunt/controllers/initial_bindings.dart';
 import 'package:househunt/routes.dart';
 import 'package:househunt/theme/base_theme.dart';
 
@@ -13,6 +14,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      initialBinding: Init(),
       debugShowCheckedModeBanner: false,
       theme: theme,
       getPages: routes,

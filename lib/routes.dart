@@ -1,4 +1,4 @@
-import 'package:get/route_manager.dart';
+import 'package:get/get.dart';
 import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/otp_screen.dart';
 import 'package:househunt/screens/pg_screen.dart';
@@ -10,11 +10,17 @@ import 'package:househunt/Screens/owner_update_screen.dart';
 import 'Screens/sign_in_page.dart';
 
 final routes = [
-  GetPage(name: '/', page: () => SignIn()),
+  GetPage(
+    name: '/',
+    page: () => SignIn(),
+  ),
   GetPage(name: '/otp', page: () => OTPScreen()),
   GetPage(name: '/sign-up', page: () => SignUp()),
-  GetPage(name: '/update', page: () => OwnerUpdate()),
-  GetPage(name: '/home', page: () => const HomeScreen()),
+  GetPage(name: '/update', page: () => const OwnerUpdate()),
+  GetPage(
+    name: '/home',
+    page: () => const HomeScreen(),
+  ),
   GetPage(name: '/add-pg', page: () => PgHome()),
   GetPage(name: '/add-flat', page: () => FlatHome()),
   GetPage(name: '/tenant-profile', page: () => const TenantProfile()),

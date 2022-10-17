@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/secrets.dart';
 import 'package:househunt/utils/http_util.dart';
 
@@ -9,13 +10,15 @@ class SignUpController extends GetxController {
   final firstNameController = TextEditingController();
   final lastNameController = TextEditingController();
   final mobileController = TextEditingController();
-  final emailController = TextEditingController();
+
   final passwordController = TextEditingController();
   final confirmPasswordController = TextEditingController();
 
   final _formKey = GlobalKey<FormState>();
 
   get formKey => _formKey;
+
+  final UserController userController = Get.find<UserController>();
 
   RxBool buttonDisabled = false.obs;
 
@@ -28,7 +31,6 @@ class SignUpController extends GetxController {
       "firstName": firstNameController.text,
       "lastName": lastNameController.text,
       "phone": mobileController.text,
-      "email": emailController.text,
       "password": passwordController.text,
     };
 
@@ -43,6 +45,13 @@ class SignUpController extends GetxController {
     if (res.statusCode == 400) {
       if (resBody["error"]["message"].contains("Email")) {
         buttonDisabled.value = false;
+
+        Get.snackbar(
+          "Info",
+          "User already exists",
+          snackPosition: SnackPosition.BOTTOM,
+        );
+
         Get.offAllNamed('/login');
       } else {
         buttonDisabled.value = false;
@@ -52,8 +61,11 @@ class SignUpController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
         );
       }
-    } else {
-      buttonDisabled.value = false;
+    }
+
+    if (res.statusCode == 200) {
+      userController.setUserFromJson(resBody["user"]);
+      Get.offAllNamed('/otp', arguments: resBody["user"]["phone"]);
     }
 
     buttonDisabled.value = false;

@@ -10,6 +10,7 @@ class LandingHomeScreen extends StatelessWidget {
 
   final PgFormController pgFormController = Get.put(PgFormController());
   final FlatFormController flatFormController = Get.put(FlatFormController());
+
   final UserController userController = Get.put(UserController());
 
   @override
@@ -35,7 +36,7 @@ class LandingHomeScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        userController.user.value.name,
+                        userController.user.value.firstName,
                         style: Get.textTheme.displaySmall,
                       ),
                     ],
