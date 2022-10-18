@@ -35,7 +35,7 @@ class FireBaseController extends GetxController {
 
   Future uploadFileProfile() async {
     File img = File(userController.updatedImage.value.path);
-    String imgPath = img.path.split("/").last;
+    // String imgPath = img.path.split("/").last;
     Reference db = FirebaseStorage.instance
         .ref("${userController.user.value.phone}/UserPic.jpg");
     await db.putFile(img);
