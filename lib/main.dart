@@ -3,8 +3,11 @@ import 'package:get/route_manager.dart';
 import 'package:househunt/controllers/initial_bindings.dart';
 import 'package:househunt/routes.dart';
 import 'package:househunt/theme/base_theme.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 

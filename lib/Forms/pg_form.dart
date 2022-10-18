@@ -6,6 +6,7 @@ import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/custom_button.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 
 class PgForm extends StatefulWidget {
   const PgForm({Key? key}) : super(key: key);
@@ -17,7 +18,7 @@ class PgForm extends StatefulWidget {
 class _PgFormState extends State<PgForm> {
   // insert controller
   PgFormController pgFormController = Get.put(PgFormController());
-
+  final FireBaseController fireBaseController = Get.put(FireBaseController());
   @override
   void initState() {
     // get arguments
@@ -473,7 +474,7 @@ class _PgFormState extends State<PgForm> {
             child: ElevatedButton(
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
-
+                fireBaseController.uploadFilePg();
                 // print all the values of the form
               },
               child: SizedBox(
