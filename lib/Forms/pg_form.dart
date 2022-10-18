@@ -47,6 +47,17 @@ class _PgFormState extends State<PgForm> {
           const SizedBox(
             height: 20,
           ),
+          Field(
+            heading: 'Pg Name',
+            controller: pgFormController.nameController.value,
+            hint: 'Name',
+            onChange: (String value) {
+              pgFormController.pgFormModel.value.pgName = value;
+            },
+          ),
+          const SizedBox(
+            height: 5,
+          ),
           //
           Field(
             heading: 'Address',
