@@ -1,11 +1,14 @@
 import 'dart:convert';
 
 import 'package:get/get.dart';
+import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/secrets.dart';
 import 'package:househunt/utils/http_util.dart';
 
 class OTPController extends GetxController {
   RxList<String> otp = <String>[].obs;
+
+  final userController = Get.find<UserController>();
 
   bool _disabled = false;
   RxBool loading = false.obs;
@@ -47,6 +50,7 @@ class OTPController extends GetxController {
           );
 
           if (res.statusCode == 200) {
+            userController.JWT = json.decode(res.body)["jwt"];
             Get.offAllNamed('/home');
           } else {
             Get.snackbar(
