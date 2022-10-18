@@ -45,6 +45,17 @@ class _FlatFormState extends State<FlatForm> {
           ),
           //
           Field(
+            heading: 'Flat Name',
+            controller: flatFormController.nameController.value,
+            hint: 'Name',
+            onChange: (String value) {
+              flatFormController.flatFormModel.value.flatName = value;
+            },
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Field(
             heading: 'Address',
             maxLines: 5,
             hint: 'Address',
