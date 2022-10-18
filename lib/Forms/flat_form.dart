@@ -4,6 +4,7 @@ import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 
 class FlatForm extends StatefulWidget {
   const FlatForm({Key? key}) : super(key: key);
@@ -14,7 +15,7 @@ class FlatForm extends StatefulWidget {
 
 class _FlatFormState extends State<FlatForm> {
   FlatFormController flatFormController = Get.put(FlatFormController());
-
+  final FireBaseController fireBaseController = Get.put(FireBaseController());
   @override
   void initState() {
     // get arguments
@@ -284,6 +285,7 @@ class _FlatFormState extends State<FlatForm> {
             child: ElevatedButton(
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
+                fireBaseController.uploadFileFlat();
               },
               child: SizedBox(
                 width: Get.width / 2.75,
