@@ -80,7 +80,7 @@ class PgFormModel
       wifi: json['details']['wifi'],
       furniture: json['details']['furniture'],
       noticePeriod: json['notice_period'].toString(),
-      operatingSince: json['operatingSince'].toString(),
+      operatingSince: json['builtIn'].toString(),
       description: json['description'],
     );
   }

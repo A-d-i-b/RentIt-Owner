@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/route_manager.dart';
 import 'package:househunt/controllers/initial_bindings.dart';
+import 'package:househunt/firebase_options.dart';
 import 'package:househunt/routes.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const MyApp());
 }
 

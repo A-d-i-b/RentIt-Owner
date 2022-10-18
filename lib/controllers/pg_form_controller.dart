@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/models/pg_form_model.dart';
+import 'package:househunt/secrets.dart';
+import 'package:househunt/utils/http_util.dart';
 
 import '../utils/file_utils.dart';
 
@@ -67,4 +70,36 @@ class PgFormController extends GetxController
 
   // dispose all text controllers
 
+  void submitForm() async {
+    final form = {
+      "data": {
+        "name": pgFormModel.value.pgName,
+        "address": pgFormModel.value.address,
+        "no_of_rooms": pgFormModel.value.noOfRooms,
+        "rent": json.encode({
+          "single_sharing": pgFormModel.value.singleRoomRent,
+          "double_sharing": pgFormModel.value.doubleRoomRent,
+          "triple_sharing": pgFormModel.value.tripleRoomRent,
+          "four_sharing": pgFormModel.value.fourRoomRent,
+        }),
+        "notice_period": pgFormModel.value.noticePeriod,
+        "builtIn": pgFormModel.value.operatingSince,
+        "description": pgFormModel.value.description,
+        "details": json.encode({
+          "power_backup": pgFormModel.value.powerBackup,
+          "ac_rooms": pgFormModel.value.acRooms,
+          "maintenance": pgFormModel.value.maintenance,
+          "electricity_charges": pgFormModel.value.electricityCharges,
+          "available_for": pgFormModel.value.availableFor,
+          "preferred_tenant": pgFormModel.value.preferredTenant,
+          "food": pgFormModel.value.food,
+          "wifi": pgFormModel.value.wifi,
+          "furniture": pgFormModel.value.furniture,
+        }),
+        "type": "pg"
+      }
+    };
+
+    final res = await postData(uri: HOUSE_URL, body: json.encode(form));
+  }
 }
