@@ -475,6 +475,7 @@ class _PgFormState extends State<PgForm> {
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
                 fireBaseController.uploadFilePg();
+                pgFormController.submitForm();
                 // print all the values of the form
               },
               child: SizedBox(

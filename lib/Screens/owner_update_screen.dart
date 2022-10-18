@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
+import 'package:househunt/widgets/image_asset_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -36,88 +37,97 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
           Column(
             children: [
               Obx(
-                () => Container(
-                  // radius: 60,
-                  // backgroundImage: profileImage.image,
-                  width: Get.width / 2,
-                  height: Get.width / 2,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: profileImage.image,
-                      fit: BoxFit.cover,
+                () => Stack(
+                  clipBehavior: Clip.none,
+                  children: [
+                    Container(
+                      // radius: 60,
+                      // backgroundImage: profileImage.image,
+                      width: Get.width / 2,
+                      height: Get.width / 2,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          image: profileImage.image,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(120),
+                        child: userController.user.value.imageUrl != null
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(60),
+                                child: CachedNetworkImage(
+                                  imageUrl: userController.user.value.imageUrl!,
+                                  placeholder: (context, url) => const Center(
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  fit: BoxFit.cover,
+                                ),
+                              )
+                            : null,
+                      ),
                     ),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(120),
-                    child: userController.user.value.imageUrl != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(60),
-                            child: CachedNetworkImage(
-                              imageUrl: userController.user.value.imageUrl!,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : null,
-                  ),
+                    Positioned(
+                        right: Get.width * 0.05,
+                        bottom: Get.height * 0.01,
+                        child: UserImagePicker(
+                          onAssetPicked: (f) {},
+                        )),
+                  ],
                 ),
               ),
               const SizedBox(height: 20),
               Obx(
-                () => SizedBox(
-                  width: Get.width / 2,
-                  child: TextField(
-                    onChanged: (val) {
-                      //TODO:change the value of name
-                    },
-                    controller: TextEditingController(
-                        text: userController.user.value.name),
-                    decoration: const InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: primary,
-                          ),
+                () => TextField(
+                  onChanged: (val) {
+                    //TODO:change the value of name
+                  },
+                  controller: TextEditingController(
+                      text: userController.user.value.name),
+                  decoration: const InputDecoration(
+                      prefixIcon: Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Icon(Icons.person),
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: primary,
                         ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: primary,
-                          ),
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: primary,
                         ),
-                        errorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                          ),
+                      ),
+                      errorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
                         ),
-                        focusedErrorBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: Colors.red,
-                          ),
+                      ),
+                      focusedErrorBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(
+                          color: Colors.red,
                         ),
-                        labelText: 'Name'),
-                  ),
+                      ),
+                      labelText: 'Name'),
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 20),
-          SizedBox(
-              height: Get.height / 16,
-              child: ElevatedButton(
-                  onPressed: () {}, child: const Text("Upload Photo"))),
           const SizedBox(height: 30),
           Obx(
             () => TextField(
               onChanged: (val) {
-                //TODO:change the value of name
+                //TODO:change the value of phone
               },
               controller:
                   TextEditingController(text: userController.user.value.phone),
               decoration: const InputDecoration(
                   prefixIcon: Padding(
-                      padding: EdgeInsets.all(20), child: Icon(Icons.phone)),
+                    padding: EdgeInsets.all(20),
+                    child: Icon(Icons.phone),
+                  ),
                   enabledBorder: UnderlineInputBorder(
                     borderSide: BorderSide(
                       color: primary,
@@ -141,42 +151,6 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                   labelText: 'Phone No.'),
             ),
           ),
-          const SizedBox(height: 20),
-          // Obx(
-          //   () => TextField(
-          //     maxLines: 4,
-          //     onChanged: (val) {
-          //       //TODO:change the value of name
-          //     },
-          //     controller: TextEditingController(
-          //         text: userController.user.value.address),
-          //     decoration: const InputDecoration(
-          //         prefixIcon: Padding(
-          //             padding: EdgeInsets.all(20),
-          //             child: Icon(Icons.fmd_good_sharp)),
-          //         enabledBorder: UnderlineInputBorder(
-          //           borderSide: BorderSide(
-          //             color: primary,
-          //           ),
-          //         ),
-          //         focusedBorder: UnderlineInputBorder(
-          //           borderSide: BorderSide(
-          //             color: primary,
-          //           ),
-          //         ),
-          //         errorBorder: UnderlineInputBorder(
-          //           borderSide: BorderSide(
-          //             color: Colors.red,
-          //           ),
-          //         ),
-          //         focusedErrorBorder: UnderlineInputBorder(
-          //           borderSide: BorderSide(
-          //             color: Colors.red,
-          //           ),
-          //         ),
-          //         labelText: 'Address'),
-          //   ),
-          // ),
           const SizedBox(height: 20),
           SizedBox(
             height: Get.height / 16,

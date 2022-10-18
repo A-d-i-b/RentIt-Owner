@@ -4,8 +4,6 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/models/pg_form_model.dart';
-import 'package:househunt/secrets.dart';
-import 'package:househunt/utils/http_util.dart';
 
 import '../utils/file_utils.dart';
 
@@ -100,6 +98,6 @@ class PgFormController extends GetxController
       }
     };
 
-    final res = await postData(uri: HOUSE_URL, body: json.encode(form));
+    // final res = await postData(uri: HOUSE_URL, body: json.encode(form));
   }
 }
