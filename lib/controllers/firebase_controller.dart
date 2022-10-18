@@ -38,7 +38,7 @@ class FireBaseController extends GetxController {
     File img = File(userController.updatedImage.value.path);
     String imgPath = img.path.split("/").last;
     Reference db = FirebaseStorage.instance
-        .ref("${userController.user.value.phone}/UserPic/$imgPath");
+        .ref("${userController.user.value.phone}/UserPic.jpg");
     await db.putFile(img);
   }
 }
