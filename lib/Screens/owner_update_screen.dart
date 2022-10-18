@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -17,9 +19,10 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
 
   @override
   Widget build(BuildContext context) {
-    final profileImage = Image.asset('images/ownerpic.jpg',
-        fit: BoxFit
-            .cover); //TODO: Update this pic using image picker also update to the database
+    final profileImage = Image.asset(
+      'images/ownerpic.jpg',
+      fit: BoxFit.cover,
+    ); //TODO: Update this pic using image picker also update to the database
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -47,7 +50,11 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: profileImage.image,
+                        image: userController.updatedImage.value.path != ''
+                            ? FileImage(
+                                File(userController.updatedImage.value.path),
+                              )
+                            : profileImage.image,
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -72,7 +79,9 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     right: Get.width * 0.19,
                     bottom: Get.height * 0.01,
                     child: UserImagePicker(
-                      onAssetPicked: (f) {},
+                      onAssetPicked: (file) {
+                        userController.updatedImage.value = file;
+                      },
                     )),
               ],
             ),

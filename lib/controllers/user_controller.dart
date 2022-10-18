@@ -1,11 +1,14 @@
 import 'package:get/get.dart';
 import 'package:househunt/models/user_model.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserController extends GetxController {
   Rx<UserModel> user =
       UserModel(id: 0, firstName: 'Loading', lastName: '', phone: '...').obs;
 
   String jwt = '';
+
+  Rx<XFile> updatedImage = XFile('').obs;
 
   set JWT(String token) {
     jwt = token;
