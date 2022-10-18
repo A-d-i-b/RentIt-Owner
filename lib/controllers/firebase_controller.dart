@@ -3,7 +3,6 @@ import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
-import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 
 class FireBaseController extends GetxController {
@@ -40,5 +39,10 @@ class FireBaseController extends GetxController {
     Reference db = FirebaseStorage.instance
         .ref("${userController.user.value.phone}/UserPic.jpg");
     await db.putFile(img);
+    userController.user.update((val) async {
+      if (val != null) {
+        val.imageUrl = await db.getDownloadURL();
+      }
+    });
   }
 }
