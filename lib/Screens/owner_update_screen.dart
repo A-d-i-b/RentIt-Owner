@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class OwnerUpdate extends StatefulWidget {
 
 class _OwnerUpdateState extends State<OwnerUpdate> {
   final UserController userController = Get.put(UserController());
-
+  final FireBaseController fireBaseController = Get.put(FireBaseController());
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset(
@@ -171,7 +172,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             child: ElevatedButton(
               child: const Text("Update"),
               onPressed: () {
-                //TODO:
+                fireBaseController.uploadFileProfile();
               },
             ),
           ),
