@@ -297,6 +297,7 @@ class _FlatFormState extends State<FlatForm> {
               onPressed: () {
                 FocusManager.instance.primaryFocus?.unfocus();
                 fireBaseController.uploadFileFlat();
+                flatFormController.submitForm();
               },
               child: SizedBox(
                 width: Get.width / 2.75,

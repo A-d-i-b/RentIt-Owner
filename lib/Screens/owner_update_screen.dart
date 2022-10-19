@@ -76,13 +76,14 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                   ),
                 ),
                 Positioned(
-                    right: Get.width * 0.19,
-                    bottom: Get.height * 0.01,
-                    child: UserImagePicker(
-                      onAssetPicked: (file) {
-                        userController.updatedImage.value = file;
-                      },
-                    )),
+                  right: Get.width * 0.19,
+                  bottom: Get.height * 0.01,
+                  child: UserImagePicker(
+                    onAssetPicked: (file) {
+                      userController.updatedImage.value = file;
+                    },
+                  ),
+                ),
               ],
             ),
           ),
@@ -96,7 +97,8 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     //TODO:change the value of name
                   },
                   controller: TextEditingController(
-                      text: userController.user.value.name),
+                    text: userController.user.value.name,
+                  ),
                   decoration: const InputDecoration(
                       prefixIcon: Padding(
                         padding: EdgeInsets.all(20),

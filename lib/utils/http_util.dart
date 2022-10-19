@@ -11,3 +11,14 @@ Future<http.Response> postData(
     body: body,
   );
 }
+
+Future<http.Response> getData(
+    {required String uri, Map<String, String>? headers}) {
+  return http.get(
+    Uri.parse(uri),
+    headers: headers ??
+        <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+  );
+}

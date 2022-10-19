@@ -63,28 +63,31 @@ class PgFormModel
   }) {
     return PgFormModel(
       id: json['id'],
-      pgName: json['name'],
-      address: json['address'],
-      noOfRooms: json['no_of_rooms'].toString(),
-      singleRoomRent: (json["rents"]["single_sharing"])?.toString(),
-      doubleRoomRent: (json["rents"]["double_sharing"])?.toString(),
-      tripleRoomRent: (json["rents"]["triple_sharing"])?.toString(),
-      fourRoomRent: (json["rents"]["four_sharing"])?.toString(),
-      powerBackup: json['details']['power_backup'],
-      acRooms: json['details']['ac_rooms'],
-      maintenance: json['details']['maintenance'],
-      electricityCharges: json['details']['electricity_charges'],
-      availableFor: json['details']['available_for'],
-      preferredTenant: json['details']['preferred_tenants'],
-      food: json['details']['food'],
-      wifi: json['details']['wifi'],
-      furniture: json['details']['furniture'],
-      noticePeriod: json['notice_period'].toString(),
-      operatingSince: json['builtIn'].toString(),
-      description: json['description'],
+      pgName: json['attributes']['name'],
+      address: json['attributes']['address'],
+      noOfRooms: json['attributes']['no_of_rooms'].toString(),
+      singleRoomRent:
+          (json['attributes']["rents"]["single_sharing"])?.toString(),
+      doubleRoomRent:
+          (json['attributes']["rents"]["double_sharing"])?.toString(),
+      tripleRoomRent:
+          (json['attributes']["rents"]["triple_sharing"])?.toString(),
+      fourRoomRent: (json['attributes']["rents"]["four_sharing"])?.toString(),
+      powerBackup: json['attributes']['details']['power_backup'],
+      acRooms: json['attributes']['details']['ac_rooms'],
+      maintenance: json['attributes']['details']['maintenance'],
+      electricityCharges: json['attributes']['details']['electricity_charges'],
+      availableFor: json['attributes']['details']['available_for'],
+      preferredTenant: json['attributes']['details']['preferred_tenant'],
+      food: json['attributes']['details']['food'],
+      wifi: json['attributes']['details']['wifi'],
+      furniture: json['attributes']['details']['furniture'],
+      noticePeriod: json['attributes']['notice_period'],
+      operatingSince: json['attributes']['builtIn'],
+      description: json['attributes']['description'],
     );
   }
-
+//TODO: remove toString() from all the fields
   void changeFieldsFromExisting(PgFormModel model) {
     pgName = model.pgName;
     address = model.address;

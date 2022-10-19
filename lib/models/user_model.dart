@@ -25,4 +25,14 @@ class UserModel {
       'image_url': imageUrl,
     };
   }
+
+  factory UserModel.fromJson({required Map<String, dynamic> json}) {
+    return UserModel(
+      id: json['id'],
+      firstName: json['firstName'],
+      lastName: json['lastName'],
+      phone: json['phone'],
+      imageUrl: json['image_url'],
+    );
+  }
 }

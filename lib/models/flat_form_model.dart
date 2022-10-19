@@ -76,28 +76,30 @@ class FlatFormModel
     description = flat.description;
   }
 
+  //TODO: remove toString() from all the fields
+
   factory FlatFormModel.fromJson({
     required Map<String, dynamic> json,
   }) {
     return FlatFormModel(
       id: json['id'],
-      flatName: json['name'],
-      address: json['address'],
-      noOfRooms: json['no_of_rooms'].toString(),
-      rent: json['rent'].toString(),
-      powerBackup: json['details']['power_backup'],
-      acRooms: json['details']['ac_rooms'],
-      maintenance: json['details']['maintenance'],
-      electricityCharges: json['details']['electricity_charges'],
-      availableFor: json['details']['available_for'],
-      preferredTenant: json['details']['preferred_tenants'],
-      food: json['details']['food'],
-      wifi: json['details']['wifi'],
-      bhk: json['details']['bhk'],
-      furniture: json['details']['furniture'],
-      noticePeriod: json['notice_period'].toString(),
-      builtIn: json['builtIn'].toString(),
-      description: json['description'],
+      flatName: json['attributes']['name'],
+      address: json['attributes']['address'],
+      noOfRooms: json['attributes']['no_of_rooms'],
+      rent: json['attributes']['rents']['single_sharing'],
+      powerBackup: json['attributes']['details']['power_backup'],
+      acRooms: json['attributes']['details']['ac_rooms'],
+      maintenance: json['attributes']['details']['maintenance'],
+      electricityCharges: json['attributes']['details']['electricity_charges'],
+      availableFor: json['attributes']['details']['available_for'],
+      preferredTenant: json['attributes']['details']['preferred_tenant'],
+      food: json['attributes']['details']['food'],
+      wifi: json['attributes']['details']['wifi'],
+      bhk: json['attributes']['details']['bhk'],
+      furniture: json['attributes']['details']['furniture'],
+      noticePeriod: json['attributes']['notice_period'].toString(),
+      builtIn: json['attributes']['builtIn'].toString(),
+      description: json['attributes']['description'],
     );
   }
 
