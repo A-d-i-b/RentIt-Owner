@@ -47,69 +47,87 @@ class LandingHomeScreen extends StatelessWidget {
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Obx(
-                    () => Text(
-                      'PG (${pgFormController.pgs.length})',
+                  child: pgFormController.obx(
+                    (state) => Text(
+                      'PG (${state!.length})',
                       style: Get.textTheme.labelLarge!.copyWith(
                         color: Colors.green,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    onLoading: null,
                   ),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Obx(
-                    () => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: pgFormController.pgs
-                          .map(
-                            (pg) => PropertyCard(
-                              name: pg.pgName,
-                              description: pg.description,
-                              onTap: () {
-                                Get.toNamed('/add-pg', arguments: {
-                                  'pgFormModel': pg,
-                                });
-                              },
-                            ),
-                          )
-                          .toList(),
-                    ),
+                  child: pgFormController.obx(
+                    (state) {
+                      return Row(
+                        children: state!
+                            .map(
+                              (e) => PropertyCard(
+                                description: e.description,
+                                name: e.pgName,
+                                onTap: () {
+                                  pgFormController.pgFormModel.value = e;
+
+                                  pgFormController.updateTextFields(e, 'pg');
+                                  pgFormController.updateDropdowns(e);
+                                  pgFormController.updateRoomRents(e);
+                                  pgFormController.updateRentFields(e);
+                                  Get.toNamed('/add-pg', arguments: {
+                                    'pgFormModel': e,
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
+                    onEmpty: const Center(child: Text('No PGs found')),
                   ),
                 ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
-                  child: Obx(
-                    () => Text(
-                      'FLATS (${flatFormController.flats.length})',
+                  child: flatFormController.obx(
+                    (data) => Text(
+                      'FLATS (${data!.length})',
                       style: Get.textTheme.labelLarge!.copyWith(
                         color: Colors.orange,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    onLoading: null,
                   ),
                 ),
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
-                  child: Obx(
-                    () => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: flatFormController.flats
-                          .map(
-                            (flat) => PropertyCard(
-                              name: flat.flatName,
-                              description: flat.description,
-                              onTap: () {
-                                Get.toNamed('/add-flat', arguments: {
-                                  'flatFormModel': flat,
-                                });
-                              },
-                            ),
-                          )
-                          .toList(),
-                    ),
+                  child: flatFormController.obx(
+                    (data) {
+                      return Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: data!
+                            .map(
+                              (e) => PropertyCard(
+                                description: e.description,
+                                name: e.flatName,
+                                onTap: () {
+                                  flatFormController.flatFormModel.value = e;
+
+                                  flatFormController.updateTextFields(
+                                      e, 'flat');
+                                  flatFormController.updateDropdowns(e);
+                                  Get.toNamed('/add-flat', arguments: {
+                                    'flatFormModel': e,
+                                  });
+                                },
+                              ),
+                            )
+                            .toList(),
+                      );
+                    },
+                    onEmpty: const Center(child: Text('No Flats found')),
                   ),
                 ),
                 const SizedBox(height: 35),
@@ -165,3 +183,17 @@ class LandingHomeScreen extends StatelessWidget {
     );
   }
 }
+
+// pgFormController.pgs.map(
+//                         (pg) {
+//                           return PropertyCard(
+//                             name: pg.pgName,
+//                             description: pg.description,
+//                             onTap: () {
+                              // Get.toNamed('/add-pg', arguments: {
+                              //   'pgFormModel': pg,
+                              // });
+//                             },
+//                           );
+//                         },
+//                       ).toList(),

@@ -23,15 +23,15 @@ class _PgFormState extends State<PgForm> {
   void initState() {
     // get arguments
     final args = Get.arguments;
-    if (args != null) {
-      pgFormController.pgFormModel.update((val) {
-        val!.changeFieldsFromExisting(args['pgFormModel']);
-      });
 
-      pgFormController.updateTextFields(args['pgFormModel'], 'pg');
-      pgFormController.updateDropdowns(args['pgFormModel']);
-      pgFormController.updateRoomRents(args['pgFormModel']);
-      pgFormController.updateRentFields(args['pgFormModel']);
+    if (args == null) {
+      pgFormController.clearTextControllers();
+      pgFormController.clearRoomRents();
+      pgFormController.clearDropdowns();
+
+      if (pgFormController.assets.isNotEmpty) {
+        pgFormController.assets.clear();
+      }
     }
 
     super.initState();
@@ -486,6 +486,7 @@ class _PgFormState extends State<PgForm> {
             Center(
               child: ElevatedButton(
                 onPressed: () {
+                  if (pgFormController.disabledButton.value) return;
                   FocusManager.instance.primaryFocus?.unfocus();
                   fireBaseController.uploadFilePg();
                   pgFormController.submitForm();

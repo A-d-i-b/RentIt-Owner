@@ -4,14 +4,17 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
+import 'package:househunt/http_connects/pg_connect.dart';
 import 'package:househunt/models/pg_form_model.dart';
 import 'package:househunt/secrets.dart';
 
 import 'package:househunt/utils/http_util.dart';
 
 class PgFormController extends GetxController
-    with TextControllers, RentsTextControllers {
+    with TextControllers, RentsTextControllers, StateMixin<List<PgFormModel>> {
   final userController = Get.find<UserController>();
+
+  final _apiProvider = PgConnect();
 
   var disabledButton = false.obs;
 
@@ -69,7 +72,11 @@ class PgFormController extends GetxController
     //       pgs.map((e) => PgFormModel.fromJson(json: e)).toList(),
     //     );
 
-    fetchPgs();
+    _apiProvider.getPgs(userController.jwt).then((value) {
+      change(value, status: RxStatus.success());
+    }, onError: (e) {
+      change(null, status: RxStatus.error(e.toString()));
+    });
 
     super.onReady();
   }
@@ -123,10 +130,14 @@ class PgFormController extends GetxController
       clearForm();
       disabledButton.value = false;
 
-      // refetch the data
-      fetchPgs();
-
       Get.toNamed('/home');
+
+      // refetch the data
+      _apiProvider.getPgs(userController.jwt).then((value) {
+        change(value, status: RxStatus.success());
+      }, onError: (e) {
+        change(null, status: RxStatus.error(e.toString()));
+      });
     } else {
       printError(info: 'failed');
       // add a failure snackbar
@@ -143,16 +154,14 @@ class PgFormController extends GetxController
 
     for (var house in jsonDecode(res.body)['data']) {
       if (house['attributes']['type'] == 'pg') {
-        pgsRes.add(house);
+        pgsRes.add(PgFormModel.fromJson(json: house));
       }
     }
 
-    // clear pgs list
+    // update pgs
     pgs.clear();
-
-    pgs.addAll(
-      pgsRes.map((e) => PgFormModel.fromJson(json: e)).toList(),
-    );
+    pgs.addAll(pgsRes);
+    pgs = RxList([...pgs]);
   }
 
   void clearForm() {

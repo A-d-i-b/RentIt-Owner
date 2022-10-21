@@ -4,12 +4,15 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
+import 'package:househunt/http_connects/flat_connect.dart';
 import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/secrets.dart';
 import 'package:househunt/utils/http_util.dart';
 
-class FlatFormController extends GetxController with TextControllers {
+class FlatFormController extends GetxController
+    with TextControllers, StateMixin<List<FlatFormModel>> {
   final UserController userController = Get.find<UserController>();
+  final _apiProvider = FlatConnect();
 
   var disabledButton = false.obs;
 
@@ -103,23 +106,13 @@ class FlatFormController extends GetxController with TextControllers {
   }
 
   void fetchFlats() async {
-    final res = await getData(uri: HOUSE_URL, headers: {
-      'Authorization': 'Bearer ${userController.jwt}',
-    });
-
-    final flatsRes = [];
-
-    for (var house in jsonDecode(res.body)['data']) {
-      if (house['attributes']['type'] == 'flat') {
-        flatsRes.add(house);
-      }
-    }
-
-    // clear pgs list
-    flats.clear();
-
-    flats.addAll(
-      flatsRes.map((e) => FlatFormModel.fromJson(json: e)).toList(),
+    _apiProvider.getFlats(userController.jwt).then(
+      (value) {
+        change(value, status: RxStatus.success());
+      },
+      onError: (error) {
+        change(null, status: RxStatus.error(error.toString()));
+      },
     );
   }
 
