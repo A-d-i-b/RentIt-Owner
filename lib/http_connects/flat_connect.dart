@@ -3,8 +3,8 @@ import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/secrets.dart';
 
 class FlatConnect extends GetConnect {
-  Future<List<FlatFormModel>> getFlats(String jwt) async {
-    final response = await get(HOUSE_URL, headers: {
+  Future<List<FlatFormModel>> getFlats(String jwt, int id) async {
+    final response = await get("$USER_URL/$id?populate=housing", headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $jwt',
@@ -12,8 +12,8 @@ class FlatConnect extends GetConnect {
 
     if (response.isOk) {
       final List<FlatFormModel> flats = [];
-      for (var house in response.body['data']) {
-        if (house['attributes']['type'] == 'flat') {
+      for (var house in response.body['housing']) {
+        if (house['type'] == 'flat') {
           flats.add(FlatFormModel.fromJson(json: house));
         }
       }

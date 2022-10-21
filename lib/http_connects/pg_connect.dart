@@ -3,8 +3,8 @@ import 'package:househunt/models/pg_form_model.dart';
 import 'package:househunt/secrets.dart';
 
 class PgConnect extends GetConnect {
-  Future<List<PgFormModel>> getPgs(String jwt) async {
-    final response = await get(HOUSE_URL, headers: {
+  Future<List<PgFormModel>> getPgs(String jwt, int id) async {
+    final response = await get("$USER_URL/$id?populate=housing", headers: {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
       'Authorization': 'Bearer $jwt',
@@ -12,8 +12,8 @@ class PgConnect extends GetConnect {
 
     if (response.statusCode == 200) {
       final List<PgFormModel> pgs = [];
-      for (var house in response.body['data']) {
-        if (house['attributes']['type'] == 'pg') {
+      for (var house in response.body['housing']) {
+        if (house['type'] == 'pg') {
           pgs.add(PgFormModel.fromJson(json: house));
         }
       }

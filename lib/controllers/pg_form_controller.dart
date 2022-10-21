@@ -70,7 +70,7 @@ class PgFormController extends GetxController
 
   void submitForm() async {
     disabledButton.value = true;
-    final form = pgFormModel.toJson();
+    final form = pgFormModel.value.toJson(userController.user.value.id);
 
     // final res =
     //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
@@ -121,7 +121,8 @@ class PgFormController extends GetxController
   }
 
   void fetchPgs() async {
-    _apiProvider.getPgs(userController.jwt).then((value) {
+    _apiProvider.getPgs(userController.jwt, userController.user.value.id).then(
+        (value) {
       change(value, status: RxStatus.success());
     }, onError: (e) {
       change(null, status: RxStatus.error(e.toString()));

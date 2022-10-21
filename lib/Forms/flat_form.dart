@@ -19,15 +19,15 @@ class _FlatFormState extends State<FlatForm> {
   @override
   void initState() {
     // get arguments
-    final args = Get.arguments;
+    // final args = Get.arguments;
 
-    if (args == null) {
-      flatFormController.clearTextControllers();
-      flatFormController.clearDropdowns();
-      if (flatFormController.assets.isNotEmpty) {
-        flatFormController.assets.clear();
-      }
-    }
+    // if (args == null) {
+    //   flatFormController.clearTextControllers();
+    //   flatFormController.clearDropdowns();
+    //   if (flatFormController.assets.isNotEmpty) {
+    //     flatFormController.assets.clear();
+    //   }
+    // }
 
     super.initState();
   }

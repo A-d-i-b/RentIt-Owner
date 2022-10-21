@@ -22,17 +22,17 @@ class _PgFormState extends State<PgForm> {
   @override
   void initState() {
     // get arguments
-    final args = Get.arguments;
+    // final args = Get.arguments;
 
-    if (args == null) {
-      pgFormController.clearTextControllers();
-      pgFormController.clearRoomRents();
-      pgFormController.clearDropdowns();
+    // if (args == null) {
+    //   pgFormController.clearTextControllers();
+    //   pgFormController.clearRoomRents();
+    //   pgFormController.clearDropdowns();
 
-      if (pgFormController.assets.isNotEmpty) {
-        pgFormController.assets.clear();
-      }
-    }
+    //   if (pgFormController.assets.isNotEmpty) {
+    //     pgFormController.assets.clear();
+    //   }
+    // }
 
     super.initState();
   }

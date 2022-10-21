@@ -138,6 +138,14 @@ class LandingHomeScreen extends StatelessWidget {
                   children: [
                     ElevatedButton(
                       onPressed: () {
+                        pgFormController.clearTextControllers();
+                        pgFormController.clearRoomRents();
+                        pgFormController.clearDropdowns();
+
+                        if (pgFormController.assets.isNotEmpty) {
+                          pgFormController.assets.clear();
+                        }
+
                         Get.toNamed('/add-pg');
                       },
                       child: SizedBox(
@@ -157,6 +165,11 @@ class LandingHomeScreen extends StatelessWidget {
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {
+                        flatFormController.clearTextControllers();
+                        flatFormController.clearDropdowns();
+                        if (flatFormController.assets.isNotEmpty) {
+                          flatFormController.assets.clear();
+                        }
                         Get.toNamed('/add-flat');
                       },
                       child: SizedBox(

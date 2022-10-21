@@ -47,7 +47,7 @@ class FlatFormController extends GetxController
 
   // dispose all text controllers
   void submitForm() async {
-    final form = flatFormModel.toJson();
+    final form = flatFormModel.value.toJson(userController.user.value.id);
 
     // final res =
     //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
@@ -95,7 +95,9 @@ class FlatFormController extends GetxController
   }
 
   void fetchFlats() async {
-    _apiProvider.getFlats(userController.jwt).then(
+    _apiProvider
+        .getFlats(userController.jwt, userController.user.value.id)
+        .then(
       (value) {
         change(value, status: RxStatus.success());
       },

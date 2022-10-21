@@ -37,7 +37,6 @@ class OTPController extends GetxController {
 
   void back() {
     if (Get.arguments != null) {
-      print(Get.arguments);
       Get.offAllNamed(Get.arguments[1]);
     }
   }
