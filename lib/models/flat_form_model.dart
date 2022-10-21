@@ -103,25 +103,33 @@ class FlatFormModel
     );
   }
 
-  toJson() {
+  toJson(int id) {
     return {
-      'flatName': flatName,
-      'address': address,
-      'noOfRooms': noOfRooms,
-      'rent': rent,
-      'powerBackup': powerBackup,
-      'acRooms': acRooms,
-      'maintenance': maintenance,
-      'electricityCharges': electricityCharges,
-      'availableFor': availableFor,
-      'preferredTenant': preferredTenant,
-      'food': food,
-      'wifi': wifi,
-      'furniture': furniture,
-      'bhk': bhk,
-      'noticePeriod': noticePeriod,
-      'builtIn': builtIn,
-      'description': description,
+      "data": {
+        "name": flatName,
+        "address": address,
+        "no_of_rooms": noOfRooms,
+        "rents": {
+          "single_sharing": rent,
+        },
+        "notice_period": noticePeriod,
+        "builtIn": builtIn,
+        "description": description,
+        "details": {
+          "power_backup": powerBackup,
+          "ac_rooms": acRooms,
+          "maintenance": maintenance,
+          "electricity_charges": electricityCharges,
+          "available_for": availableFor,
+          "preferred_tenant": preferredTenant,
+          "food": food,
+          "wifi": wifi,
+          "furniture": furniture,
+          "bhk": bhk,
+        },
+        "type": "flat",
+        "user": id,
+      },
     };
   }
 }

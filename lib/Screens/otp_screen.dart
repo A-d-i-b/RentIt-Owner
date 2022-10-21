@@ -57,7 +57,8 @@ class OTPScreen extends StatelessWidget {
               ),
               child: Padding(
                 padding: const EdgeInsets.all(40.0),
-                child: Column(
+                child: ListView(
+                  padding: const EdgeInsets.all(0),
                   children: [
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -144,6 +145,42 @@ class OTPScreen extends StatelessWidget {
                               },
                             ),
                           ],
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        TextButton(
+                          onPressed: () {
+                            // go to  screen
+                            otpController.back();
+                          },
+                          child: Text(
+                            "Edit details?",
+                            style: Get.textTheme.caption!.copyWith(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                        Obx(
+                          () => TextButton(
+                            onPressed: () {
+                              if (otpController.resendCodeDisabled.value) {
+                                return;
+                              }
+                              // increment resendButtonPressed
+                              otpController.resendCodePressed.value += 1;
+                            },
+                            child: Text(
+                                "Resend code ${otpController.counter.value != 0 ? "(${otpController.counter.value}s)" : ""}",
+                                style: Get.textTheme.caption!.copyWith(
+                                  color: otpController.resendCodeDisabled.value
+                                      ? Colors.grey[600]
+                                      : Colors.blue,
+                                )),
+                          ),
                         ),
                       ],
                     ),

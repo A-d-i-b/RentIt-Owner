@@ -88,54 +88,36 @@ class PgFormModel
     );
   }
 //TODO: remove toString() from all the fields
-  void changeFieldsFromExisting(PgFormModel model) {
-    pgName = model.pgName;
-    address = model.address;
-    noOfRooms = model.noOfRooms;
-    singleRoomRent = model.singleRoomRent;
-    doubleRoomRent = model.doubleRoomRent;
-    tripleRoomRent = model.tripleRoomRent;
-    fourRoomRent = model.fourRoomRent;
-    powerBackup = model.powerBackup;
-    acRooms = model.acRooms;
-    maintenance = model.maintenance;
-    electricityCharges = model.electricityCharges;
-    availableFor = model.availableFor;
-    preferredTenant = model.preferredTenant;
-    food = model.food;
-    wifi = model.wifi;
-    furniture = model.furniture;
-    noticePeriod = model.noticePeriod;
-    operatingSince = model.operatingSince;
-    description = model.description;
-  }
 
-  toJson() {
+  toJson(int id) {
     return {
-      "id": id,
-      "name": pgName,
-      "address": address,
-      "no_of_rooms": noOfRooms,
-      "rents": {
-        "single_sharing": singleRoomRent,
-        "double_sharing": doubleRoomRent,
-        "triple_sharing": tripleRoomRent,
-        "four_sharing": fourRoomRent,
-      },
-      "details": {
-        "power_backup": powerBackup,
-        "ac_rooms": acRooms,
-        "maintenance": maintenance,
-        "electricity_charges": electricityCharges,
-        "available_for": availableFor,
-        "preferred_tenants": preferredTenant,
-        "food": food,
-        "wifi": wifi,
-        "furniture": furniture,
-      },
-      "notice_period": noticePeriod,
-      "operatingSince": operatingSince,
-      "description": description,
+      "data": {
+        "name": pgName,
+        "address": address,
+        "no_of_rooms": noOfRooms,
+        "rents": {
+          "single_sharing": singleRoomRent,
+          "double_sharing": doubleRoomRent,
+          "triple_sharing": tripleRoomRent,
+          "four_sharing": fourRoomRent,
+        },
+        "notice_period": noticePeriod,
+        "builtIn": operatingSince,
+        "description": description,
+        "details": {
+          "power_backup": powerBackup,
+          "ac_rooms": acRooms,
+          "maintenance": maintenance,
+          "electricity_charges": electricityCharges,
+          "available_for": availableFor,
+          "preferred_tenant": preferredTenant,
+          "food": food,
+          "wifi": wifi,
+          "furniture": furniture,
+        },
+        "type": "pg",
+        "user": id,
+      }
     };
   }
 }

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -6,9 +5,6 @@ import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/pg_connect.dart';
 import 'package:househunt/models/pg_form_model.dart';
-import 'package:househunt/secrets.dart';
-
-import 'package:househunt/utils/http_util.dart';
 
 class PgFormController extends GetxController
     with TextControllers, RentsTextControllers, StateMixin<List<PgFormModel>> {
@@ -65,18 +61,7 @@ class PgFormController extends GetxController
 
   @override
   void onReady() async {
-    // final pgFlatRes = await getJsonFromAsset('assets/data/properties.json');
-
-    // final pgs = pgFlatRes['pgs'];
-    // this.pgs.addAll(
-    //       pgs.map((e) => PgFormModel.fromJson(json: e)).toList(),
-    //     );
-
-    _apiProvider.getPgs(userController.jwt).then((value) {
-      change(value, status: RxStatus.success());
-    }, onError: (e) {
-      change(null, status: RxStatus.error(e.toString()));
-    });
+    fetchPgs();
 
     super.onReady();
   }
@@ -85,43 +70,38 @@ class PgFormController extends GetxController
 
   void submitForm() async {
     disabledButton.value = true;
-    final form = {
-      "data": {
-        "name": pgFormModel.value.pgName,
-        "address": pgFormModel.value.address,
-        "no_of_rooms": pgFormModel.value.noOfRooms,
-        "rents": {
-          "single_sharing": pgFormModel.value.singleRoomRent,
-          "double_sharing": pgFormModel.value.doubleRoomRent,
-          "triple_sharing": pgFormModel.value.tripleRoomRent,
-          "four_sharing": pgFormModel.value.fourRoomRent,
-        },
-        "notice_period": pgFormModel.value.noticePeriod,
-        "builtIn": pgFormModel.value.operatingSince,
-        "description": pgFormModel.value.description,
-        "details": {
-          "power_backup": pgFormModel.value.powerBackup,
-          "ac_rooms": pgFormModel.value.acRooms,
-          "maintenance": pgFormModel.value.maintenance,
-          "electricity_charges": pgFormModel.value.electricityCharges,
-          "available_for": pgFormModel.value.availableFor,
-          "preferred_tenant": pgFormModel.value.preferredTenant,
-          "food": pgFormModel.value.food,
-          "wifi": pgFormModel.value.wifi,
-          "furniture": pgFormModel.value.furniture,
-        },
-        "type": "pg",
-        "user": userController.user.value.id,
-      }
-    };
+    final form = pgFormModel.toJson();
 
-    final res =
-        await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
-      "Authorization": "Bearer ${userController.jwt}",
-      'Content-Type': 'application/json; charset=UTF-8',
-    });
+    // final res =
+    //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
+    //   "Authorization": "Bearer ${userController.jwt}",
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    // });
 
-    if (res.statusCode == 200) {
+    // if (res.statusCode == 200) {
+    // printInfo(info: 'success');
+    // // add a success snackbar
+    // Get.snackbar('Success', 'PG added successfully',
+    //     snackPosition: SnackPosition.BOTTOM);
+
+    // clearForm();
+    // disabledButton.value = false;
+
+    // Get.toNamed('/home');
+
+    //   // refetch the data
+    //   _apiProvider.getPgs(userController.jwt).then((value) {
+    //     change(value, status: RxStatus.success());
+    //   }, onError: (e) {
+    //     change(null, status: RxStatus.error(e.toString()));
+    //   });
+    // } else {
+    //   printError(info: 'failed');
+    //   // add a failure snackbar
+    //   Get.snackbar('Failed', 'Failed to add PG');
+    // }
+
+    _apiProvider.postPg(userController.jwt, form).then((value) {
       printInfo(info: 'success');
       // add a success snackbar
       Get.snackbar('Success', 'PG added successfully',
@@ -132,36 +112,20 @@ class PgFormController extends GetxController
 
       Get.toNamed('/home');
 
-      // refetch the data
-      _apiProvider.getPgs(userController.jwt).then((value) {
-        change(value, status: RxStatus.success());
-      }, onError: (e) {
-        change(null, status: RxStatus.error(e.toString()));
-      });
-    } else {
+      fetchPgs();
+    }, onError: (e) {
       printError(info: 'failed');
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add PG');
-    }
+    });
   }
 
   void fetchPgs() async {
-    final res = await getData(uri: HOUSE_URL, headers: {
-      'Authorization': 'Bearer ${userController.jwt}',
+    _apiProvider.getPgs(userController.jwt).then((value) {
+      change(value, status: RxStatus.success());
+    }, onError: (e) {
+      change(null, status: RxStatus.error(e.toString()));
     });
-
-    final pgsRes = [];
-
-    for (var house in jsonDecode(res.body)['data']) {
-      if (house['attributes']['type'] == 'pg') {
-        pgsRes.add(PgFormModel.fromJson(json: house));
-      }
-    }
-
-    // update pgs
-    pgs.clear();
-    pgs.addAll(pgsRes);
-    pgs = RxList([...pgs]);
   }
 
   void clearForm() {

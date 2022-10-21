@@ -119,7 +119,7 @@ class SignUp extends StatelessWidget {
 
                       TextButton(
                         onPressed: () {
-                          Get.offAllNamed('/');
+                          Get.offAllNamed('/sign-in');
                         },
                         child: Text(
                           'Already Registered?',

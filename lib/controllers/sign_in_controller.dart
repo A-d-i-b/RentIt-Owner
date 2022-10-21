@@ -1,15 +1,12 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
-import 'package:househunt/secrets.dart';
-
-import '../utils/http_util.dart';
+import 'package:househunt/http_connects/auth_controller.dart';
 
 class SignInController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+  final _apiProvider = AuthConnect();
 
   final UserController userController = Get.find<UserController>();
 
@@ -36,14 +33,7 @@ class SignInController extends GetxController {
       "password": passwordController.text,
     };
 
-    final res = await postData(
-      uri: LOGIN_URL,
-      body: json.encoder.convert(response),
-    );
-
-    final Map<String, dynamic> resBody = await json.decode(res.body);
-
-    if (res.statusCode == 200) {
+    _apiProvider.signIn(response).then((resBody) {
       userController.setUserFromJson(resBody["user"]);
 
       if (resBody["user"]["blocked"] == true) {
@@ -58,18 +48,54 @@ class SignInController extends GetxController {
       }
 
       if (resBody["user"]["confirmed"] == false) {
-        Get.offAllNamed('/otp', arguments: resBody["user"]["phone"]);
+        Get.offAllNamed('/otp',
+            arguments: [resBody["user"]["phone"], 'sign-in']);
       } else {
         userController.JWT = resBody["jwt"];
         Get.offAllNamed('/home');
       }
-    } else {
+    }, onError: (e) {
       Get.snackbar(
         "Error",
         "Invalid credentials",
         snackPosition: SnackPosition.BOTTOM,
       );
-    }
+    });
+
+    // final res = await postData(
+    //   uri: LOGIN_URL,
+    //   body: json.encoder.convert(response),
+    // );
+
+    // final Map<String, dynamic> resBody = await json.decode(res.body);
+
+    // if (res.statusCode == 200) {
+    // userController.setUserFromJson(resBody["user"]);
+
+    // if (resBody["user"]["blocked"] == true) {
+    //   Get.snackbar(
+    //     "Error",
+    //     "Your account has been blocked",
+    //     snackPosition: SnackPosition.BOTTOM,
+    //   );
+
+    //   buttonDisabled.value = false;
+    //   return;
+    // }
+
+    // if (resBody["user"]["confirmed"] == false) {
+    //   Get.offAllNamed('/otp', arguments: resBody["user"]["phone"]);
+    // } else {
+    //   userController.JWT = resBody["jwt"];
+    //   Get.offAllNamed('/home');
+    // }
+    // } else {
+    // Get.snackbar(
+    //   "Error",
+    //   "Invalid credentials",
+    //   snackPosition: SnackPosition.BOTTOM,
+    // );
+    // }
 
     buttonDisabled.value = false;
     return;

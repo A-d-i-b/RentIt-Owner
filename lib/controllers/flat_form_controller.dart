@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:get/get.dart';
@@ -6,8 +5,7 @@ import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';
 import 'package:househunt/models/flat_form_model.dart';
-import 'package:househunt/secrets.dart';
-import 'package:househunt/utils/http_util.dart';
+// import 'package:househunt/utils/http_util.dart';
 
 class FlatFormController extends GetxController
     with TextControllers, StateMixin<List<FlatFormModel>> {
@@ -49,43 +47,34 @@ class FlatFormController extends GetxController
 
   // dispose all text controllers
   void submitForm() async {
-    final form = {
-      "data": {
-        "name": flatFormModel.value.flatName,
-        "address": flatFormModel.value.address,
-        "no_of_rooms": flatFormModel.value.noOfRooms,
-        "rents": {
-          "single_sharing": flatFormModel.value.rent,
-        },
-        "notice_period": flatFormModel.value.noticePeriod,
-        "builtIn": flatFormModel.value.builtIn,
-        "description": flatFormModel.value.description,
-        "details": {
-          "power_backup": flatFormModel.value.powerBackup,
-          "ac_rooms": flatFormModel.value.acRooms,
-          "maintenance": flatFormModel.value.maintenance,
-          "electricity_charges": flatFormModel.value.electricityCharges,
-          "available_for": flatFormModel.value.availableFor,
-          "preferred_tenant": flatFormModel.value.preferredTenant,
-          "food": flatFormModel.value.food,
-          "wifi": flatFormModel.value.wifi,
-          "furniture": flatFormModel.value.furniture,
-          "bhk": flatFormModel.value.bhk,
-        },
-        "type": "flat",
-        "user": userController.user.value.id,
-      },
-    };
+    final form = flatFormModel.toJson();
 
-    printInfo(info: form.toString());
+    // final res =
+    //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
+    //   "Authorization": "Bearer ${userController.jwt}",
+    //   'Content-Type': 'application/json; charset=UTF-8',
+    // });
 
-    final res =
-        await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
-      "Authorization": "Bearer ${userController.jwt}",
-      'Content-Type': 'application/json; charset=UTF-8',
-    });
+    // if (res.statusCode == 200) {
+    //   printInfo(info: 'success');
+    //   // add a success snackbar
+    //   Get.snackbar('Success', 'Flat added successfully',
+    //       snackPosition: SnackPosition.BOTTOM);
 
-    if (res.statusCode == 200) {
+    //   clearForm();
+    //   disabledButton.value = false;
+
+    //   // refetch the data
+    //   fetchFlats();
+
+    //   Get.toNamed('/home');
+    // } else {
+    //   printError(info: 'failed');
+    //   // add a failure snackbar
+    //   Get.snackbar('Failed', 'Failed to add Flat');
+    // }
+
+    _apiProvider.postFlat(userController.jwt, form).then((value) {
       printInfo(info: 'success');
       // add a success snackbar
       Get.snackbar('Success', 'Flat added successfully',
@@ -98,11 +87,11 @@ class FlatFormController extends GetxController
       fetchFlats();
 
       Get.toNamed('/home');
-    } else {
+    }).catchError((e) {
       printError(info: 'failed');
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add Flat');
-    }
+    });
   }
 
   void fetchFlats() async {

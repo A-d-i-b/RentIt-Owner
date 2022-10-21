@@ -13,11 +13,10 @@ class SignIn extends StatelessWidget {
       floatingActionButton: Obx(
         () => FloatingActionButton(
           onPressed: () async {
-            signInController.trySubmit();
-
             if (signInController.buttonDisabled.value) {
               return;
             }
+            signInController.trySubmit();
 
             // Get.toNamed('/home');
           },
