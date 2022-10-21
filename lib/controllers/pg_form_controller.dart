@@ -1,6 +1,4 @@
 import 'dart:io';
-
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
@@ -63,16 +61,6 @@ class PgFormController extends GetxController
     });
   }
 
-  Future uploadFile(int id) async {
-    for (var img in assets) {
-      String imgPath = img.path.split("/").last;
-      Reference db = FirebaseStorage.instance.ref(
-          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
-      // pgPath.add(await db.getDownloadURL());
-    }
-  }
-
   @override
   void onReady() async {
     fetchPgs();
@@ -115,8 +103,13 @@ class PgFormController extends GetxController
     //   Get.snackbar('Failed', 'Failed to add PG');
     // }
 
-    _apiProvider.postPg(userController.jwt, form).then((value) {
-      uploadFile(value['data']['id']);
+    _apiProvider.postPg(userController.jwt, form).then((value) async {
+      try {
+        await fireBaseController.uploadFilePg(value['data']['id']);
+      } catch (e) {
+        print(e);
+      }
+
       printInfo(info: 'success');
       // add a success snackbar
       Get.snackbar('Success', 'PG added successfully',

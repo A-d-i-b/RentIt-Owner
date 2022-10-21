@@ -13,7 +13,7 @@ class FireBaseController extends GetxController {
   RxList<String> pgPath = <String>[].obs;
   RxList<String> flatPath = <String>[].obs;
 
-  Future uploadFile(String id) async {
+  Future uploadFilePg(int id) async {
     for (var img in pgFormController.assets) {
       String imgPath = img.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
@@ -23,17 +23,17 @@ class FireBaseController extends GetxController {
     }
   }
 
-  // Future uploadFileFlat() async {
-  //   for (var img in flatFormController.assets) {
-  //     String imgPath = img.path.split("/").last;
-  //     Reference db = FirebaseStorage.instance.ref(
-  //         "${userController.user.value.phone}/Flat/1/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-  //     await db.putFile(img);
-  //     // flatPath.add(await db.getDownloadURL());
-  //   }
-  // }
+  Future uploadFileFlat(int id) async {
+    for (var img in flatFormController.assets) {
+      String imgPath = img.path.split("/").last;
+      Reference db = FirebaseStorage.instance.ref(
+          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+      await db.putFile(img);
+      // flatPath.add(await db.getDownloadURL());
+    }
+  }
 
-  Future uploadFileProfile(String id) async {
+  Future uploadFileProfile(int id) async {
     File img = File(userController.updatedImage.value.path);
     // String imgPath = img.path.split("/").last;
     Reference db = FirebaseStorage.instance.ref("Users/$id.jpg");

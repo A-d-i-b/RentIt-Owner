@@ -3,8 +3,15 @@ import 'package:househunt/controllers/sign_in_controller.dart';
 import 'package:get/get.dart';
 import 'package:househunt/theme/base_theme.dart';
 
-class SignIn extends StatelessWidget {
-  const SignIn({Key? key}) : super(key: key);
+class SignIn extends StatefulWidget {
+  SignIn({Key? key}) : super(key: key);
+
+  @override
+  State<SignIn> createState() => _SignInState();
+}
+
+class _SignInState extends State<SignIn> {
+  bool _obscureText = true;
 
   @override
   Widget build(BuildContext context) {
@@ -133,9 +140,25 @@ class SignIn extends StatelessWidget {
                       ),
                       const SizedBox(height: 25),
                       TextFormField(
+                        obscureText: _obscureText,
                         controller: signInController.passwordController,
-                        decoration: const InputDecoration(
-                          enabledBorder: UnderlineInputBorder(
+                        decoration: InputDecoration(
+                          suffixIcon: _obscureText
+                              ? IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText = false;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.remove_red_eye))
+                              : IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      _obscureText = true;
+                                    });
+                                  },
+                                  icon: const Icon(Icons.visibility_off)),
+                          enabledBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
                             ),
@@ -157,7 +180,6 @@ class SignIn extends StatelessWidget {
                           ),
                           labelText: 'Password',
                         ),
-                        obscureText: true,
                       ),
                       const SizedBox(height: 25),
                       Row(
