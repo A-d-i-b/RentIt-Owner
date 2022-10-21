@@ -1,8 +1,11 @@
-import 'package:get/get_connect.dart';
 import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/secrets.dart';
+import 'package:get/get.dart';
+
+import '../controllers/pg_form_controller.dart';
 
 class FlatConnect extends GetConnect {
+  final PgFormController pgFormController = Get.put(PgFormController());
   Future<List<FlatFormModel>> getFlats(String jwt, int id) async {
     final response = await get("$USER_URL/$id?populate=housing", headers: {
       'Content-Type': 'application/json',

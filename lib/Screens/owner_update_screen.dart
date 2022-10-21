@@ -172,7 +172,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             child: ElevatedButton(
               child: const Text("Update"),
               onPressed: () {
-                fireBaseController.uploadFileProfile();
+                // fireBaseController.uploadFileProfile();
               },
             ),
           ),

@@ -488,7 +488,7 @@ class _PgFormState extends State<PgForm> {
                 onPressed: () {
                   if (pgFormController.disabledButton.value) return;
                   FocusManager.instance.primaryFocus?.unfocus();
-                  fireBaseController.uploadFilePg();
+
                   pgFormController.submitForm();
                   // print all the values of the form
                 },

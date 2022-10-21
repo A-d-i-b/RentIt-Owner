@@ -13,31 +13,30 @@ class FireBaseController extends GetxController {
   RxList<String> pgPath = <String>[].obs;
   RxList<String> flatPath = <String>[].obs;
 
-  Future uploadFilePg() async {
+  Future uploadFile(String id) async {
     for (var img in pgFormController.assets) {
       String imgPath = img.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
-          "${userController.user.value.phone}/Pg/1/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
       await db.putFile(img);
       // pgPath.add(await db.getDownloadURL());
     }
   }
 
-  Future uploadFileFlat() async {
-    for (var img in flatFormController.assets) {
-      String imgPath = img.path.split("/").last;
-      Reference db = FirebaseStorage.instance.ref(
-          "${userController.user.value.phone}/Flat/1/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
-      // flatPath.add(await db.getDownloadURL());
-    }
-  }
+  // Future uploadFileFlat() async {
+  //   for (var img in flatFormController.assets) {
+  //     String imgPath = img.path.split("/").last;
+  //     Reference db = FirebaseStorage.instance.ref(
+  //         "${userController.user.value.phone}/Flat/1/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+  //     await db.putFile(img);
+  //     // flatPath.add(await db.getDownloadURL());
+  //   }
+  // }
 
-  Future uploadFileProfile() async {
+  Future uploadFileProfile(String id) async {
     File img = File(userController.updatedImage.value.path);
     // String imgPath = img.path.split("/").last;
-    Reference db = FirebaseStorage.instance
-        .ref("${userController.user.value.phone}/UserPic.jpg");
+    Reference db = FirebaseStorage.instance.ref("Users/$id.jpg");
     await db.putFile(img);
     userController.user.update((val) async {
       if (val != null) {

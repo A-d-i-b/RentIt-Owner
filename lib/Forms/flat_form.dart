@@ -303,7 +303,7 @@ class _FlatFormState extends State<FlatForm> {
                     onPressed: () {
                       if (flatFormController.disabledButton.value) return;
                       FocusManager.instance.primaryFocus?.unfocus();
-                      fireBaseController.uploadFileFlat();
+
                       flatFormController.submitForm();
                     },
                     child: SizedBox(

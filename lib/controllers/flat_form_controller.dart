@@ -1,17 +1,22 @@
 import 'dart:io';
-
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:get/get.dart';
+
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';
 import 'package:househunt/models/flat_form_model.dart';
+
+import 'firebase_controller.dart';
+
 // import 'package:househunt/utils/http_util.dart';
+final FireBaseController fireBaseController = Get.put(FireBaseController());
 
 class FlatFormController extends GetxController
     with TextControllers, StateMixin<List<FlatFormModel>> {
   final UserController userController = Get.find<UserController>();
   final _apiProvider = FlatConnect();
-
+  // final FireBaseController fireBaseController = Get.put(FireBaseController());
   var disabledButton = false.obs;
 
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
@@ -23,6 +28,24 @@ class FlatFormController extends GetxController
   RxList<File> assets = <File>[].obs;
 
   RxList flats = [].obs;
+  // Future uploadFile(String id) async {
+  //   for (var img in pgFormController.assets) {
+  //     String imgPath = img.path.split("/").last;
+  //     Reference db = FirebaseStorage.instance.ref(
+  //         "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+  //     await db.putFile(img);
+  //     // pgPath.add(await db.getDownloadURL());
+  //   }
+  // }
+  Future uploadFile(int id) async {
+    for (var img in assets) {
+      String imgPath = img.path.split("/").last;
+      Reference db = FirebaseStorage.instance.ref(
+          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+      await db.putFile(img);
+      // pgPath.add(await db.getDownloadURL());
+    }
+  }
 
   void updateDropdowns(flat) {
     flatFormModel.update((val) {
@@ -75,6 +98,12 @@ class FlatFormController extends GetxController
     // }
 
     _apiProvider.postFlat(userController.jwt, form).then((value) {
+      try {
+        uploadFile(value['data']['id']);
+      } catch (e) {
+        print(e);
+      }
+
       printInfo(info: 'success');
       // add a success snackbar
       Get.snackbar('Success', 'Flat added successfully',
