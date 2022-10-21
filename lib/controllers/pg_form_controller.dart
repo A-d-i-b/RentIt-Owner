@@ -113,7 +113,7 @@ class PgFormController extends GetxController
       Get.toNamed('/home');
 
       fetchPgs();
-    }, onError: (e) {
+    }).catchError((e) {
       printError(info: 'failed');
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add PG');
@@ -122,11 +122,14 @@ class PgFormController extends GetxController
 
   void fetchPgs() async {
     _apiProvider.getPgs(userController.jwt, userController.user.value.id).then(
-        (value) {
-      change(value, status: RxStatus.success());
-    }, onError: (e) {
-      change(null, status: RxStatus.error(e.toString()));
-    });
+      (value) {
+        change(value, status: RxStatus.success());
+      },
+    ).catchError(
+      (e) {
+        change(null, status: RxStatus.error(e.toString()));
+      },
+    );
   }
 
   void clearForm() {

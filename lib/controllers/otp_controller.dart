@@ -86,7 +86,8 @@ class OTPController extends GetxController {
               userController.JWT = value["jwt"];
               Get.offAllNamed('/home');
             },
-            onError: (e) {
+          ).catchError(
+            (e) {
               Get.snackbar(
                 "Error",
                 "Invalid OTP",

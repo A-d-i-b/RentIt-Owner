@@ -113,6 +113,22 @@ class OwnerProfile extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(height: 20),
+          ElevatedButton(
+            onPressed: () {
+              Get.offAllNamed('/sign-in');
+            },
+            style: ElevatedButton.styleFrom(
+              primary: Colors.red[600],
+            ),
+            child: const Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text(
+                "Log Out",
+                style: TextStyle(color: tri, fontSize: 20),
+              ),
+            ),
+          ),
         ],
       ),
     );

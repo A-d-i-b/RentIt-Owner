@@ -19,7 +19,7 @@ class FlatConnect extends GetConnect {
       }
       return flats;
     } else {
-      throw Exception('Failed to load pgs');
+      throw Exception('Failed to load flats');
     }
   }
 

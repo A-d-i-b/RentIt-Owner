@@ -54,12 +54,14 @@ class SignInController extends GetxController {
         userController.JWT = resBody["jwt"];
         Get.offAllNamed('/home');
       }
-    }, onError: (e) {
+    }).catchError((e) {
       Get.snackbar(
         "Error",
         "Invalid credentials",
         snackPosition: SnackPosition.BOTTOM,
       );
+    }).whenComplete(() {
+      buttonDisabled.value = false;
     });
 
     // final res = await postData(
