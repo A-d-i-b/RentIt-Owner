@@ -10,7 +10,7 @@ class UserController extends GetxController {
       UserModel(id: 0, firstName: 'Loading', lastName: '', phone: '...').obs;
 
   String jwt = '';
-
+  Rx<String> image = ''.obs;
   Rx<XFile> updatedImage = XFile('').obs;
 
   set JWT(String token) {

@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';

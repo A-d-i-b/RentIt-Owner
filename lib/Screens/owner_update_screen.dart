@@ -1,6 +1,3 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
@@ -18,6 +15,12 @@ class OwnerUpdate extends StatefulWidget {
 class _OwnerUpdateState extends State<OwnerUpdate> {
   final UserController userController = Get.put(UserController());
   final FireBaseController fireBaseController = Get.put(FireBaseController());
+  @override
+  void initState() {
+    fireBaseController.getUrl();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset(
@@ -51,10 +54,8 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       image: DecorationImage(
-                        image: userController.updatedImage.value.path != ''
-                            ? FileImage(
-                                File(userController.updatedImage.value.path),
-                              )
+                        image: fireBaseController.getUrl() != ''
+                            ? NetworkImage(fireBaseController.getUrl())
                             : profileImage.image,
                         fit: BoxFit.cover,
                       ),

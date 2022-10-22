@@ -65,6 +65,7 @@ class FireBaseController extends GetxController {
         .then((DocumentSnapshot doc) {
       final data = (doc.data() as Map<String, dynamic>)['Url'];
       data2 = data;
+      userController.image.value = data;
     });
     return data2;
   }

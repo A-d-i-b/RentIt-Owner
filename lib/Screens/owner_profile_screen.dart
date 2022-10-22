@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
@@ -6,11 +5,25 @@ import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
 
-class OwnerProfile extends StatelessWidget {
+class OwnerProfile extends StatefulWidget {
   OwnerProfile({Key? key}) : super(key: key);
 
+  @override
+  State<OwnerProfile> createState() => _OwnerProfileState();
+}
+
+class _OwnerProfileState extends State<OwnerProfile> {
   final UserController userController = Get.put(UserController());
+
   final FireBaseController fireBaseController = Get.put(FireBaseController());
+
+  @override
+  void initState() {
+    // fireBaseController.getUrl();
+    print(fireBaseController.getUrl());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset('images/ownerpic.jpg', fit: BoxFit.cover);
@@ -45,18 +58,7 @@ class OwnerProfile extends StatelessWidget {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(120),
-                    child: userController.user.value.imageUrl != null
-                        ? ClipRRect(
-                            borderRadius: BorderRadius.circular(60),
-                            child: CachedNetworkImage(
-                              imageUrl: userController.user.value.imageUrl!,
-                              placeholder: (context, url) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                              fit: BoxFit.cover,
-                            ),
-                          )
-                        : null,
+                    child: NetworkImage(),
                   ),
                 ),
               ),
