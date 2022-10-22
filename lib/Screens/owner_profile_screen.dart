@@ -6,7 +6,7 @@ import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
 
 class OwnerProfile extends StatefulWidget {
-  OwnerProfile({Key? key}) : super(key: key);
+  const OwnerProfile({Key? key}) : super(key: key);
 
   @override
   State<OwnerProfile> createState() => _OwnerProfileState();
@@ -20,7 +20,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
   @override
   void initState() {
     // fireBaseController.getUrl();
-    print(fireBaseController.getUrl());
+    // print(fireBaseController.getUrl());
     super.initState();
   }
 
@@ -49,16 +49,21 @@ class _OwnerProfileState extends State<OwnerProfile> {
                   // backgroundImage: profileImage.image,
                   width: Get.width / 2,
                   height: Get.width / 2,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     shape: BoxShape.circle,
-                    image: DecorationImage(
-                      image: profileImage.image,
-                      fit: BoxFit.cover,
-                    ),
+                    // image: DecorationImage(
+                    //   image: profileImage.image,
+                    //   fit: BoxFit.cover,
+                    // ),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(120),
-                    child: NetworkImage(),
+                    child: userController.user.value.imageUrl != null
+                        ? Image.network(
+                            userController.user.value.imageUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -106,7 +111,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              print(fireBaseController.getUrl());
+              // print(fireBaseController.getUrl());
               Get.toNamed('/example');
               // Get.toNamed('/contact-screen');
             },

@@ -46,27 +46,24 @@ class FireBaseController extends GetxController {
     // String imgPath = img.path.split("/").last;
     Reference db = FirebaseStorage.instance.ref("Users/$id.jpg");
     await db.putFile(img);
-    userController.user.update((val) async {
-      if (val != null) {
-        FirebaseFirestore.instance
-            .collection('users')
-            .doc('$id')
-            .set({'Url': await db.getDownloadURL()});
-      }
-    });
-  }
-
-  String getUrl() {
-    var data2 = '';
     FirebaseFirestore.instance
         .collection('users')
-        .doc('${userController.user.value.id}')
-        .get()
-        .then((DocumentSnapshot doc) {
-      final data = (doc.data() as Map<String, dynamic>)['Url'];
-      data2 = data;
-      userController.image.value = data;
-    });
-    return data2;
+        .doc('$id')
+        .set({'Url': await db.getDownloadURL()});
+    // return url
   }
+
+  // String getUrl() {
+  //   var data2 = '';
+  //   FirebaseFirestore.instance
+  //       .collection('users')
+  //       .doc('${userController.user.value.id}')
+  //       .get()
+  //       .then((DocumentSnapshot doc) {
+  //     final data = (doc.data() as Map<String, dynamic>)['Url'];
+  //     data2 = data;
+  //     userController.image.value = data;
+  //   });
+  //   return data2;
+  // }
 }

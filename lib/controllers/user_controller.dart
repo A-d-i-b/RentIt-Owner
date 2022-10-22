@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
 import 'package:househunt/models/user_model.dart';
 import 'package:image_picker/image_picker.dart';
@@ -45,6 +46,15 @@ class UserController extends GetxController {
     }
 
     if (user != null && jwt != null) {
+      final docRef = FirebaseFirestore.instance
+          .collection('users')
+          .doc('${this.user.value.id}');
+      final value = await docRef.get();
+      print(this.user.value.id);
+      if (value.exists) {
+        this.user.value.imageUrl = value.data()!['Url'];
+      }
+      print(this.user.value.imageUrl);
       Get.offAllNamed('/home');
     } else {
       Get.offAllNamed('/sign-in');
