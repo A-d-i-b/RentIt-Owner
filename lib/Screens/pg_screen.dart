@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/Forms/pg_form.dart';
@@ -54,10 +55,12 @@ class PgHome extends StatelessWidget {
                       children: pgFormController.assets
                           .map(
                             (el) => AssetThumb(
-                                onRemove: () {
-                                  pgFormController.assets.remove(el);
-                                },
-                                file: el),
+                              onRemove: () {
+                                pgFormController.assets.remove(el);
+                              },
+                              file: el.file,
+                              isVideo: el.type == 'video',
+                            ),
                           )
                           .toList(),
                     ),
@@ -70,7 +73,7 @@ class PgHome extends StatelessWidget {
                   onAssetPicked: (items) {
                     pgFormController.assets.addAll(
                       items.map(
-                        (e) => File(e.path),
+                        (e) => FileAsset(file: File(e.file.path), type: e.type),
                       ),
                     );
                   },
