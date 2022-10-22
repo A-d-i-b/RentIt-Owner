@@ -1,9 +1,9 @@
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/pg_connect.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/pg_form_model.dart';
 
 final FireBaseController fireBaseController = Get.put(FireBaseController());
@@ -29,7 +29,7 @@ class PgFormController extends GetxController
 
   final roomType = <String>[].obs;
 
-  RxList<File> assets = <File>[].obs;
+  RxList<FileAsset> assets = <FileAsset>[].obs;
 
   RxList pgs = [].obs;
 

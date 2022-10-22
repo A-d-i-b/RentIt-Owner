@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/Forms/flat_form.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/widgets/asset_thumb.dart';
@@ -54,10 +55,12 @@ class FlatHome extends StatelessWidget {
                       children: flatFormController.assets
                           .map(
                             (element) => AssetThumb(
-                                onRemove: () {
-                                  flatFormController.assets.remove(element);
-                                },
-                                file: element),
+                              onRemove: () {
+                                flatFormController.assets.remove(element);
+                              },
+                              file: element.file,
+                              isVideo: element.type == 'video',
+                            ),
                           )
                           .toList(),
                     ),
@@ -70,7 +73,7 @@ class FlatHome extends StatelessWidget {
                   onAssetPicked: (items) {
                     flatFormController.assets.addAll(
                       items.map(
-                        (e) => File(e.path),
+                        (e) => FileAsset(file: File(e.file.path), type: e.type),
                       ),
                     );
                   },
@@ -87,88 +90,3 @@ class FlatHome extends StatelessWidget {
     );
   }
 }
-
-// Container(
-//             height: 190,
-//             margin: const EdgeInsets.only(top: 30, left: 20, right: 20),
-//             decoration: BoxDecoration(
-//                 borderRadius: BorderRadius.circular(10),
-//                 border: Border.all(
-//                   color: const Color(0xFF0EB7B7),
-//                   width: 1.6,
-//                 )),
-//             child: Center(
-//               child: Stack(
-//                 alignment: Alignment.center,
-//                 children: [
-//                   GridView.builder(
-//                       padding: const EdgeInsets.all(5),
-//                       itemCount: pickImages!.length,
-//                       gridDelegate:
-//                           const SliverGridDelegateWithFixedCrossAxisCount(
-//                               crossAxisCount: 3),
-//                       itemBuilder: (BuildContext context, int index) {
-//                         return InkWell(
-//                           onLongPress: () {
-//                             setState(() {
-//                               pickImages!.removeAt(index);
-//                             });
-//                           },
-//                           child: Container(
-//                             margin: const EdgeInsets.all(2),
-//                             decoration: BoxDecoration(
-//                               borderRadius: BorderRadius.circular(5),
-//                               border: Border.all(
-//                                   color: const Color(0xFF0EB7B7), width: 1),
-//                             ),
-//                             child: Image.file(
-//                               File(pickImages![index].path),
-//                               fit: BoxFit.cover,
-//                             ),
-//                           ),
-//                         );
-//                       }),
-//                   if (pickImages!.isEmpty)
-//                     Text(
-//                       "No Images Added",
-//                       style: TextStyle(color: Colors.grey[400], fontSize: 20),
-//                     )
-//                 ],
-//               ),
-//             ),
-//           ),
-//           Padding(
-//             padding: const EdgeInsets.only(left: 20, right: 20),
-//             child: Row(
-//               children: [
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     setState(() {
-//                       method = 0;
-//                     });
-
-//                     selectImage();
-//                   },
-//                   style: ButtonStyle(
-//                     backgroundColor:
-//                         MaterialStateProperty.all(const Color(0xFF0EB7B7)),
-//                   ),
-//                   child: const Text("Select from gallery"),
-//                 ),
-//                 const Spacer(),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     setState(() {
-//                       method = 1;
-//                     });
-//                     selectImage();
-//                   },
-//                   style: ButtonStyle(
-//                     backgroundColor:
-//                         MaterialStateProperty.all(const Color(0xFF0EB7B7)),
-//                   ),
-//                   child: const Text("Take a Photo"),
-//                 ),
-//               ],
-//             ),
-//           )

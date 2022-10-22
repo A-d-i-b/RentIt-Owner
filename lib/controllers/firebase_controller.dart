@@ -13,14 +13,14 @@ class FireBaseController extends GetxController {
 
   Future uploadFilePg(int id) async {
     for (var img in pgFormController.assets) {
-      String imgPath = img.path.split("/").last;
+      String imgPath = img.file.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
+      await db.putFile(img.file);
       FirebaseFirestore.instance
           .collection('housing')
           .doc('$id')
-          .collection('photos')
+          .collection(img.type)
           .doc()
           .set({'Url': await db.getDownloadURL()});
     }
@@ -28,14 +28,14 @@ class FireBaseController extends GetxController {
 
   Future uploadFileFlat(int id) async {
     for (var img in flatFormController.assets) {
-      String imgPath = img.path.split("/").last;
+      String imgPath = img.file.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
+      await db.putFile(img.file);
       FirebaseFirestore.instance
           .collection('housing')
           .doc('$id')
-          .collection('photos')
+          .collection(img.type)
           .doc()
           .set({'Url': await db.getDownloadURL()});
     }

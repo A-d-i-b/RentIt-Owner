@@ -1,10 +1,9 @@
-import 'dart:io';
-
 import 'package:get/get.dart';
 
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/flat_form_model.dart';
 
 import 'firebase_controller.dart';
@@ -24,28 +23,9 @@ class FlatFormController extends GetxController
     description: '',
   ).obs;
 
-  RxList<File> assets = <File>[].obs;
+  RxList<FileAsset> assets = <FileAsset>[].obs;
 
   RxList flats = [].obs;
-  // Future uploadFile(String id) async {
-  //   for (var img in pgFormController.assets) {
-  //     String imgPath = img.path.split("/").last;
-  //     Reference db = FirebaseStorage.instance.ref(
-  //         "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-  //     await db.putFile(img);
-  //     // pgPath.add(await db.getDownloadURL());
-  //   }
-  // }
-  // Future uploadFile(int id) async {
-  //   for (var img in assets) {
-  //     String imgPath = img.path.split("/").last;
-  //     Reference db = FirebaseStorage.instance.ref(
-  //         "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-  //     await db.putFile(img);
-  //     // pgPath.add(await db.getDownloadURL());
-  //   }
-  // }
-
   void updateDropdowns(flat) {
     flatFormModel.update((val) {
       val!.powerBackup = flat.powerBackup;
