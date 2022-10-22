@@ -9,6 +9,7 @@ import 'package:househunt/screens/tenant_profile_screen.dart';
 import 'package:househunt/Screens/contact_screen.dart';
 import 'package:househunt/Screens/home_screen.dart';
 import 'package:househunt/Screens/owner_update_screen.dart';
+import 'package:househunt/Screens/example.dart';
 
 final routes = [
   GetPage(
@@ -27,4 +28,5 @@ final routes = [
   GetPage(name: '/add-flat', page: () => FlatHome()),
   GetPage(name: '/tenant-profile', page: () => const TenantProfile()),
   GetPage(name: '/contact-screen', page: () => const ContactUs()),
+  GetPage(name: '/example', page: () => const Example()),
 ];

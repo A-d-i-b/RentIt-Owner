@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
@@ -9,7 +10,7 @@ class OwnerProfile extends StatelessWidget {
   OwnerProfile({Key? key}) : super(key: key);
 
   final UserController userController = Get.put(UserController());
-
+  final FireBaseController fireBaseController = Get.put(FireBaseController());
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset('images/ownerpic.jpg', fit: BoxFit.cover);
@@ -103,7 +104,8 @@ class OwnerProfile extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Get.toNamed('/contact-screen');
+              Get.toNamed('/example');
+              // Get.toNamed('/contact-screen');
             },
             child: const Padding(
               padding: EdgeInsets.all(12.0),

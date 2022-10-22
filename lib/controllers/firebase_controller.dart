@@ -4,14 +4,12 @@ import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class FireBaseController extends GetxController {
   final PgFormController pgFormController = Get.put(PgFormController());
   final UserController userController = Get.put(UserController());
   final FlatFormController flatFormController = Get.put(FlatFormController());
-
-  RxList<String> pgPath = <String>[].obs;
-  RxList<String> flatPath = <String>[].obs;
 
   Future uploadFilePg(int id) async {
     for (var img in pgFormController.assets) {
@@ -19,7 +17,12 @@ class FireBaseController extends GetxController {
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
       await db.putFile(img);
-      // pgPath.add(await db.getDownloadURL());
+      FirebaseFirestore.instance
+          .collection('housing')
+          .doc('$id')
+          .collection('photos')
+          .doc()
+          .set({'Url': await db.getDownloadURL()});
     }
   }
 
@@ -29,7 +32,12 @@ class FireBaseController extends GetxController {
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
       await db.putFile(img);
-      // flatPath.add(await db.getDownloadURL());
+      FirebaseFirestore.instance
+          .collection('housing')
+          .doc('$id')
+          .collection('photos')
+          .doc()
+          .set({'Url': await db.getDownloadURL()});
     }
   }
 
