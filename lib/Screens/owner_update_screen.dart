@@ -64,13 +64,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                       child: userController.user.value.imageUrl != null
                           ? ClipRRect(
                               borderRadius: BorderRadius.circular(60),
-                              child: CachedNetworkImage(
-                                imageUrl: userController.user.value.imageUrl!,
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                fit: BoxFit.cover,
-                              ),
+                              child: Image.network(fireBaseController.getUrl()),
                             )
                           : null,
                     ),
@@ -172,7 +166,9 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             child: ElevatedButton(
               child: const Text("Update"),
               onPressed: () {
-                // fireBaseController.uploadFileProfile();
+                // fireBaseController
+                //     .uploadFileProfile(userController.user.value.id);
+                fireBaseController.getUrl();
               },
             ),
           ),

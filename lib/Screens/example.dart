@@ -15,14 +15,19 @@ class ExampleState extends State<Example> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: ListView.builder(itemBuilder: (BuildContext context, int index) {
-        return Container(
-          height: 200,
-          width: 200,
-          decoration:
-              BoxDecoration(image: DecorationImage(image: NetworkImage(''))),
+        // body: FutureBuilder(
+        //     future: fireBaseController.getUrl(),
+        //     builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        //       return Container(
+        //         height: 200,
+        //         width: 200,
+        //         decoration: BoxDecoration(
+        //             image: DecorationImage(
+        //                 image: snapshot.hasData
+        //                     ? NetworkImage(fireBaseController.getUrl())
+        //                     : NetworkImage(''))),
+        //       );
+        //     }),
         );
-      }),
-    );
   }
 }

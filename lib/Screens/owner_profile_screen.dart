@@ -104,6 +104,7 @@ class OwnerProfile extends StatelessWidget {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
+              print(fireBaseController.getUrl());
               Get.toNamed('/example');
               // Get.toNamed('/contact-screen');
             },
