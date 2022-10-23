@@ -48,7 +48,12 @@ class FireBaseController extends GetxController {
     await db.putFile(img);
     userController.user.update((val) async {
       if (val != null) {
-        val.imageUrl = await db.getDownloadURL();
+        String url = await db.getDownloadURL();
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc('$id')
+            .set({'Url': url});
+        userController.image.value = url;
       }
     });
   }

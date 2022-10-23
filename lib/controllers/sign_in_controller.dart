@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
@@ -6,6 +7,7 @@ import 'package:househunt/http_connects/auth_controller.dart';
 class SignInController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
+
   final _apiProvider = AuthConnect();
 
   final UserController userController = Get.find<UserController>();
@@ -33,7 +35,7 @@ class SignInController extends GetxController {
       "password": passwordController.text,
     };
 
-    _apiProvider.signIn(response).then((resBody) {
+    _apiProvider.signIn(response).then((resBody) async {
       userController.setUserFromJson(resBody["user"]);
 
       if (resBody["user"]["blocked"] == true) {
@@ -51,6 +53,16 @@ class SignInController extends GetxController {
         Get.offAllNamed('/otp',
             arguments: [resBody["user"]["phone"], 'sign-in']);
       } else {
+        final docRef = FirebaseFirestore.instance
+            .collection('users')
+            .doc('${userController.user.value.id}');
+        final value = await docRef.get();
+        print(userController.user.value.id);
+        if (value.exists) {
+          userController.image.value = value.data()!['Url'];
+        }
+        print(userController.user.value.imageUrl);
+
         userController.JWT = resBody["jwt"];
         Get.offAllNamed('/home');
       }

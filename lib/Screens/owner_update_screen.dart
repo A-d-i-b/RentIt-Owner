@@ -1,12 +1,11 @@
-import 'dart:io';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
+
+import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -49,30 +48,13 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     width: Get.width / 2,
                     height: Get.width / 2,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(120),
                       image: DecorationImage(
-                        image: userController.updatedImage.value.path != ''
-                            ? FileImage(
-                                File(userController.updatedImage.value.path),
-                              )
+                        image: userController.image.value != ''
+                            ? NetworkImage(userController.image.value)
                             : profileImage.image,
                         fit: BoxFit.cover,
                       ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(120),
-                      child: userController.user.value.imageUrl != null
-                          ? ClipRRect(
-                              borderRadius: BorderRadius.circular(60),
-                              child: CachedNetworkImage(
-                                imageUrl: userController.user.value.imageUrl!,
-                                placeholder: (context, url) => const Center(
-                                  child: CircularProgressIndicator(),
-                                ),
-                                fit: BoxFit.cover,
-                              ),
-                            )
-                          : null,
                     ),
                   ),
                 ),
@@ -172,7 +154,11 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             child: ElevatedButton(
               child: const Text("Update"),
               onPressed: () {
-                // fireBaseController.uploadFileProfile();
+                if (userController.updatedImage.value == XFile('')) {
+                } else {
+                  fireBaseController
+                      .uploadFileProfile(userController.user.value.id);
+                }
               },
             ),
           ),
