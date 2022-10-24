@@ -52,7 +52,7 @@ class UserController extends GetxController {
       final value = await docRef.get();
       print(this.user.value.id);
       if (value.exists) {
-        image.value = value.data()!['Url'];
+        this.user.value.imageUrl = value.data()!['Url'];
       }
       print(this.user.value.imageUrl);
 

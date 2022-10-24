@@ -13,14 +13,14 @@ class FireBaseController extends GetxController {
 
   Future uploadFilePg(int id) async {
     for (var img in pgFormController.assets) {
-      String imgPath = img.path.split("/").last;
+      String imgPath = img.file.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
+      await db.putFile(img.file);
       FirebaseFirestore.instance
           .collection('housing')
           .doc('$id')
-          .collection('photos')
+          .collection(img.type)
           .doc()
           .set({'Url': await db.getDownloadURL()});
     }
@@ -28,14 +28,14 @@ class FireBaseController extends GetxController {
 
   Future uploadFileFlat(int id) async {
     for (var img in flatFormController.assets) {
-      String imgPath = img.path.split("/").last;
+      String imgPath = img.file.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref(
           "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img);
+      await db.putFile(img.file);
       FirebaseFirestore.instance
           .collection('housing')
           .doc('$id')
-          .collection('photos')
+          .collection(img.type)
           .doc()
           .set({'Url': await db.getDownloadURL()});
     }
@@ -46,6 +46,7 @@ class FireBaseController extends GetxController {
     // String imgPath = img.path.split("/").last;
     Reference db = FirebaseStorage.instance.ref("Users/$id.jpg");
     await db.putFile(img);
+
     userController.user.update((val) async {
       if (val != null) {
         String url = await db.getDownloadURL();
@@ -57,4 +58,20 @@ class FireBaseController extends GetxController {
       }
     });
   }
+
+  // return url
 }
+
+// String getUrl() {
+//   var data2 = '';
+//   FirebaseFirestore.instance
+//       .collection('users')
+//       .doc('${userController.user.value.id}')
+//       .get()
+//       .then((DocumentSnapshot doc) {
+//     final data = (doc.data() as Map<String, dynamic>)['Url'];
+//     data2 = data;
+//     userController.image.value = data;
+//   });
+//   return data2;
+// }

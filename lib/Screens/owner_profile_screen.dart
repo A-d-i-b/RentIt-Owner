@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
@@ -33,7 +34,6 @@ class _OwnerProfileState extends State<OwnerProfile> {
 
   @override
   Widget build(BuildContext context) {
-    final profileImage = Image.asset('images/ownerpic.jpg', fit: BoxFit.cover);
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -50,18 +50,27 @@ class _OwnerProfileState extends State<OwnerProfile> {
         children: [
           Column(
             children: [
-              Container(
-                // radius: 60,
-                // backgroundImage: profileImage.image,
-                width: Get.width / 2,
-                height: Get.width / 2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(120),
-                  image: DecorationImage(
-                    image: userController.image.value != ''
-                        ? NetworkImage(userController.image.value)
-                        : profileImage.image,
-                    fit: BoxFit.cover,
+              Obx(
+                () => Container(
+                  // radius: 60,
+                  // backgroundImage: profileImage.image,
+                  width: Get.width / 2,
+                  height: Get.width / 2,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    // image: DecorationImage(
+                    //   image: profileImage.image,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(120),
+                    child: userController.user.value.imageUrl != null
+                        ? Image.network(
+                            userController.user.value.imageUrl!,
+                            fit: BoxFit.cover,
+                          )
+                        : null,
                   ),
                 ),
               ),
@@ -113,6 +122,10 @@ class _OwnerProfileState extends State<OwnerProfile> {
               // getUrl();
               print(userController.image.value);
               Get.toNamed('/contact-screen');
+
+              // print(fireBaseController.getUrl());
+              Get.toNamed('/example');
+              // Get.toNamed('/contact-screen');
             },
             child: const Padding(
               padding: EdgeInsets.all(12.0),

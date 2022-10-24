@@ -1,11 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
-
-import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -17,6 +17,12 @@ class OwnerUpdate extends StatefulWidget {
 class _OwnerUpdateState extends State<OwnerUpdate> {
   final UserController userController = Get.put(UserController());
   final FireBaseController fireBaseController = Get.put(FireBaseController());
+  @override
+  void initState() {
+    // fireBaseController.getUrl();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset(
@@ -50,11 +56,23 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(120),
                       image: DecorationImage(
-                        image: userController.image.value != ''
-                            ? NetworkImage(userController.image.value)
-                            : profileImage.image,
+                        image: profileImage.image,
                         fit: BoxFit.cover,
                       ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(120),
+                      child: userController.updatedImage.value.path != ''
+                          ? Image.file(
+                              File(userController.updatedImage.value.path),
+                              fit: BoxFit.cover,
+                            )
+                          : (userController.user.value.imageUrl != null
+                              ? Image.network(
+                                  userController.user.value.imageUrl!,
+                                  fit: BoxFit.cover,
+                                )
+                              : null),
                     ),
                   ),
                 ),
@@ -153,11 +171,15 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             height: Get.height / 16,
             child: ElevatedButton(
               child: const Text("Update"),
-              onPressed: () {
-                if (userController.updatedImage.value == XFile('')) {
-                } else {
-                  fireBaseController
+              onPressed: () async {
+                // fireBaseController
+                //     .uploadFileProfile(userController.user.value.id);
+                // fireBaseController.getUrl();
+                if (userController.updatedImage.value.path != '') {
+                  await fireBaseController
                       .uploadFileProfile(userController.user.value.id);
+
+                  printInfo(info: "Image Updated");
                 }
               },
             ),
