@@ -3,12 +3,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 class AssetThumb extends StatelessWidget {
-  const AssetThumb({Key? key, required this.onRemove, required this.file})
-      : super(key: key);
+  const AssetThumb({
+    Key? key,
+    required this.onRemove,
+    required this.file,
+    this.isVideo = false,
+  }) : super(key: key);
 
   final VoidCallback onRemove;
   final File file;
-
+  final bool isVideo;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -27,6 +31,23 @@ class AssetThumb extends StatelessWidget {
             borderRadius: BorderRadius.circular(10),
           ),
         ),
+        if (isVideo)
+          Positioned(
+            top: 5,
+            right: 5,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: const Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 15,
+              ),
+            ),
+          ),
         Positioned(
           top: -10,
           right: 0,

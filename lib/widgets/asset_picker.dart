@@ -2,12 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
+class Asset {
+  XFile file;
+  String type;
+
+  Asset({required this.file, required this.type});
+}
+
 class AssetPickerWidget extends StatelessWidget {
   const AssetPickerWidget({Key? key, required this.onAssetPicked})
       : super(key: key);
 
-  final void Function(List<XFile>) onAssetPicked;
-
+  final void Function(List<Asset>) onAssetPicked;
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
@@ -42,7 +48,7 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  onAssetPicked([image]);
+                  onAssetPicked([Asset(file: image, type: 'photo')]);
                 }
                 Get.back();
               },
@@ -55,7 +61,7 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  onAssetPicked([image]);
+                  onAssetPicked([Asset(file: image, type: 'video')]);
                 }
                 Get.back();
               },
@@ -68,7 +74,9 @@ class AssetPickerWidget extends StatelessWidget {
                   imageQuality: 50,
                 );
                 if (image != null) {
-                  onAssetPicked(image);
+                  onAssetPicked(
+                    image.map((x) => Asset(file: x, type: 'photo')).toList(),
+                  );
                 }
                 Get.back();
               },
@@ -81,7 +89,7 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.gallery,
                 );
                 if (image != null) {
-                  onAssetPicked([image]);
+                  onAssetPicked([Asset(file: image, type: 'video')]);
                 }
                 Get.back();
               },
@@ -90,59 +98,5 @@ class AssetPickerWidget extends StatelessWidget {
         ),
       ),
     );
-
-    // showBottomSheet(
-    //     context: context,
-    //     builder: (BuildContext context) {
-    //       return Container(
-    //         child: const Text('HELLO'),
-    //       );
-    //     });
   }
 }
-
-// class AssetThumb extends StatelessWidget {
-//   const AssetThumb({
-//     Key? key,
-//     required this.asset,
-//     required this.width,
-//     required this.height,
-//   }) : super(key: key);
-
-//   final AssetEntity asset;
-//   final double width;
-//   final double height;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SizedBox(
-//       width: width,
-//       height: height,
-//       child: FutureBuilder(
-//         future: asset.file,
-//         builder: (context, snapshot) => snapshot.hasData
-//             ? Image.file(
-//                 snapshot.data as File,
-//                 fit: BoxFit.cover,
-//               )
-//             : // tween animation container loading
-//             Container(
-//                 color: Colors.grey,
-//               ),
-//       ),
-//     );
-//   }
-// }
-
-
-//  ElevatedButton(
-//       onPressed: () async {
-//         final assets = await AssetPicker.pickAssets(
-//           context,
-//         );
-//         setState(() {
-//           _assets = assets;
-//         });
-//       },
-//       child: const Text('Press me bitch'),
-//     );

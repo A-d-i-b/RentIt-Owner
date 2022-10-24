@@ -6,6 +6,7 @@ import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
 
+
 class OwnerProfile extends StatefulWidget {
   const OwnerProfile({Key? key}) : super(key: key);
 
@@ -17,6 +18,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
   final UserController userController = Get.put(UserController());
 
   final FireBaseController fireBaseController = Get.put(FireBaseController());
+
 
   Future getUrl() async {
     String data2 = '';
@@ -63,6 +65,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
                       fit: BoxFit.cover,
                     ),
                   ),
+
                 ),
               ),
               const SizedBox(height: 20),

@@ -16,21 +16,6 @@ class FlatForm extends StatefulWidget {
 class _FlatFormState extends State<FlatForm> {
   FlatFormController flatFormController = Get.put(FlatFormController());
   final FireBaseController fireBaseController = Get.put(FireBaseController());
-  @override
-  void initState() {
-    // get arguments
-    // final args = Get.arguments;
-
-    // if (args == null) {
-    //   flatFormController.clearTextControllers();
-    //   flatFormController.clearDropdowns();
-    //   if (flatFormController.assets.isNotEmpty) {
-    //     flatFormController.assets.clear();
-    //   }
-    // }
-
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
