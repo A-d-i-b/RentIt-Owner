@@ -7,7 +7,7 @@ import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
 
 class OwnerProfile extends StatefulWidget {
-  OwnerProfile({Key? key}) : super(key: key);
+  const OwnerProfile({Key? key}) : super(key: key);
 
   @override
   State<OwnerProfile> createState() => _OwnerProfileState();
@@ -50,18 +50,18 @@ class _OwnerProfileState extends State<OwnerProfile> {
         children: [
           Column(
             children: [
-              Container(
-                // radius: 60,
-                // backgroundImage: profileImage.image,
-                width: Get.width / 2,
-                height: Get.width / 2,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(120),
-                  image: DecorationImage(
-                    image: userController.image.value != ''
-                        ? NetworkImage(userController.image.value)
-                        : profileImage.image,
-                    fit: BoxFit.cover,
+              Obx(
+                () => Container(
+                  width: Get.width / 2,
+                  height: Get.width / 2,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(120),
+                    image: DecorationImage(
+                      image: userController.image.value != ''
+                          ? NetworkImage(userController.image.value)
+                          : profileImage.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),

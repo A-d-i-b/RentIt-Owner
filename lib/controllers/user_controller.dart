@@ -14,6 +14,8 @@ class UserController extends GetxController {
   Rx<String> image = ''.obs;
   Rx<XFile> updatedImage = XFile('').obs;
 
+  RxBool isUpdating = false.obs;
+
   set JWT(String token) {
     jwt = token;
 
