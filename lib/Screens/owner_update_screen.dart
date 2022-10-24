@@ -5,8 +5,6 @@ import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 
-import 'package:image_picker/image_picker.dart';
-
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
 
@@ -154,10 +152,11 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
             child: ElevatedButton(
               child: const Text("Update"),
               onPressed: () {
-                if (userController.updatedImage.value == XFile('')) {
-                } else {
+                try {
                   fireBaseController
                       .uploadFileProfile(userController.user.value.id);
+                } catch (e) {
+                  return;
                 }
               },
             ),

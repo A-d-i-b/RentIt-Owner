@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 
 class PropertyCard extends StatelessWidget {
-  const PropertyCard(
+  final FireBaseController fireBaseController = Get.put(FireBaseController());
+  PropertyCard(
       {Key? key,
       required this.name,
+      // required this.id,
       required this.description,
       required this.onTap})
       : super(key: key);
 
   final String name;
+  // final String id;
   final String description;
   final VoidCallback onTap;
 
@@ -31,13 +35,7 @@ class PropertyCard extends StatelessWidget {
                 SizedBox(
                   height: Get.width / 2.5,
                   width: Get.width / 2,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Image.network(
-                      'https://assets-news.housing.com/news/wp-content/uploads/2022/03/15102726/Vastu-for-flats-in-apartments.jpg',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+                  child: fireBaseController.display(),
                 ),
                 const SizedBox(height: 8),
                 ConstrainedBox(
