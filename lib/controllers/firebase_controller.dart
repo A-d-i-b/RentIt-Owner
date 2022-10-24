@@ -13,31 +13,57 @@ class FireBaseController extends GetxController {
 
   Future uploadFilePg(int id) async {
     for (var img in pgFormController.assets) {
-      String imgPath = img.file.path.split("/").last;
-      Reference db = FirebaseStorage.instance.ref(
-          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img.file);
-      FirebaseFirestore.instance
-          .collection('housing')
-          .doc('$id')
-          .collection('photos')
-          .doc()
-          .set({'Url': await db.getDownloadURL()});
+      if (img.type == 'photo') {
+        String imgPath = img.file.path.split("/").last;
+        Reference db = FirebaseStorage.instance.ref(
+            "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+        await db.putFile(img.file);
+        FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id')
+            .collection('photos')
+            .doc()
+            .set({'Url': await db.getDownloadURL()});
+      } else {
+        String imgPath = img.file.path.split("/").last;
+        Reference db = FirebaseStorage.instance.ref(
+            "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+        await db.putFile(img.file);
+        FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id')
+            .collection('videos')
+            .doc()
+            .set({'Url': await db.getDownloadURL()});
+      }
     }
   }
 
   Future uploadFileFlat(int id) async {
     for (var img in flatFormController.assets) {
-      String imgPath = img.file.path.split("/").last;
-      Reference db = FirebaseStorage.instance.ref(
-          "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-      await db.putFile(img.file);
-      FirebaseFirestore.instance
-          .collection('housing')
-          .doc('$id')
-          .collection('photos')
-          .doc()
-          .set({'Url': await db.getDownloadURL()});
+      if (img.type == 'photo') {
+        String imgPath = img.file.path.split("/").last;
+        Reference db = FirebaseStorage.instance.ref(
+            "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+        await db.putFile(img.file);
+        FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id')
+            .collection('photos')
+            .doc()
+            .set({'Url': await db.getDownloadURL()});
+      } else {
+        String imgPath = img.file.path.split("/").last;
+        Reference db = FirebaseStorage.instance.ref(
+            "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
+        await db.putFile(img.file);
+        FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id')
+            .collection('videos')
+            .doc()
+            .set({'Url': await db.getDownloadURL()});
+      }
     }
   }
 
