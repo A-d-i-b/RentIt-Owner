@@ -1,11 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import 'package:househunt/controllers/text_controllers_mixin.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/flat_form_model.dart';
 
 import 'firebase_controller.dart';
@@ -26,7 +24,7 @@ class FlatFormController extends GetxController
     description: '',
   ).obs;
 
-  RxList<File> assets = <File>[].obs;
+  RxList<FileAsset> assets = <FileAsset>[].obs;
 
   RxList flats = [].obs;
   void updateDropdowns(flat) {
