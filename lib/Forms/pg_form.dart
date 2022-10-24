@@ -20,24 +20,6 @@ class _PgFormState extends State<PgForm> {
   PgFormController pgFormController = Get.put(PgFormController());
   final FireBaseController fireBaseController = Get.put(FireBaseController());
   @override
-  void initState() {
-    // get arguments
-    // final args = Get.arguments;
-
-    // if (args == null) {
-    //   pgFormController.clearTextControllers();
-    //   pgFormController.clearRoomRents();
-    //   pgFormController.clearDropdowns();
-
-    //   if (pgFormController.assets.isNotEmpty) {
-    //     pgFormController.assets.clear();
-    //   }
-    // }
-
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -484,23 +466,27 @@ class _PgFormState extends State<PgForm> {
             ),
             const SizedBox(height: 15),
             Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  if (pgFormController.disabledButton.value) return;
-                  FocusManager.instance.primaryFocus?.unfocus();
+              child: Obx(
+                () => ElevatedButton(
+                  onPressed: () {
+                    if (pgFormController.disabledButton.value) return;
+                    FocusManager.instance.primaryFocus?.unfocus();
 
-                  pgFormController.submitForm();
-                  // print all the values of the form
-                },
-                child: SizedBox(
-                  width: Get.width / 2.75,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0),
-                    child: Center(
-                      child: Text(
-                        "Submit",
-                        style: Get.textTheme.headline6!.copyWith(
-                            color: Colors.white, fontWeight: FontWeight.w600),
+                    pgFormController.submitForm();
+                    // print all the values of the form
+                  },
+                  child: SizedBox(
+                    width: Get.width / 2.75,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 12.0),
+                      child: Center(
+                        child: Text(
+                          pgFormController.disabledButton.value
+                              ? "Submitting..."
+                              : "Submit",
+                          style: Get.textTheme.headline6!.copyWith(
+                              color: Colors.white, fontWeight: FontWeight.w600),
+                        ),
                       ),
                     ),
                   ),

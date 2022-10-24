@@ -299,23 +299,27 @@ class _FlatFormState extends State<FlatForm> {
                 ),
                 const SizedBox(height: 15),
                 Center(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (flatFormController.disabledButton.value) return;
-                      FocusManager.instance.primaryFocus?.unfocus();
+                  child: Obx(
+                    () => ElevatedButton(
+                      onPressed: () {
+                        if (flatFormController.disabledButton.value) return;
+                        FocusManager.instance.primaryFocus?.unfocus();
 
-                      flatFormController.submitForm();
-                    },
-                    child: SizedBox(
-                      width: Get.width / 2.75,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 12.0),
-                        child: Center(
-                          child: Text(
-                            "Submit",
-                            style: Get.textTheme.headline6!.copyWith(
-                              color: Colors.white,
-                              fontWeight: FontWeight.w600,
+                        flatFormController.submitForm();
+                      },
+                      child: SizedBox(
+                        width: Get.width / 2.75,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 12.0),
+                          child: Center(
+                            child: Text(
+                              flatFormController.disabledButton.value
+                                  ? "Submitting..."
+                                  : "Submit",
+                              style: Get.textTheme.headline6!.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
                             ),
                           ),
                         ),

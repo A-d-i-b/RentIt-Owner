@@ -70,31 +70,9 @@ class FlatFormController extends GetxController
   // dispose all text controllers
   void submitForm() async {
     final form = flatFormModel.value.toJson(userController.user.value.id);
+    disabledButton.value = true;
 
-    // final res =
-    //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
-    //   "Authorization": "Bearer ${userController.jwt}",
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // });
-
-    // if (res.statusCode == 200) {
-    //   printInfo(info: 'success');
-    //   // add a success snackbar
-    //   Get.snackbar('Success', 'Flat added successfully',
-    //       snackPosition: SnackPosition.BOTTOM);
-
-    //   clearForm();
-    //   disabledButton.value = false;
-
-    //   // refetch the data
-    //   fetchFlats();
-
-    //   Get.toNamed('/home');
-    // } else {
-    //   printError(info: 'failed');
-    //   // add a failure snackbar
-    //   Get.snackbar('Failed', 'Failed to add Flat');
-    // }
+    print(form['data']['user']);
 
     _apiProvider.postFlat(userController.jwt, form).then((value) async {
       try {
@@ -114,11 +92,15 @@ class FlatFormController extends GetxController
       // refetch the data
       fetchFlats();
 
+      // clear fields
+      clearForm();
+
       Get.toNamed('/home');
     }).catchError((e) {
       printError(info: 'failed');
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add Flat');
+      disabledButton.value = false;
     });
   }
 
