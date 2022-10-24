@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
@@ -59,11 +60,29 @@ class FireBaseController extends GetxController {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
-          return Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                  fit: BoxFit.fill,
-                  image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
+          // return Container(
+          //   decoration: BoxDecoration(
+          //     borderRadius: BorderRadius.circular(10),
+          //     image: DecorationImage(
+          //         fit: BoxFit.fill,
+          //         image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
+          //   ),
+          // );
+          return ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: CachedNetworkImage(
+              progressIndicatorBuilder: (context, url, downloadProgress) =>
+                  SizedBox(
+                // make it expand to fit the parent
+                width: double.infinity,
+                height: double.infinity,
+                child: Center(
+                  child: CircularProgressIndicator(
+                      value: downloadProgress.progress),
+                ),
+              ),
+              imageUrl: '${snapshot.data?.docs[0]['Url']}',
+              fit: BoxFit.fill,
             ),
           );
         });
