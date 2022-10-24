@@ -50,7 +50,9 @@ class FlatFormController extends GetxController
 
   // dispose all text controllers
   void submitForm() async {
-    // if (_key.c):w
+    if (!_key.currentState!.validate()) {
+      return;
+    }
 
     final form = flatFormModel.value.toJson(userController.user.value.id);
     disabledButton.value = true;

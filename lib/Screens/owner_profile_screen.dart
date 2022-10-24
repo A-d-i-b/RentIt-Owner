@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -5,7 +6,6 @@ import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
-
 
 class OwnerProfile extends StatefulWidget {
   const OwnerProfile({Key? key}) : super(key: key);
@@ -18,7 +18,6 @@ class _OwnerProfileState extends State<OwnerProfile> {
   final UserController userController = Get.put(UserController());
 
   final FireBaseController fireBaseController = Get.put(FireBaseController());
-
 
   Future getUrl() async {
     String data2 = '';
@@ -58,14 +57,29 @@ class _OwnerProfileState extends State<OwnerProfile> {
                   height: Get.width / 2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(120),
-                    image: DecorationImage(
-                      image: userController.image.value != ''
-                          ? NetworkImage(userController.image.value)
-                          : profileImage.image,
+                    // image: DecorationImage(
+                    //   image: userController.image.value != ''
+                    //       ? NetworkImage(userController.image.value)
+                    //       : profileImage.image,
+                    //   fit: BoxFit.cover,
+                    // ),
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(120),
+                    child: CachedNetworkImage(
+                      imageUrl: userController.image.value != ''
+                          ? userController.image.value
+                          : profileImage.image.toString(),
                       fit: BoxFit.cover,
+                      placeholder: (context, url) => const SizedBox(
+                        width: double.infinity,
+                        height: double.infinity,
+                        child: CircularProgressIndicator(),
+                      ),
+                      errorWidget: (context, url, error) =>
+                          const Icon(Icons.error),
                     ),
                   ),
-
                 ),
               ),
               const SizedBox(height: 20),

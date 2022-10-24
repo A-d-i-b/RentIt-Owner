@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
@@ -50,16 +51,37 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     height: Get.width / 2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(120),
-                      image: DecorationImage(
-                        image: userController.updatedImage.value.path != ''
-                            ? FileImage(
-                                File(userController.updatedImage.value.path),
-                              )
-                            : (userController.image.value != ''
-                                ? NetworkImage(userController.image.value)
-                                : profileImage.image),
-                        fit: BoxFit.cover,
-                      ),
+                      // image: DecorationImage(
+                      //   image: userController.updatedImage.value.path != ''
+                      //       ? FileImage(
+                      //           File(userController.updatedImage.value.path),
+                      //         )
+                      //       : (userController.image.value != ''
+                      //           ? NetworkImage(userController.image.value)
+                      //           : profileImage.image),
+                      //   fit: BoxFit.cover,
+                      // ),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(120),
+                      child: userController.updatedImage.value.path != ''
+                          ? Image.file(
+                              File(userController.updatedImage.value.path),
+                              fit: BoxFit.cover,
+                            )
+                          : (userController.image.value != ''
+                              ? CachedNetworkImage(
+                                  imageUrl: userController.image.value,
+                                  fit: BoxFit.cover,
+                                  placeholder: (context, url) => const SizedBox(
+                                    width: double.infinity,
+                                    height: double.infinity,
+                                    child: CircularProgressIndicator(),
+                                  ),
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                )
+                              : profileImage),
                     ),
                   ),
                 ),
