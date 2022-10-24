@@ -14,6 +14,8 @@ class UserController extends GetxController {
   Rx<String> image = ''.obs;
   Rx<XFile> updatedImage = XFile('').obs;
 
+  RxBool isUpdating = false.obs;
+
   set JWT(String token) {
     jwt = token;
 
@@ -52,9 +54,10 @@ class UserController extends GetxController {
       final value = await docRef.get();
       print(this.user.value.id);
       if (value.exists) {
-        this.user.value.imageUrl = value.data()!['Url'];
+        image.value = value.data()!['Url'];
       }
       print(this.user.value.imageUrl);
+
       Get.offAllNamed('/home');
     } else {
       Get.offAllNamed('/sign-in');

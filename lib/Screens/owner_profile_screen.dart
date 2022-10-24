@@ -1,9 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/details_card.dart';
+
 
 class OwnerProfile extends StatefulWidget {
   const OwnerProfile({Key? key}) : super(key: key);
@@ -17,11 +19,18 @@ class _OwnerProfileState extends State<OwnerProfile> {
 
   final FireBaseController fireBaseController = Get.put(FireBaseController());
 
-  @override
-  void initState() {
-    // fireBaseController.getUrl();
-    // print(fireBaseController.getUrl());
-    super.initState();
+
+  Future getUrl() async {
+    String data2 = '';
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc('${userController.user.value.id}')
+        .get()
+        .then((DocumentSnapshot doc) {
+      data2 = (doc.data() as Map<String, dynamic>)['Url'];
+    });
+    print(data2);
+    userController.image.value = data2;
   }
 
   @override
@@ -45,26 +54,18 @@ class _OwnerProfileState extends State<OwnerProfile> {
             children: [
               Obx(
                 () => Container(
-                  // radius: 60,
-                  // backgroundImage: profileImage.image,
                   width: Get.width / 2,
                   height: Get.width / 2,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    // image: DecorationImage(
-                    //   image: profileImage.image,
-                    //   fit: BoxFit.cover,
-                    // ),
-                  ),
-                  child: ClipRRect(
+                  decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(120),
-                    child: userController.user.value.imageUrl != null
-                        ? Image.network(
-                            userController.user.value.imageUrl!,
-                            fit: BoxFit.cover,
-                          )
-                        : null,
+                    image: DecorationImage(
+                      image: userController.image.value != ''
+                          ? NetworkImage(userController.image.value)
+                          : profileImage.image,
+                      fit: BoxFit.cover,
+                    ),
                   ),
+
                 ),
               ),
               const SizedBox(height: 20),
@@ -111,9 +112,10 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // print(fireBaseController.getUrl());
-              Get.toNamed('/example');
-              // Get.toNamed('/contact-screen');
+              // Get.toNamed('/example');
+              // getUrl();
+              print(userController.image.value);
+              Get.toNamed('/contact-screen');
             },
             child: const Padding(
               padding: EdgeInsets.all(12.0),
@@ -126,6 +128,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
+              // print(FirebaseFirestore.instance.collection(collectionPath))
               Get.offAllNamed('/sign-in');
             },
             style: ElevatedButton.styleFrom(

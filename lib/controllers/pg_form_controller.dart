@@ -74,35 +74,6 @@ class PgFormController extends GetxController
     disabledButton.value = true;
     final form = pgFormModel.value.toJson(userController.user.value.id);
 
-    // final res =
-    //     await postData(uri: HOUSE_URL, body: json.encode(form), headers: {
-    //   "Authorization": "Bearer ${userController.jwt}",
-    //   'Content-Type': 'application/json; charset=UTF-8',
-    // });
-
-    // if (res.statusCode == 200) {
-    // printInfo(info: 'success');
-    // // add a success snackbar
-    // Get.snackbar('Success', 'PG added successfully',
-    //     snackPosition: SnackPosition.BOTTOM);
-
-    // clearForm();
-    // disabledButton.value = false;
-
-    // Get.toNamed('/home');
-
-    //   // refetch the data
-    //   _apiProvider.getPgs(userController.jwt).then((value) {
-    //     change(value, status: RxStatus.success());
-    //   }, onError: (e) {
-    //     change(null, status: RxStatus.error(e.toString()));
-    //   });
-    // } else {
-    //   printError(info: 'failed');
-    //   // add a failure snackbar
-    //   Get.snackbar('Failed', 'Failed to add PG');
-    // }
-
     _apiProvider.postPg(userController.jwt, form).then((value) async {
       try {
         await fireBaseController.uploadFilePg(value['data']['id']);
@@ -120,9 +91,11 @@ class PgFormController extends GetxController
 
       Get.toNamed('/home');
 
+      clearForm();
       fetchPgs();
     }).catchError((e) {
       printError(info: 'failed');
+      disabledButton.value = false;
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add PG');
     });

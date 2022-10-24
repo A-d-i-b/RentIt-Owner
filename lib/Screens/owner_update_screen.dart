@@ -6,6 +6,7 @@ import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -17,12 +18,6 @@ class OwnerUpdate extends StatefulWidget {
 class _OwnerUpdateState extends State<OwnerUpdate> {
   final UserController userController = Get.put(UserController());
   final FireBaseController fireBaseController = Get.put(FireBaseController());
-  @override
-  void initState() {
-    // fireBaseController.getUrl();
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     final profileImage = Image.asset(
@@ -54,25 +49,17 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     width: Get.width / 2,
                     height: Get.width / 2,
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
+                      borderRadius: BorderRadius.circular(120),
                       image: DecorationImage(
-                        image: profileImage.image,
+                        image: userController.updatedImage.value.path != ''
+                            ? FileImage(
+                                File(userController.updatedImage.value.path),
+                              )
+                            : (userController.image.value != ''
+                                ? NetworkImage(userController.image.value)
+                                : profileImage.image),
                         fit: BoxFit.cover,
                       ),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(120),
-                      child: userController.updatedImage.value.path != ''
-                          ? Image.file(
-                              File(userController.updatedImage.value.path),
-                              fit: BoxFit.cover,
-                            )
-                          : (userController.user.value.imageUrl != null
-                              ? Image.network(
-                                  userController.user.value.imageUrl!,
-                                  fit: BoxFit.cover,
-                                )
-                              : null),
                     ),
                   ),
                 ),
@@ -169,19 +156,31 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
           )),
           SizedBox(
             height: Get.height / 16,
-            child: ElevatedButton(
-              child: const Text("Update"),
-              onPressed: () async {
-                // fireBaseController
-                //     .uploadFileProfile(userController.user.value.id);
-                // fireBaseController.getUrl();
-                if (userController.updatedImage.value.path != '') {
-                  await fireBaseController
-                      .uploadFileProfile(userController.user.value.id);
+            child: Obx(
+              () => ElevatedButton(
+                child: Text(
+                    userController.isUpdating.value ? "Updating..." : "Update"),
+                onPressed: () async {
+                  if (userController.isUpdating.value) return;
+                  userController.isUpdating.value = true;
+                  if (!(userController.updatedImage.value.path == '')) {
+                    final url = await fireBaseController.uploadFileProfile(
+                      userController.user.value.id,
+                      userController.updatedImage.value.path,
+                    );
+                    userController.image.value =
+                        '$url/v=${DateTime.now().microsecondsSinceEpoch}';
+                    userController.updatedImage.update((val) {
+                      if (val != null) {
+                        val = XFile('');
+                      }
+                    });
+                    Get.back();
+                  }
 
-                  printInfo(info: "Image Updated");
-                }
-              },
+                  userController.isUpdating.value = false;
+                },
+              ),
             ),
           ),
         ],

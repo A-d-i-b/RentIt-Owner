@@ -11,6 +11,7 @@ class Field extends StatelessWidget {
     this.maxLines,
     required this.onChange,
     required this.controller,
+    this.required = true,
   }) : super(key: key);
 
   final String heading;
@@ -19,6 +20,7 @@ class Field extends StatelessWidget {
   final int? maxLines;
   final Function onChange;
   final TextEditingController controller;
+  final bool required;
 
   final PgFormController pgFormController = Get.put(PgFormController());
 
@@ -34,12 +36,21 @@ class Field extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        TextField(
+        TextFormField(
+          validator: (val) {
+            if (required && val!.isEmpty) {
+              return 'This field is required';
+            }
+            return null;
+          },
           maxLines: maxLines,
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hint,
             hintStyle: const TextStyle(fontSize: 16),
+            errorBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.red),
+            ),
           ),
           controller: controller,
           onChanged: (value) {
