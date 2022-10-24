@@ -125,6 +125,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
+              // print(FirebaseFirestore.instance.collection(collectionPath))
               Get.offAllNamed('/sign-in');
             },
             style: ElevatedButton.styleFrom(

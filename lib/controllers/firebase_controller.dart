@@ -1,4 +1,5 @@
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/material.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
@@ -47,5 +48,24 @@ class FireBaseController extends GetxController {
     String url = await db.getDownloadURL();
     FirebaseFirestore.instance.collection('users').doc('$id').set({'Url': url});
     return url;
+  }
+
+  Widget display(int id) {
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id')
+            .collection('photos')
+            .snapshots(),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) return const CircularProgressIndicator();
+          return Container(
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                  fit: BoxFit.fill,
+                  image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
+            ),
+          );
+        });
   }
 }
