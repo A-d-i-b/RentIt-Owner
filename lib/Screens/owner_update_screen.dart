@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
+import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
   const OwnerUpdate({Key? key}) : super(key: key);
@@ -48,9 +51,13 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(120),
                       image: DecorationImage(
-                        image: userController.image.value != ''
-                            ? NetworkImage(userController.image.value)
-                            : profileImage.image,
+                        image: userController.updatedImage.value.path != ''
+                            ? FileImage(
+                                File(userController.updatedImage.value.path),
+                              )
+                            : (userController.image.value != ''
+                                ? NetworkImage(userController.image.value)
+                                : profileImage.image),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -149,16 +156,31 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
           )),
           SizedBox(
             height: Get.height / 16,
-            child: ElevatedButton(
-              child: const Text("Update"),
-              onPressed: () {
-                try {
-                  fireBaseController
-                      .uploadFileProfile(userController.user.value.id);
-                } catch (e) {
-                  return;
-                }
-              },
+            child: Obx(
+              () => ElevatedButton(
+                child: Text(
+                    userController.isUpdating.value ? "Updating..." : "Update"),
+                onPressed: () async {
+                  if (userController.isUpdating.value) return;
+                  userController.isUpdating.value = true;
+                  if (!(userController.updatedImage.value.path == '')) {
+                    final url = await fireBaseController.uploadFileProfile(
+                      userController.user.value.id,
+                      userController.updatedImage.value.path,
+                    );
+                    userController.image.value =
+                        '$url/v=${DateTime.now().microsecondsSinceEpoch}';
+                    userController.updatedImage.update((val) {
+                      if (val != null) {
+                        val = XFile('');
+                      }
+                    });
+                    Get.back();
+                  }
+
+                  userController.isUpdating.value = false;
+                },
+              ),
             ),
           ),
         ],
