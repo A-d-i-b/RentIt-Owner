@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'package:househunt/controllers/text_controllers_mixin.dart';
@@ -17,7 +18,8 @@ class FlatFormController extends GetxController
   final _apiProvider = FlatConnect();
 
   var disabledButton = false.obs;
-
+  final _key = GlobalKey<FormState>();
+  get key => _key;
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
     flatName: '',
     address: '',
@@ -27,25 +29,6 @@ class FlatFormController extends GetxController
   RxList<File> assets = <File>[].obs;
 
   RxList flats = [].obs;
-  // Future uploadFile(String id) async {
-  //   for (var img in pgFormController.assets) {
-  //     String imgPath = img.path.split("/").last;
-  //     Reference db = FirebaseStorage.instance.ref(
-  //         "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-  //     await db.putFile(img);
-  //     // pgPath.add(await db.getDownloadURL());
-  //   }
-  // }
-  // Future uploadFile(int id) async {
-  //   for (var img in assets) {
-  //     String imgPath = img.path.split("/").last;
-  //     Reference db = FirebaseStorage.instance.ref(
-  //         "Housing/$id/$imgPath"); //TODO: instead of 1 we have to give id of the housing
-  //     await db.putFile(img);
-  //     // pgPath.add(await db.getDownloadURL());
-  //   }
-  // }
-
   void updateDropdowns(flat) {
     flatFormModel.update((val) {
       val!.powerBackup = flat.powerBackup;
@@ -69,6 +52,8 @@ class FlatFormController extends GetxController
 
   // dispose all text controllers
   void submitForm() async {
+    // if (_key.c):w
+
     final form = flatFormModel.value.toJson(userController.user.value.id);
     disabledButton.value = true;
 

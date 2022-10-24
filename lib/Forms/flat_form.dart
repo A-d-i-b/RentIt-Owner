@@ -39,6 +39,7 @@ class _FlatFormState extends State<FlatForm> {
       child: Stack(
         children: [
           Form(
+            key: flatFormController.key,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
