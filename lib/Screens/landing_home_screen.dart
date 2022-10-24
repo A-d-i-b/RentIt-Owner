@@ -67,7 +67,7 @@ class LandingHomeScreen extends StatelessWidget {
                             .map(
                               (e) => PropertyCard(
                                 description: e.description,
-                                // id: e.id,
+                                id: e.id,
                                 name: e.pgName,
                                 onTap: () {
                                   pgFormController.pgFormModel.value = e;
@@ -111,7 +111,7 @@ class LandingHomeScreen extends StatelessWidget {
                         children: data!
                             .map(
                               (e) => PropertyCard(
-                                // id: e.id,
+                                id: e.id,
                                 description: e.description,
                                 name: e.flatName,
                                 onTap: () {

@@ -50,11 +50,11 @@ class FireBaseController extends GetxController {
     return url;
   }
 
-  Widget display() {
+  Widget display(int id) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('housing')
-            .doc('74')
+            .doc('$id')
             .collection('photos')
             .snapshots(),
         builder: (context, snapshot) {
@@ -63,7 +63,7 @@ class FireBaseController extends GetxController {
             decoration: BoxDecoration(
               image: DecorationImage(
                   fit: BoxFit.fill,
-                  image: NetworkImage('${snapshot.data?.docs[0]['imageUrl']}')),
+                  image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
             ),
           );
         });

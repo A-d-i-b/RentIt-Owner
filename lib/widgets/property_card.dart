@@ -7,13 +7,13 @@ class PropertyCard extends StatelessWidget {
   PropertyCard(
       {Key? key,
       required this.name,
-      // required this.id,
+      required this.id,
       required this.description,
       required this.onTap})
       : super(key: key);
 
   final String name;
-  // final String id;
+  final int? id;
   final String description;
   final VoidCallback onTap;
 
@@ -35,7 +35,7 @@ class PropertyCard extends StatelessWidget {
                 SizedBox(
                   height: Get.width / 2.5,
                   width: Get.width / 2,
-                  child: fireBaseController.display(),
+                  child: fireBaseController.display(id!),
                 ),
                 const SizedBox(height: 8),
                 ConstrainedBox(
