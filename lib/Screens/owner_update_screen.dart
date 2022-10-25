@@ -45,22 +45,10 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
               children: [
                 Center(
                   child: Container(
-                    // radius: 60,
-                    // backgroundImage: profileImage.image,
                     width: Get.width / 2,
                     height: Get.width / 2,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(120),
-                      // image: DecorationImage(
-                      //   image: userController.updatedImage.value.path != ''
-                      //       ? FileImage(
-                      //           File(userController.updatedImage.value.path),
-                      //         )
-                      //       : (userController.image.value != ''
-                      //           ? NetworkImage(userController.image.value)
-                      //           : profileImage.image),
-                      //   fit: BoxFit.cover,
-                      // ),
                     ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(120),
