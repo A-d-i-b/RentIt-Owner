@@ -28,5 +28,5 @@ final routes = [
   GetPage(name: '/add-flat', page: () => FlatHome()),
   GetPage(name: '/tenant-profile', page: () => const TenantProfile()),
   GetPage(name: '/contact-screen', page: () => const ContactUs()),
-  // GetPage(name: '/example', page: () => const Example()),
+  GetPage(name: '/example', page: () => Example()),
 ];

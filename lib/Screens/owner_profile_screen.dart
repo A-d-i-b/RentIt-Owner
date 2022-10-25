@@ -126,10 +126,10 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              // Get.toNamed('/example');
+              Get.toNamed('/example');
               // getUrl();
               print(userController.image.value);
-              Get.toNamed('/contact-screen');
+              // Get.toNamed('/contact-screen');
             },
             child: const Padding(
               padding: EdgeInsets.all(12.0),

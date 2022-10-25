@@ -23,7 +23,7 @@ class FireBaseController extends GetxController {
             .doc('$id')
             .collection('photos')
             .doc()
-            .set({'Url': await db.getDownloadURL()});
+            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
       } else {
         String imgPath = img.file.path.split("/").last;
         Reference db = FirebaseStorage.instance.ref(
@@ -34,7 +34,7 @@ class FireBaseController extends GetxController {
             .doc('$id')
             .collection('videos')
             .doc()
-            .set({'Url': await db.getDownloadURL()});
+            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
       }
     }
   }
@@ -51,7 +51,7 @@ class FireBaseController extends GetxController {
             .doc('$id')
             .collection('photos')
             .doc()
-            .set({'Url': await db.getDownloadURL()});
+            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
       } else {
         String imgPath = img.file.path.split("/").last;
         Reference db = FirebaseStorage.instance.ref(
@@ -62,7 +62,7 @@ class FireBaseController extends GetxController {
             .doc('$id')
             .collection('videos')
             .doc()
-            .set({'Url': await db.getDownloadURL()});
+            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
       }
     }
   }
@@ -86,14 +86,6 @@ class FireBaseController extends GetxController {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
-          // return Container(
-          //   decoration: BoxDecoration(
-          //     borderRadius: BorderRadius.circular(10),
-          //     image: DecorationImage(
-          //         fit: BoxFit.fill,
-          //         image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
-          //   ),
-          // );
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
@@ -111,6 +103,48 @@ class FireBaseController extends GetxController {
               fit: BoxFit.fill,
             ),
           );
+        });
+  }
+
+  Widget displayList() {
+    int id23 = 104;
+    return StreamBuilder<QuerySnapshot>(
+        stream: FirebaseFirestore.instance
+            .collection('housing')
+            .doc('$id23') //TODO:We have to use actuall id in place of 98
+            .collection('photos')
+            .snapshots(),
+        builder: (context, snapshot) {
+          return ListView.builder(
+              itemCount: snapshot.data?.docs.length,
+              itemBuilder: (BuildContext context, int index) {
+                return Stack(
+                  children: [
+                    Container(
+                      width: Get.width / 2,
+                      height: Get.width / 2.5,
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: NetworkImage(
+                                  snapshot.data?.docs[index]['Url']))),
+                    ),
+                    IconButton(
+                        onPressed: () async {
+                          if (snapshot.data?.docs.length == 1) {
+                            Get.snackbar(
+                                "Error", "Atleast one image is required");
+                          } else {
+                            FirebaseStorage.instance
+                                .ref(
+                                    "Housing/$id23/${snapshot.data?.docs[index]['name']}")
+                                .delete();
+                            snapshot.data?.docs[index].reference.delete();
+                          }
+                        },
+                        icon: const Icon(Icons.cancel))
+                  ],
+                );
+              });
         });
   }
 }
