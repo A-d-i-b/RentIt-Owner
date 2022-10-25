@@ -86,6 +86,7 @@ class FireBaseController extends GetxController {
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
+
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(

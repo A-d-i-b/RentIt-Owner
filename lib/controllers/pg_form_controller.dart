@@ -5,13 +5,15 @@ import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/pg_connect.dart';
 import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/pg_form_model.dart';
+import 'package:flutter/material.dart';
 
 final FireBaseController fireBaseController = Get.put(FireBaseController());
 
 class PgFormController extends GetxController
     with TextControllers, RentsTextControllers, StateMixin<List<PgFormModel>> {
   final userController = Get.find<UserController>();
-
+  late final _key;
+  get key => _key;
   final _apiProvider = PgConnect();
 
   var disabledButton = false.obs;
@@ -63,8 +65,9 @@ class PgFormController extends GetxController
 
   @override
   void onReady() async {
-    fetchPgs();
+    _key = GlobalKey<FormState>();
 
+    fetchPgs();
     super.onReady();
   }
 
@@ -72,6 +75,12 @@ class PgFormController extends GetxController
 
   void submitForm() async {
     disabledButton.value = true;
+    if (!_key.currentState!.validate()) {
+      Get.snackbar('Error', 'Please fill all the fields',
+          snackPosition: SnackPosition.BOTTOM);
+
+      return;
+    }
     final form = pgFormModel.value.toJson(userController.user.value.id);
 
     _apiProvider.postPg(userController.jwt, form).then((value) async {

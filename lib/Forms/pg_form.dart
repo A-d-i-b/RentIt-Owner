@@ -24,6 +24,7 @@ class _PgFormState extends State<PgForm> {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Form(
+        key: pgFormController.key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

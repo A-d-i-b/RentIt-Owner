@@ -16,7 +16,7 @@ class FlatFormController extends GetxController
   final _apiProvider = FlatConnect();
 
   var disabledButton = false.obs;
-  final _key = GlobalKey<FormState>();
+  late final _key;
   get key => _key;
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
     flatName: '',
@@ -44,6 +44,8 @@ class FlatFormController extends GetxController
 
   @override
   void onReady() async {
+    _key = GlobalKey<FormState>();
+
     fetchFlats();
     super.onReady();
   }
@@ -56,8 +58,6 @@ class FlatFormController extends GetxController
 
     final form = flatFormModel.value.toJson(userController.user.value.id);
     disabledButton.value = true;
-
-    print(form['data']['user']);
 
     _apiProvider.postFlat(userController.jwt, form).then((value) async {
       try {
