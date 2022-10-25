@@ -19,6 +19,7 @@ class _FlatFormState extends State<FlatForm> {
 
   @override
   Widget build(BuildContext context) {
+    print(flatFormController.flatFormModel.value.id);
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Stack(

@@ -94,6 +94,7 @@ class FireBaseController extends GetxController {
           //         image: NetworkImage('${snapshot.data?.docs[0]['Url']}')),
           //   ),
           // );
+
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
