@@ -27,4 +27,22 @@ class AuthConnect extends GetConnect {
 
     return res;
   }
+
+  Future updateUser(Map body, int id, String jwt) async {
+    final res = await put(
+      '$USER_URL/$id',
+      body,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+
+    if (res.isOk) {
+      return res.body;
+    } else {
+      throw Exception('Failed to update user');
+    }
+  }
 }

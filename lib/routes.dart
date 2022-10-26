@@ -16,7 +16,7 @@ final routes = [
     name: '/',
     page: () => const SplashScreen(),
   ),
-  GetPage(name: '/sign-in', page: () => const SignIn()),
+  GetPage(name: '/sign-in', page: () => SignIn()),
   GetPage(name: '/otp', page: () => OTPScreen()),
   GetPage(name: '/sign-up', page: () => SignUp()),
   GetPage(name: '/update', page: () => const OwnerUpdate()),
