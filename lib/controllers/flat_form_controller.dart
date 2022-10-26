@@ -40,6 +40,8 @@ class FlatFormController extends GetxController
     });
   }
 
+  void updateFlat(List<Map> imagesDeleted) {}
+
   void deleteFlat() async {
     if (flatFormModel.value.id != null) {
       _apiProvider
