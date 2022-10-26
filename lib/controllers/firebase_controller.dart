@@ -182,11 +182,7 @@ class FireBaseController {
   static Widget displayList() {
     int id23 = 104;
     return StreamBuilder<QuerySnapshot>(
-      stream: FirebaseFirestore.instance
-          .collection('housing')
-          .doc('$id23')
-          .collection('photos')
-          .snapshots(),
+      stream: FirebaseFirestore.instance.collection('housing').snapshots(),
       builder: (context, snapshot) {
         return ListView.builder(
           itemCount: snapshot.data?.docs.length,
@@ -199,24 +195,24 @@ class FireBaseController {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        snapshot.data?.docs[index]['Url'],
+                        snapshot.data?.docs[0]['photo'][0],
                       ),
                     ),
                   ),
                 ),
-                IconButton(
-                    onPressed: () async {
-                      if (snapshot.data?.docs.length == 1) {
-                        Get.snackbar("Error", "Atleast one image is required");
-                      } else {
-                        FirebaseStorage.instance
-                            .ref(
-                                "Housing/$id23/${snapshot.data?.docs[index]['name']}")
-                            .delete();
-                        snapshot.data?.docs[index].reference.delete();
-                      }
-                    },
-                    icon: const Icon(Icons.cancel))
+                // IconButton(
+                //     onPressed: () async {
+                //       if (snapshot.data?.docs.length == 1) {
+                //         Get.snackbar("Error", "Atleast one image is required");
+                //       } else {
+                //         FirebaseStorage.instance
+                //             .ref(
+                //                 "Housing/$id23/${snapshot.data?.docs[index]['name']}")
+                //             .delete();
+                //         snapshot.data?.docs[index].reference.delete();
+                //       }
+                //     },
+                //     icon: const Icon(Icons.cancel))
               ],
             );
           },
