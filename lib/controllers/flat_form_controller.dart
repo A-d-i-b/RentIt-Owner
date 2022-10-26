@@ -84,7 +84,7 @@ class FlatFormController extends GetxController
       try {
         await FireBaseController.uploadFileFlat(value['data']['id'], assets);
       } catch (e) {
-        print(e);
+        printError(info: e.toString());
       }
 
       printInfo(info: 'success');

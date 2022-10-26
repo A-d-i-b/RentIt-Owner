@@ -111,7 +111,7 @@ class PgFormController extends GetxController
       try {
         await FireBaseController.uploadFilePg(value['data']['id'], assets);
       } catch (e) {
-        print(e);
+        printError(info: e.toString());
       }
 
       printInfo(info: 'success');

@@ -28,7 +28,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
         .then((DocumentSnapshot doc) {
       data2 = (doc.data() as Map<String, dynamic>)['Url'];
     });
-    print(data2);
+
     userController.image.value = data2;
   }
 
@@ -128,7 +128,6 @@ class _OwnerProfileState extends State<OwnerProfile> {
             onPressed: () {
               Get.toNamed('/example');
               // getUrl();
-              print(userController.image.value);
               // Get.toNamed('/contact-screen');
             },
             child: const Padding(

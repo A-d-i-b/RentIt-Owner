@@ -76,7 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
           const TenantList(),
 
-          OwnerProfile()
+          const OwnerProfile()
           // PgHome()
         ],
         onPageChanged: (page) {

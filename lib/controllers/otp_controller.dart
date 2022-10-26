@@ -83,7 +83,7 @@ class OTPController extends GetxController {
             "phone": Get.arguments[0],
           }).then(
             (value) {
-              userController.JWT = value["jwt"];
+              userController.setJwt = value["jwt"];
               Get.offAllNamed('/home');
             },
           ).catchError(

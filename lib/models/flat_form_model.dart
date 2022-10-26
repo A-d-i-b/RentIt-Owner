@@ -76,8 +76,6 @@ class FlatFormModel
     description = flat.description;
   }
 
-  //TODO: remove toString() from all the fields
-
   factory FlatFormModel.fromJson({
     required Map<String, dynamic> json,
   }) {
@@ -97,8 +95,8 @@ class FlatFormModel
       wifi: json['details']['wifi'],
       bhk: json['details']['bhk'],
       furniture: json['details']['furniture'],
-      noticePeriod: json['notice_period'].toString(),
-      builtIn: json['builtIn'].toString(),
+      noticePeriod: json['notice_period'],
+      builtIn: json['builtIn'],
       description: json['description'],
     );
   }

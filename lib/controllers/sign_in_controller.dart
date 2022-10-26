@@ -57,13 +57,12 @@ class SignInController extends GetxController {
             .collection('users')
             .doc('${userController.user.value.id}');
         final value = await docRef.get();
-        print(userController.user.value.id);
+
         if (value.exists) {
           userController.image.value = value.data()!['Url'];
         }
-        print(userController.user.value.imageUrl);
 
-        userController.JWT = resBody["jwt"];
+        userController.setJwt = resBody["jwt"];
         Get.offAllNamed('/home');
       }
     }).catchError((e) {

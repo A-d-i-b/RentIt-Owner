@@ -24,7 +24,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
     final profileImage = Image.asset(
       'images/ownerpic.jpg',
       fit: BoxFit.cover,
-    ); //TODO: Update this pic using image picker also update to the database
+    );
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,

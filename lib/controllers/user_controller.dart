@@ -16,7 +16,7 @@ class UserController extends GetxController {
 
   RxBool isUpdating = false.obs;
 
-  set JWT(String token) {
+  set setJwt(String token) {
     jwt = token;
 
     saveLocal();
@@ -38,7 +38,7 @@ class UserController extends GetxController {
     final jwt = prefs.getString('jwt');
 
     if (jwt != null) {
-      JWT = jwt;
+      setJwt = jwt;
     }
 
     final user = prefs.getString('user');
@@ -52,11 +52,10 @@ class UserController extends GetxController {
           .collection('users')
           .doc('${this.user.value.id}');
       final value = await docRef.get();
-      print(this.user.value.id);
+
       if (value.exists) {
         image.value = value.data()!['Url'];
       }
-      print(this.user.value.imageUrl);
 
       Get.offAllNamed('/home');
     } else {
