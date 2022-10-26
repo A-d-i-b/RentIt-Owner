@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/auth_controller.dart';
 
@@ -48,42 +49,24 @@ class OTPController extends GetxController {
         _disabled = true;
         loading.value = true;
 
-        // Future.delayed(const Duration(seconds: 2), () {
-        //   loading.value = false;
-        //   _disabled = false;
-        // });
-
-        // make http request to verify otp
         if (Get.arguments != null) {
-          // final res = await postData(
-          //   uri: OTP_URL,
-          //   body: json.encode(
-          //     {
-          // "otp": otp.join(),
-          // "phone": Get.arguments,
-          //     },
-          //   ),
-          // );
-
-          // if (res.statusCode == 200) {
-          // userController.JWT = json.decode(res.body)["jwt"];
-          // Get.offAllNamed('/home');
-          // } else {
-          //   Get.snackbar(
-          //     "Error",
-          //     "Invalid OTP",
-          //     snackPosition: SnackPosition.BOTTOM,
-          //   );
-
-          //   loading.value = false;
-          // }
-
           _apiProvider.verifyOtp({
             "otp": otp.join(),
             "phone": Get.arguments[0],
           }).then(
             (value) {
               userController.setJwt = value["jwt"];
+
+              userController.setUser(value["user"]);
+
+              FireBaseController.getUserImageUrl(value["user"]["id"]).then(
+                (value) {
+                  userController.image.value = value ?? '';
+                  Get.offAllNamed('/home');
+                },
+              );
+              userController.saveLocal();
+
               Get.offAllNamed('/home');
             },
           ).catchError(
@@ -94,6 +77,10 @@ class OTPController extends GetxController {
                 snackPosition: SnackPosition.BOTTOM,
               );
 
+              // clear otp
+              otp.clear();
+
+              _disabled = false;
               loading.value = false;
             },
           );

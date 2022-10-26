@@ -32,7 +32,7 @@ class UserModel {
       firstName: json['firstName'],
       lastName: json['lastName'],
       phone: json['phone'],
-      imageUrl: json['image_url'],
+      // imageUrl: json['image_url'],
     );
   }
 }

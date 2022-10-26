@@ -10,6 +10,7 @@ import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/theme/base_theme.dart';
+import 'package:househunt/widgets/alert_dialog.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/widgets/asset_thumb.dart';
 
@@ -30,39 +31,9 @@ class FlatHome extends StatelessWidget {
       onWillPop: () async {
         if (flatFormController.disabledButton.value) return true;
 
-        final choice = await Get.dialog<bool>(
-          AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10.0),
-            ),
-            title: const Text("Are you sure?"),
-            content: const Text(
-                "All unsaved changes will be lost. Do you want to continue?"),
-            actionsPadding: const EdgeInsets.symmetric(horizontal: 16.0),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Get.back(result: false);
-                },
-                child: const Text(
-                  "No",
-                  style: TextStyle(color: Colors.green),
-                ),
-              ),
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.red,
-                ),
-                onPressed: () {
-                  Get.back(result: true);
-                },
-                child: const Text(
-                  "Yes",
-                ),
-              ),
-            ],
-          ),
-        );
+        final choice = await alertDialog(
+            title: 'Caution',
+            content: 'All unsaved changes will be lost. Do you want to exit?');
 
         if (choice != true) {
           return false;

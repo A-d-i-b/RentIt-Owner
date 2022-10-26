@@ -45,4 +45,14 @@ class AuthConnect extends GetConnect {
       throw Exception('Failed to update user');
     }
   }
+
+  Future getUser(int id) async {
+    final res = await get('$USER_URL/$id');
+
+    if (res.isOk) {
+      return res.body;
+    } else {
+      throw Exception('Failed to get user');
+    }
+  }
 }

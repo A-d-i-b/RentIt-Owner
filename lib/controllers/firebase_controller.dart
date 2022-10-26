@@ -179,6 +179,16 @@ class FireBaseController {
     }
   }
 
+  static Future<String?> getUserImageUrl(int id) async {
+    final docRef = FirebaseFirestore.instance.collection('users').doc('$id');
+    final value = await docRef.get();
+
+    if (value.exists) {
+      return value.data()!['Url'];
+    }
+    return null;
+  }
+
   static Widget displayList() {
     int id23 = 104;
     return StreamBuilder<QuerySnapshot>(

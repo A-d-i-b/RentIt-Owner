@@ -43,12 +43,6 @@ class _OwnerProfileState extends State<OwnerProfile> {
                   height: Get.width / 2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(120),
-                    // image: DecorationImage(
-                    //   image: userController.image.value != ''
-                    //       ? NetworkImage(userController.image.value)
-                    //       : profileImage.image,
-                    //   fit: BoxFit.cover,
-                    // ),
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(120),
@@ -128,6 +122,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
           ElevatedButton(
             onPressed: () {
               // print(FirebaseFirestore.instance.collection(collectionPath))
+              userController.signOut();
               Get.offAllNamed('/sign-in');
             },
             style: ElevatedButton.styleFrom(
