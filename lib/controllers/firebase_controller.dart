@@ -10,56 +10,48 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:househunt/models/asset_models.dart';
 
 class FireBaseController {
-  static Future uploadFilePg(int id, RxList<FileAsset> assets) async {
-    for (var img in assets) {
-      if (img.type == AssetType.photo) {
-        String imgPath = img.file.path.split("/").last;
-        Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
-        await db.putFile(img.file);
-        FirebaseFirestore.instance
-            .collection('housing')
-            .doc('$id')
-            .collection('photos')
-            .doc()
-            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
-      } else {
-        String imgPath = img.file.path.split("/").last;
-        Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
-        await db.putFile(img.file);
-        FirebaseFirestore.instance
-            .collection('housing')
-            .doc('$id')
-            .collection('videos')
-            .doc()
-            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
-      }
-    }
-  }
+  static Future uploadFiles(int id, RxList<FileAsset> files,
+      {bool merge = false}) async {
+    final assets = [];
+    final List<Map<String, dynamic>> references = [];
 
-  static Future uploadFileFlat(int id, RxList<FileAsset> assets) async {
-    for (var img in assets) {
-      if (img.type == AssetType.photo) {
-        String imgPath = img.file.path.split("/").last;
-        Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
-        await db.putFile(img.file);
-        FirebaseFirestore.instance
-            .collection('housing')
-            .doc('$id')
-            .collection('photos')
-            .doc()
-            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
-      } else {
-        String imgPath = img.file.path.split("/").last;
-        Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
-        await db.putFile(img.file);
-        FirebaseFirestore.instance
-            .collection('housing')
-            .doc('$id')
-            .collection('videos')
-            .doc()
-            .set({'Url': await db.getDownloadURL(), 'name': imgPath});
-      }
+    for (final asset in files) {
+      String imgPath = asset.file.path.split("/").last;
+      Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
+
+      references.add(
+        {'db': db, 'file': File(asset.file.path)},
+      );
+
+      // assets.add({
+      //   'Url': await db.getDownloadURL(),
+      //   'name': imgPath,
+      //   'type': asset.type == AssetType.photo ? 'photo' : 'video'
+      // });
     }
+
+    // promise.allSettled
+
+    await Future.wait([
+      ...references.map(
+        (e) => e['db']!.putFile(
+          e['file']!,
+        ),
+      ),
+    ]);
+
+    for (var i = 0; i < references.length; i++) {
+      String imgPath = files[i].file.path.split("/").last;
+      assets.add({
+        'Url': await references[i]['db'].getDownloadURL(),
+        'name': imgPath,
+        'type': files[i].type == AssetType.photo ? 'photo' : 'video'
+      });
+    }
+
+    await FirebaseFirestore.instance.collection('housing').doc('$id').set({
+      'assets': assets,
+    });
   }
 
   static Future<String> uploadFileProfile(int id, String path) async {
@@ -73,15 +65,15 @@ class FireBaseController {
   }
 
   static Widget display(int id) {
-    return StreamBuilder<QuerySnapshot>(
+    return StreamBuilder<DocumentSnapshot>(
         stream: FirebaseFirestore.instance
             .collection('housing')
             .doc('$id')
-            .collection('photos')
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
 
+          // print(snapshot.data.);
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
@@ -96,7 +88,7 @@ class FireBaseController {
                   ),
                 ),
               ),
-              imageUrl: '${snapshot.data?.docs[0]['Url']}',
+              imageUrl: '${snapshot.data!['assets'][0]['Url']}',
               fit: BoxFit.fill,
             ),
           );
@@ -119,41 +111,72 @@ class FireBaseController {
 
   static Future deleteAssets(List<Map> list, int id) async {
     for (var item in list) {
-      final docId = item['id'] as String;
       final storageRef =
           FirebaseStorage.instance.ref("Housing/$id/${item['name']}");
       await storageRef.delete();
       await FirebaseFirestore.instance
           .collection('housing')
           .doc('$id')
-          .collection('photos')
-          .doc(docId)
           .delete();
     }
   }
 
-  static Future<List<Map>> getAssets(int id) async {
-    final ref = FirebaseFirestore.instance
-        .collection('housing')
-        .doc('$id')
-        .collection('photos');
+  static Future updateAssets(
+      List<Map> existingItems, List<FileAsset> items, int id) async {
+    final assets = existingItems
+        .map((e) => {
+              'Url': e['Url'],
+              'name': e['name'],
+              'type': e['type'],
+            })
+        .toList();
 
-    final List<Map> docs = [];
+    final List<Map<String, dynamic>> references = [];
 
-    await ref.get().then((value) {
-      docs.addAll(
-        value.docs.map(
-          (e) {
-            final ret = e.data();
-            ret['id'] = e.id;
+    for (final asset in items) {
+      String imgPath = asset.file.path.split("/").last;
+      Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
 
-            return ret;
-          },
-        ),
+      references.add(
+        {'db': db, 'file': File(asset.file.path)},
       );
-    });
 
-    return docs;
+      assets.add({
+        'Url': await db.getDownloadURL(),
+        'name': imgPath,
+        'type': asset.type == AssetType.photo ? 'photo' : 'video'
+      });
+    }
+
+    await Future.wait([
+      ...references.map(
+        (e) => e['db']!.putFile(
+          File(e['file']!),
+        ),
+      ),
+      FirebaseFirestore.instance.collection('housing').doc('$id').set(
+        {
+          'assets': assets,
+        },
+        SetOptions(merge: true),
+      ),
+    ]);
+  }
+
+  static Future<List> getAssets(int id) async {
+    final ref = FirebaseFirestore.instance.collection('housing').doc('$id');
+
+    final List docs = [];
+
+    try {
+      await ref.get().then((value) {
+        docs.addAll([...(value.data()!['assets'])]);
+      });
+
+      return docs;
+    } catch (e) {
+      rethrow;
+    }
   }
 
   static Widget displayList() {
