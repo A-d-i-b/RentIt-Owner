@@ -100,9 +100,13 @@ class _PgFormState extends State<PgForm> {
                                   : primary,
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Single",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: !pgFormController.singleRoom.value
+                                  ? Colors.black54
+                                  : tri,
+                            ),
                           ),
                         ),
                       ),
@@ -129,9 +133,13 @@ class _PgFormState extends State<PgForm> {
                                   : primary,
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Double",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: !pgFormController.doubleRoom.value
+                                  ? Colors.black54
+                                  : tri,
+                            ),
                           ),
                         ),
                       ),
@@ -160,9 +168,13 @@ class _PgFormState extends State<PgForm> {
                                   : primary,
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Triple",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: !pgFormController.tripleRoom.value
+                                  ? Colors.black54
+                                  : tri,
+                            ),
                           ),
                         ),
                       ),
@@ -189,9 +201,13 @@ class _PgFormState extends State<PgForm> {
                                   : primary,
                             ),
                           ),
-                          child: const Text(
+                          child: Text(
                             "Quadruple",
-                            style: TextStyle(color: Colors.black),
+                            style: TextStyle(
+                              color: !pgFormController.fourRoom.value
+                                  ? Colors.black54
+                                  : tri,
+                            ),
                           ),
                         ),
                       ),
