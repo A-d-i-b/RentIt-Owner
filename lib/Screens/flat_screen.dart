@@ -28,6 +28,8 @@ class FlatHome extends StatelessWidget {
 
     return WillPopScope(
       onWillPop: () async {
+        if (flatFormController.disabledButton.value) return true;
+
         final choice = await Get.dialog<bool>(
           AlertDialog(
             shape: RoundedRectangleBorder(
@@ -204,7 +206,7 @@ class FlatHome extends StatelessWidget {
                   future: FireBaseController.getAssets(
                     flatFormController.flatFormModel.value.id!,
                   ),
-                  builder: (context, AsyncSnapshot<List<Map>> snapshot) {
+                  builder: (context, AsyncSnapshot<List> snapshot) {
                     if (snapshot.hasData) {
                       return Padding(
                         padding: const EdgeInsets.only(left: 20, right: 20),
@@ -266,7 +268,7 @@ class FlatHome extends StatelessWidget {
                       );
                     } else {
                       return const Center(
-                        child: CircularProgressIndicator(),
+                        child: Text('Loading...'),
                       );
                     }
                   },

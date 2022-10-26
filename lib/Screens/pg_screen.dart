@@ -192,7 +192,7 @@ class PgHome extends StatelessWidget {
                 future: FireBaseController.getAssets(
                   pgFormController.pgFormModel.value.id!,
                 ),
-                builder: (context, AsyncSnapshot<List<Map>> snapshot) {
+                builder: (context, AsyncSnapshot<List> snapshot) {
                   if (snapshot.hasData) {
                     return Padding(
                       padding: const EdgeInsets.only(left: 20, right: 20),

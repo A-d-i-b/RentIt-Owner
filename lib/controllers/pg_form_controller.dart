@@ -109,7 +109,7 @@ class PgFormController extends GetxController
 
     _apiProvider.postPg(userController.jwt, form).then((value) async {
       try {
-        await FireBaseController.uploadFilePg(value['data']['id'], assets);
+        await FireBaseController.uploadFiles(value['data']['id'], assets);
       } catch (e) {
         printError(info: e.toString());
       }

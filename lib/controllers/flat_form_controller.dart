@@ -84,9 +84,9 @@ class FlatFormController extends GetxController
 
     _apiProvider.postFlat(userController.jwt, form).then((value) async {
       try {
-        await FireBaseController.uploadFileFlat(value['data']['id'], assets);
+        await FireBaseController.uploadFiles(value['data']['id'], assets);
       } catch (e) {
-        printError(info: e.toString());
+        rethrow;
       }
 
       printInfo(info: 'success');
@@ -105,7 +105,7 @@ class FlatFormController extends GetxController
 
       Get.toNamed('/home');
     }).catchError((e) {
-      printError(info: 'failed');
+      printError(info: e.toString());
       // add a failure snackbar
       Get.snackbar('Failed', 'Failed to add Flat');
       disabledButton.value = false;
