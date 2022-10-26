@@ -42,4 +42,20 @@ class FlatConnect extends GetConnect {
       throw Exception('Failed to post flat');
     }
   }
+
+  Future deleteFlat(String jwt, int id) async {
+    final response = await delete(
+      '$HOUSE_URL/$id',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+    if (response.isOk) {
+      return response.body;
+    } else {
+      throw Exception('Failed to delete flat');
+    }
+  }
 }

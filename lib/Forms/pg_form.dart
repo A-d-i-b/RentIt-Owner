@@ -6,7 +6,6 @@ import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/custom_button.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
-import 'package:househunt/controllers/firebase_controller.dart';
 
 class PgForm extends StatefulWidget {
   const PgForm({Key? key}) : super(key: key);
@@ -18,9 +17,11 @@ class PgForm extends StatefulWidget {
 class _PgFormState extends State<PgForm> {
   // insert controller
   PgFormController pgFormController = Get.put(PgFormController());
-  final FireBaseController fireBaseController = Get.put(FireBaseController());
+
   @override
   Widget build(BuildContext context) {
+    final bool inEditMode = pgFormController.pgFormModel.value.id != null;
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Form(
@@ -483,8 +484,12 @@ class _PgFormState extends State<PgForm> {
                       child: Center(
                         child: Text(
                           pgFormController.disabledButton.value
-                              ? "Submitting..."
-                              : "Submit",
+                              ? inEditMode
+                                  ? "Updating..."
+                                  : "Submitting..."
+                              : inEditMode
+                                  ? "Update"
+                                  : "Submit",
                           style: Get.textTheme.headline6!.copyWith(
                               color: Colors.white, fontWeight: FontWeight.w600),
                         ),

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/models/asset_models.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Asset {
   XFile file;
-  String type;
+  AssetType type;
 
   Asset({required this.file, required this.type});
 }
@@ -48,7 +49,7 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  onAssetPicked([Asset(file: image, type: 'photo')]);
+                  onAssetPicked([Asset(file: image, type: AssetType.photo)]);
                 }
                 Get.back();
               },
@@ -61,7 +62,7 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.camera,
                 );
                 if (image != null) {
-                  onAssetPicked([Asset(file: image, type: 'video')]);
+                  onAssetPicked([Asset(file: image, type: AssetType.video)]);
                 }
                 Get.back();
               },
@@ -75,7 +76,9 @@ class AssetPickerWidget extends StatelessWidget {
                 );
                 if (image != null) {
                   onAssetPicked(
-                    image.map((x) => Asset(file: x, type: 'photo')).toList(),
+                    image
+                        .map((x) => Asset(file: x, type: AssetType.photo))
+                        .toList(),
                   );
                 }
                 Get.back();
@@ -89,7 +92,11 @@ class AssetPickerWidget extends StatelessWidget {
                   source: ImageSource.gallery,
                 );
                 if (image != null) {
-                  onAssetPicked([Asset(file: image, type: 'video')]);
+                  onAssetPicked(
+                    [
+                      Asset(file: image, type: AssetType.video),
+                    ],
+                  );
                 }
                 Get.back();
               },

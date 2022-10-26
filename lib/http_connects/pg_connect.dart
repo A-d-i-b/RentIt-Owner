@@ -39,4 +39,20 @@ class PgConnect extends GetConnect {
       throw Exception('Failed to post pg');
     }
   }
+
+  Future deletePg(String jwt, int id) async {
+    final response = await delete(
+      '$HOUSE_URL/$id',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+    if (response.isOk) {
+      return response.body;
+    } else {
+      throw Exception('Failed to delete pg');
+    }
+  }
 }

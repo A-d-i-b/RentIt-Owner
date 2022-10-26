@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 class AssetThumb extends StatelessWidget {
@@ -11,7 +9,7 @@ class AssetThumb extends StatelessWidget {
   }) : super(key: key);
 
   final VoidCallback onRemove;
-  final File file;
+  final ImageProvider file;
   final bool isVideo;
   @override
   Widget build(BuildContext context) {
@@ -26,7 +24,7 @@ class AssetThumb extends StatelessWidget {
           decoration: BoxDecoration(
             image: DecorationImage(
               fit: BoxFit.cover,
-              image: FileImage(file),
+              image: file,
             ),
             borderRadius: BorderRadius.circular(10),
           ),

@@ -35,7 +35,7 @@ class PropertyCard extends StatelessWidget {
                 SizedBox(
                   height: Get.width / 2.5,
                   width: Get.width / 2,
-                  child: fireBaseController.display(id!),
+                  child: FireBaseController.display(id!),
                 ),
                 const SizedBox(height: 8),
                 ConstrainedBox(

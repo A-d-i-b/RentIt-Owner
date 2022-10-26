@@ -103,6 +103,29 @@ class FlatFormModel
     );
   }
 
+  factory FlatFormModel.from(FlatFormModel model) {
+    return FlatFormModel(
+      id: model.id,
+      flatName: model.flatName,
+      address: model.address,
+      noOfRooms: model.noOfRooms,
+      rent: model.rent,
+      powerBackup: model.powerBackup,
+      acRooms: model.acRooms,
+      maintenance: model.maintenance,
+      electricityCharges: model.electricityCharges,
+      availableFor: model.availableFor,
+      preferredTenant: model.preferredTenant,
+      food: model.food,
+      wifi: model.wifi,
+      bhk: model.bhk,
+      furniture: model.furniture,
+      noticePeriod: model.noticePeriod,
+      builtIn: model.builtIn,
+      description: model.description,
+    );
+  }
+
   toJson(int id) {
     return {
       "data": {

@@ -7,12 +7,12 @@ import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/pg_form_model.dart';
 import 'package:flutter/material.dart';
 
-final FireBaseController fireBaseController = Get.put(FireBaseController());
+// final FireBaseController fireBaseController = FireBaseController();
 
 class PgFormController extends GetxController
     with TextControllers, RentsTextControllers, StateMixin<List<PgFormModel>> {
   final userController = Get.find<UserController>();
-  late final _key;
+  late final GlobalKey<FormState> _key;
   get key => _key;
   final _apiProvider = PgConnect();
 
@@ -34,6 +34,23 @@ class PgFormController extends GetxController
   RxList<FileAsset> assets = <FileAsset>[].obs;
 
   RxList pgs = [].obs;
+
+  void deletePg() async {
+    if (pgFormModel.value.id != null) {
+      _apiProvider.deletePg(userController.jwt, pgFormModel.value.id!).then(
+        (val) {
+          FireBaseController.deleteHousing(pgFormModel.value.id!);
+
+          fetchPgs();
+          Get.back();
+        },
+      ).catchError(
+        (err) {
+          Get.snackbar('Error', err.toString());
+        },
+      );
+    }
+  }
 
   void updateDropdowns(flat) {
     pgFormModel.update((val) {
@@ -74,18 +91,25 @@ class PgFormController extends GetxController
   // dispose all text controllers
 
   void submitForm() async {
-    disabledButton.value = true;
     if (!_key.currentState!.validate()) {
       Get.snackbar('Error', 'Please fill all the fields',
           snackPosition: SnackPosition.BOTTOM);
 
       return;
     }
+
+    if (assets.isEmpty) {
+      Get.snackbar('Error', 'Please add atleast one image',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    disabledButton.value = true;
+
     final form = pgFormModel.value.toJson(userController.user.value.id);
 
     _apiProvider.postPg(userController.jwt, form).then((value) async {
       try {
-        await fireBaseController.uploadFilePg(value['data']['id']);
+        await FireBaseController.uploadFilePg(value['data']['id'], assets);
       } catch (e) {
         print(e);
       }

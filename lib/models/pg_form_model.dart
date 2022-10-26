@@ -86,6 +86,31 @@ class PgFormModel
   }
 //TODO: remove toString() from all the fields
 
+  factory PgFormModel.from(PgFormModel model) {
+    return PgFormModel(
+      id: model.id,
+      pgName: model.pgName,
+      address: model.address,
+      noOfRooms: model.noOfRooms,
+      singleRoomRent: model.singleRoomRent,
+      doubleRoomRent: model.doubleRoomRent,
+      tripleRoomRent: model.tripleRoomRent,
+      fourRoomRent: model.fourRoomRent,
+      powerBackup: model.powerBackup,
+      acRooms: model.acRooms,
+      maintenance: model.maintenance,
+      electricityCharges: model.electricityCharges,
+      availableFor: model.availableFor,
+      preferredTenant: model.preferredTenant,
+      food: model.food,
+      wifi: model.wifi,
+      furniture: model.furniture,
+      noticePeriod: model.noticePeriod,
+      operatingSince: model.operatingSince,
+      description: model.description,
+    );
+  }
+
   toJson(int id) {
     return {
       "data": {

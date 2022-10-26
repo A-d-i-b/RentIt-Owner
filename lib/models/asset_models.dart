@@ -1,8 +1,10 @@
 import 'dart:io';
 
+enum AssetType { photo, video }
+
 class FileAsset {
   File file;
-  String type;
+  AssetType type;
 
   FileAsset({required this.file, required this.type});
 }

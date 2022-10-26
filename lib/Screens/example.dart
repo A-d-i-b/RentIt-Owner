@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:get/get.dart';
@@ -16,7 +15,7 @@ class ExampleState extends State<Example> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: fireBaseController.displayList(),
+      body: FireBaseController.displayList(),
     );
   }
 }

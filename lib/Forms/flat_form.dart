@@ -4,22 +4,16 @@ import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
-import 'package:househunt/controllers/firebase_controller.dart';
 
-class FlatForm extends StatefulWidget {
-  const FlatForm({Key? key}) : super(key: key);
+class FlatForm extends StatelessWidget {
+  FlatForm({Key? key}) : super(key: key);
 
-  @override
-  State<FlatForm> createState() => _FlatFormState();
-}
-
-class _FlatFormState extends State<FlatForm> {
-  FlatFormController flatFormController = Get.put(FlatFormController());
-  final FireBaseController fireBaseController = Get.put(FireBaseController());
+  final FlatFormController flatFormController = Get.put(FlatFormController());
 
   @override
   Widget build(BuildContext context) {
-    print(flatFormController.flatFormModel.value.id);
+    final bool inEditMode = flatFormController.flatFormModel.value.id != null;
+
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Stack(
@@ -292,7 +286,10 @@ class _FlatFormState extends State<FlatForm> {
                         if (flatFormController.disabledButton.value) return;
                         FocusManager.instance.primaryFocus?.unfocus();
 
-                        flatFormController.submitForm();
+                        if (inEditMode) {
+                        } else {
+                          flatFormController.submitForm();
+                        }
                       },
                       child: SizedBox(
                         width: Get.width / 2.75,
@@ -301,8 +298,12 @@ class _FlatFormState extends State<FlatForm> {
                           child: Center(
                             child: Text(
                               flatFormController.disabledButton.value
-                                  ? "Submitting..."
-                                  : "Submit",
+                                  ? inEditMode
+                                      ? "Updating..."
+                                      : "Submitting..."
+                                  : inEditMode
+                                      ? "Update"
+                                      : "Submit",
                               style: Get.textTheme.headline6!.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.w600,

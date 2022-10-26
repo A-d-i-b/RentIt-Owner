@@ -174,7 +174,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                   if (userController.isUpdating.value) return;
                   userController.isUpdating.value = true;
                   if (!(userController.updatedImage.value.path == '')) {
-                    final url = await fireBaseController.uploadFileProfile(
+                    final url = await FireBaseController.uploadFileProfile(
                       userController.user.value.id,
                       userController.updatedImage.value.path,
                     );

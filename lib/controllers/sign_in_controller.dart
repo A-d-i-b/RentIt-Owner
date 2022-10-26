@@ -76,41 +76,6 @@ class SignInController extends GetxController {
       buttonDisabled.value = false;
     });
 
-    // final res = await postData(
-    //   uri: LOGIN_URL,
-    //   body: json.encoder.convert(response),
-    // );
-
-    // final Map<String, dynamic> resBody = await json.decode(res.body);
-
-    // if (res.statusCode == 200) {
-    // userController.setUserFromJson(resBody["user"]);
-
-    // if (resBody["user"]["blocked"] == true) {
-    //   Get.snackbar(
-    //     "Error",
-    //     "Your account has been blocked",
-    //     snackPosition: SnackPosition.BOTTOM,
-    //   );
-
-    //   buttonDisabled.value = false;
-    //   return;
-    // }
-
-    // if (resBody["user"]["confirmed"] == false) {
-    //   Get.offAllNamed('/otp', arguments: resBody["user"]["phone"]);
-    // } else {
-    //   userController.JWT = resBody["jwt"];
-    //   Get.offAllNamed('/home');
-    // }
-    // } else {
-    // Get.snackbar(
-    //   "Error",
-    //   "Invalid credentials",
-    //   snackPosition: SnackPosition.BOTTOM,
-    // );
-    // }
-
     buttonDisabled.value = false;
     return;
   }

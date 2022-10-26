@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
+import 'package:househunt/models/flat_form_model.dart';
+import 'package:househunt/models/pg_form_model.dart';
 import 'package:househunt/widgets/property_card.dart';
 
 class LandingHomeScreen extends StatelessWidget {
@@ -70,7 +72,8 @@ class LandingHomeScreen extends StatelessWidget {
                                 id: e.id,
                                 name: e.pgName,
                                 onTap: () {
-                                  pgFormController.pgFormModel.value = e;
+                                  pgFormController.pgFormModel.value =
+                                      PgFormModel.from(e);
 
                                   pgFormController.updateTextFields(e, 'pg');
                                   pgFormController.updateDropdowns(e);
@@ -115,7 +118,8 @@ class LandingHomeScreen extends StatelessWidget {
                                 description: e.description,
                                 name: e.flatName,
                                 onTap: () {
-                                  flatFormController.flatFormModel.value = e;
+                                  flatFormController.flatFormModel.value =
+                                      FlatFormModel.from(e);
 
                                   flatFormController.updateTextFields(
                                       e, 'flat');
@@ -144,9 +148,13 @@ class LandingHomeScreen extends StatelessWidget {
                         pgFormController.clearRoomRents();
                         pgFormController.clearDropdowns();
 
-                        if (pgFormController.assets.isNotEmpty) {
-                          pgFormController.assets.clear();
-                        }
+                        pgFormController.assets.clear();
+
+                        pgFormController.pgFormModel.value = PgFormModel(
+                          pgName: '',
+                          address: '',
+                          description: '',
+                        );
 
                         Get.toNamed('/add-pg');
                       },
@@ -169,9 +177,14 @@ class LandingHomeScreen extends StatelessWidget {
                       onPressed: () {
                         flatFormController.clearTextControllers();
                         flatFormController.clearDropdowns();
-                        if (flatFormController.assets.isNotEmpty) {
-                          flatFormController.assets.clear();
-                        }
+
+                        flatFormController.assets.clear();
+
+                        flatFormController.flatFormModel.value = FlatFormModel(
+                          flatName: '',
+                          address: '',
+                          description: '',
+                        );
                         Get.toNamed('/add-flat');
                       },
                       child: SizedBox(

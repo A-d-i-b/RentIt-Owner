@@ -8,15 +8,13 @@ import 'package:househunt/models/flat_form_model.dart';
 
 import 'firebase_controller.dart';
 
-final FireBaseController fireBaseController = Get.put(FireBaseController());
-
 class FlatFormController extends GetxController
     with TextControllers, StateMixin<List<FlatFormModel>> {
   final UserController userController = Get.find<UserController>();
   final _apiProvider = FlatConnect();
 
   var disabledButton = false.obs;
-  late final _key;
+  late final GlobalKey<FormState> _key;
   get key => _key;
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
     flatName: '',
@@ -42,6 +40,20 @@ class FlatFormController extends GetxController
     });
   }
 
+  void deleteFlat() async {
+    if (flatFormModel.value.id != null) {
+      _apiProvider
+          .deleteFlat(userController.jwt, flatFormModel.value.id!)
+          .then((val) {
+        fetchFlats();
+
+        FireBaseController.deleteHousing(flatFormModel.value.id!);
+
+        Get.back();
+      });
+    }
+  }
+
   @override
   void onReady() async {
     _key = GlobalKey<FormState>();
@@ -56,12 +68,21 @@ class FlatFormController extends GetxController
       return;
     }
 
+    if (assets.isEmpty) {
+      Get.snackbar(
+        'Error',
+        'Please add atleast one image',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
+    }
+
     final form = flatFormModel.value.toJson(userController.user.value.id);
     disabledButton.value = true;
 
     _apiProvider.postFlat(userController.jwt, form).then((value) async {
       try {
-        await fireBaseController.uploadFileFlat(value['data']['id']);
+        await FireBaseController.uploadFileFlat(value['data']['id'], assets);
       } catch (e) {
         print(e);
       }
@@ -102,7 +123,6 @@ class FlatFormController extends GetxController
   }
 
   void clearForm() {
-// clear all text controllers
     clearTextControllers();
 
     // clear all assets
