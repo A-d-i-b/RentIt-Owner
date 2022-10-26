@@ -32,7 +32,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
         foregroundColor: Colors.blue,
         backgroundColor: Colors.transparent,
         title: Text(
-          "My Account",
+          "Update Account",
           style: Get.textTheme.headline4,
         ),
       ),

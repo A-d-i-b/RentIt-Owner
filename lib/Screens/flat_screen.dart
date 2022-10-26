@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import 'package:househunt/Forms/flat_form.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
+import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/theme/base_theme.dart';
@@ -16,6 +17,8 @@ class FlatHome extends StatelessWidget {
   FlatHome({Key? key}) : super(key: key);
 
   final FlatFormController flatFormController = Get.put(FlatFormController());
+
+  final UpdateController updateController = Get.put(UpdateController());
 
   @override
   Widget build(BuildContext context) {
@@ -82,6 +85,8 @@ class FlatHome extends StatelessWidget {
                   flatFormController.flatFormModel.value = copy;
 
                   flatFormController.updateDropdowns(copy);
+
+                  updateController.items.clear();
 
                   Get.back();
                 },
@@ -200,7 +205,7 @@ class FlatHome extends StatelessWidget {
               future: FireBaseController.getAssets(
                 flatFormController.flatFormModel.value.id!,
               ),
-              builder: (context, AsyncSnapshot<List<String>> snapshot) {
+              builder: (context, AsyncSnapshot<List<Map>> snapshot) {
                 if (snapshot.hasData) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
@@ -222,9 +227,10 @@ class FlatHome extends StatelessWidget {
                                 .map(
                                   (el) => AssetThumb(
                                     onRemove: () {
-                                      // pgFormController.assets.remove(el);
+                                      updateController.items.add(el);
                                     },
-                                    file: CachedNetworkImageProvider(el),
+                                    file:
+                                        CachedNetworkImageProvider(el['Url']!),
                                   ),
                                 )
                                 .toList(),

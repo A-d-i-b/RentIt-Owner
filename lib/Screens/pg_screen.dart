@@ -197,7 +197,7 @@ class PgHome extends StatelessWidget {
               future: FireBaseController.getAssets(
                 pgFormController.pgFormModel.value.id!,
               ),
-              builder: (context, AsyncSnapshot<List<String>> snapshot) {
+              builder: (context, AsyncSnapshot<List<Map>> snapshot) {
                 if (snapshot.hasData) {
                   return Padding(
                     padding: const EdgeInsets.only(left: 20, right: 20),
@@ -221,7 +221,8 @@ class PgHome extends StatelessWidget {
                                     onRemove: () {
                                       // pgFormController.assets.remove(el);
                                     },
-                                    file: CachedNetworkImageProvider(el),
+                                    file:
+                                        CachedNetworkImageProvider(el['Url']!),
                                   ),
                                 )
                                 .toList(),

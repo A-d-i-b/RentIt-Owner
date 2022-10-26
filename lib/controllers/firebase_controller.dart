@@ -1,10 +1,11 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:househunt/models/asset_models.dart';
 
@@ -113,23 +114,43 @@ class FireBaseController {
     });
   }
 
-  static Future<List<String>> getAssets(int id) async {
+  static Future deleteAssets(List<Map> list, int id) async {
+    for (var item in list) {
+      final docId = item['id'] as String;
+      final storageRef =
+          FirebaseStorage.instance.ref("Housing/$id/${item['name']}");
+      await storageRef.delete();
+      await FirebaseFirestore.instance
+          .collection('housing')
+          .doc('$id')
+          .collection('photos')
+          .doc(docId)
+          .delete();
+    }
+  }
+
+  static Future<List<Map>> getAssets(int id) async {
     final ref = FirebaseFirestore.instance
         .collection('housing')
         .doc('$id')
         .collection('photos');
 
-    final List<String> urls = [];
+    final List<Map> docs = [];
 
     await ref.get().then((value) {
-      urls.addAll(
+      docs.addAll(
         value.docs.map(
-          (e) => e['Url'],
+          (e) {
+            final ret = e.data();
+            ret['id'] = e.id;
+
+            return ret;
+          },
         ),
       );
     });
 
-    return urls;
+    return docs;
   }
 
   static Widget displayList() {
