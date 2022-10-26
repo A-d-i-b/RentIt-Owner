@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/firebase_controller.dart';
@@ -18,19 +17,6 @@ class _OwnerProfileState extends State<OwnerProfile> {
   final UserController userController = Get.put(UserController());
 
   final FireBaseController fireBaseController = Get.put(FireBaseController());
-
-  Future getUrl() async {
-    String data2 = '';
-    await FirebaseFirestore.instance
-        .collection('users')
-        .doc('${userController.user.value.id}')
-        .get()
-        .then((DocumentSnapshot doc) {
-      data2 = (doc.data() as Map<String, dynamic>)['Url'];
-    });
-
-    userController.image.value = data2;
-  }
 
   @override
   Widget build(BuildContext context) {

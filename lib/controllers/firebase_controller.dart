@@ -104,14 +104,17 @@ class FireBaseController {
   }
 
   static Future deleteHousing(int id) async {
-    await FirebaseFirestore.instance.collection('housing').doc('$id').delete();
-    // delete photos from storage
     Reference ref = FirebaseStorage.instance.ref("Housing/$id");
-    await ref.listAll().then((dir) {
-      for (var fileRef in dir.items) {
-        fileRef.delete();
-      }
-    });
+
+    await Future.wait([
+      FirebaseFirestore.instance.collection('housing').doc('$id').delete(),
+      // delete photos from storage
+      ref.listAll().then((dir) {
+        for (var fileRef in dir.items) {
+          fileRef.delete();
+        }
+      })
+    ]);
   }
 
   static Future deleteAssets(List<Map> list, int id) async {

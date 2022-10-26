@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
+import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
@@ -9,6 +10,7 @@ class FlatForm extends StatelessWidget {
   FlatForm({Key? key}) : super(key: key);
 
   final FlatFormController flatFormController = Get.put(FlatFormController());
+  final UpdateController updateController = Get.put(UpdateController());
 
   @override
   Widget build(BuildContext context) {
@@ -287,6 +289,8 @@ class FlatForm extends StatelessWidget {
                         FocusManager.instance.primaryFocus?.unfocus();
 
                         if (inEditMode) {
+                          flatFormController
+                              .updateFlat(updateController.items.toList());
                         } else {
                           flatFormController.submitForm();
                         }

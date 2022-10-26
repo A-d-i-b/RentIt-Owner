@@ -26,31 +26,85 @@ class FlatHome extends StatelessWidget {
     FlatFormModel copy =
         FlatFormModel.from(flatFormController.flatFormModel.value);
 
-    return Scaffold(
-      extendBodyBehindAppBar: false,
-      appBar: AppBar(
-        elevation: 0.0,
-        backgroundColor: Colors.transparent,
-        foregroundColor: primary,
-        title: Text(
-          "Flat",
-          style: Get.textTheme.headline4!.copyWith(
-            color: Colors.black,
+    return WillPopScope(
+      onWillPop: () async {
+        final choice = await Get.dialog<bool>(
+          AlertDialog(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            title: const Text("Are you sure?"),
+            content: const Text(
+                "All unsaved changes will be lost. Do you want to continue?"),
+            actionsPadding: const EdgeInsets.symmetric(horizontal: 16.0),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Get.back(result: false);
+                },
+                child: const Text(
+                  "No",
+                  style: TextStyle(color: Colors.green),
+                ),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.red,
+                ),
+                onPressed: () {
+                  Get.back(result: true);
+                },
+                child: const Text(
+                  "Yes",
+                ),
+              ),
+            ],
           ),
-        ),
-        centerTitle: true,
-        leading: inEditMode
-            ? IconButton(
-                onPressed: () async {
-                  // show dialog all unsaved changes will be lost
-                  final choice = await Get.dialog<bool>(
+        );
+
+        if (choice != true) {
+          return false;
+        }
+        if (inEditMode) {
+          flatFormController.flatFormModel.value = copy;
+          flatFormController.updateDropdowns(copy);
+        } else {
+          flatFormController.flatFormModel.value =
+              FlatFormModel(flatName: '', address: '', description: '');
+          flatFormController.updateDropdowns(
+              FlatFormModel(flatName: '', address: '', description: ''));
+        }
+        updateController.items.clear();
+        flatFormController.assets.clear();
+
+        return true;
+      },
+      child: Scaffold(
+        extendBodyBehindAppBar: false,
+        appBar: AppBar(
+          elevation: 0.0,
+          backgroundColor: Colors.transparent,
+          foregroundColor: primary,
+          title: Text(
+            "Flat",
+            style: Get.textTheme.headline4!.copyWith(
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: true,
+          actions: [
+            if (inEditMode)
+              IconButton(
+                onPressed: () {
+                  // show dialog
+                  Get.dialog<bool>(
                     AlertDialog(
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(10.0),
                       ),
-                      title: const Text("Are you sure?"),
+                      title: const Text("Caution"),
                       content: const Text(
-                          "All unsaved changes will be lost. Do you want to continue?"),
+                          "All details of this flat will be deleted. Do you want to continue?"),
                       actionsPadding:
                           const EdgeInsets.symmetric(horizontal: 16.0),
                       actions: [
@@ -76,194 +130,154 @@ class FlatHome extends StatelessWidget {
                         ),
                       ],
                     ),
-                  );
-
-                  if (choice != true) {
-                    return;
-                  }
-
-                  flatFormController.flatFormModel.value = copy;
-
-                  flatFormController.updateDropdowns(copy);
-
-                  updateController.items.clear();
-
-                  Get.back();
+                  ).then((value) {
+                    if (value == true) {
+                      flatFormController.deleteFlat();
+                    }
+                  });
                 },
                 icon: const Icon(
-                  Icons.arrow_back,
+                  Icons.delete,
                   color: Colors.black,
                 ),
-              )
-            : null,
-        actions: [
-          if (inEditMode)
-            IconButton(
-              onPressed: () {
-                // show dialog
-                Get.dialog<bool>(
-                  AlertDialog(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                    ),
-                    title: const Text("Caution"),
-                    content: const Text(
-                        "All details of this flat will be deleted. Do you want to continue?"),
-                    actionsPadding:
-                        const EdgeInsets.symmetric(horizontal: 16.0),
-                    actions: [
-                      TextButton(
-                        onPressed: () {
-                          Get.back(result: false);
-                        },
-                        child: const Text(
-                          "No",
-                          style: TextStyle(color: Colors.green),
-                        ),
-                      ),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: Colors.red,
-                        ),
-                        onPressed: () {
-                          Get.back(result: true);
-                        },
-                        child: const Text(
-                          "Yes",
-                        ),
-                      ),
-                    ],
-                  ),
-                ).then((value) {
-                  if (value == true) {
-                    flatFormController.deleteFlat();
-                  }
-                });
-              },
-              icon: const Icon(
-                Icons.delete,
-                color: Colors.black,
               ),
+          ],
+        ),
+        body: ListView(
+          children: [
+            const SizedBox(
+              height: 20,
             ),
-        ],
-      ),
-      body: ListView(
-        children: [
-          const SizedBox(
-            height: 20,
-          ),
-          if (!inEditMode)
-            Padding(
-              padding: const EdgeInsets.only(left: 20, right: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Add Media',
-                    style: Get.textTheme.headline6,
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  // display assets
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Obx(
-                      () => Row(
-                        children: flatFormController.assets
-                            .map(
-                              (el) => AssetThumb(
-                                onRemove: () {
-                                  flatFormController.assets.remove(el);
-                                },
-                                file: FileImage(el.file),
-                                isVideo: el.type == AssetType.video,
-                              ),
-                            )
-                            .toList(),
+            if (!inEditMode)
+              Padding(
+                padding: const EdgeInsets.only(left: 20, right: 20),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Add Media',
+                      style: Get.textTheme.headline6,
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    // display assets
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Obx(
+                        () => Row(
+                          children: flatFormController.assets
+                              .map(
+                                (el) => AssetThumb(
+                                  onRemove: () {
+                                    flatFormController.assets.remove(el);
+                                  },
+                                  file: FileImage(el.file),
+                                  isVideo: el.type == AssetType.video,
+                                ),
+                              )
+                              .toList(),
+                        ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    AssetPickerWidget(
+                      onAssetPicked: (items) {
+                        flatFormController.assets.addAll(
+                          items.map(
+                            (e) => FileAsset(
+                              file: File(e.file.path),
+                              type: e.type,
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            if (inEditMode)
+              Obx(
+                () => FutureBuilder(
+                  future: FireBaseController.getAssets(
+                    flatFormController.flatFormModel.value.id!,
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  AssetPickerWidget(
-                    onAssetPicked: (items) {
-                      flatFormController.assets.addAll(
-                        items.map(
-                          (e) =>
-                              FileAsset(file: File(e.file.path), type: e.type),
+                  builder: (context, AsyncSnapshot<List<Map>> snapshot) {
+                    if (snapshot.hasData) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Edit Media',
+                              style: Get.textTheme.headline6,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            // display assets
+                            SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(children: [
+                                ...flatFormController.assets
+                                    .map(
+                                      (el) => AssetThumb(
+                                        onRemove: () {
+                                          flatFormController.assets.remove(el);
+                                        },
+                                        file: FileImage(el.file),
+                                        isVideo: el.type == AssetType.video,
+                                      ),
+                                    )
+                                    .toList(),
+                                ...snapshot.data!
+                                    .map(
+                                      (el) => AssetThumb(
+                                        onRemove: () {
+                                          updateController.items.add(el);
+                                        },
+                                        file: CachedNetworkImageProvider(
+                                            el['Url']!),
+                                      ),
+                                    )
+                                    .toList(),
+                              ]),
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            AssetPickerWidget(
+                              onAssetPicked: (items) {
+                                flatFormController.assets.addAll(
+                                  items.map(
+                                    (e) => FileAsset(
+                                      file: File(e.file.path),
+                                      type: e.type,
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
                         ),
                       );
-                    },
-                  ),
-                ],
+                    } else {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    }
+                  },
+                ),
               ),
+            const SizedBox(
+              height: 20,
             ),
-          if (inEditMode)
-            FutureBuilder(
-              future: FireBaseController.getAssets(
-                flatFormController.flatFormModel.value.id!,
-              ),
-              builder: (context, AsyncSnapshot<List<Map>> snapshot) {
-                if (snapshot.hasData) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 20, right: 20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'Edit Media',
-                          style: Get.textTheme.headline6,
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        // display assets
-                        SingleChildScrollView(
-                          scrollDirection: Axis.horizontal,
-                          child: Row(
-                            children: snapshot.data!
-                                .map(
-                                  (el) => AssetThumb(
-                                    onRemove: () {
-                                      updateController.items.add(el);
-                                    },
-                                    file:
-                                        CachedNetworkImageProvider(el['Url']!),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        AssetPickerWidget(
-                          onAssetPicked: (items) {
-                            flatFormController.assets.addAll(
-                              items.map(
-                                (e) => FileAsset(
-                                    file: File(e.file.path), type: e.type),
-                              ),
-                            );
-                          },
-                        ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              },
-            ),
-          const SizedBox(
-            height: 20,
-          ),
-          FlatForm(),
-        ],
+            FlatForm(),
+          ],
+        ),
       ),
     );
   }
