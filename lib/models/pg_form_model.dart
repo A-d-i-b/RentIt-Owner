@@ -141,4 +141,26 @@ class PgFormModel
       }
     };
   }
+
+  bool didChange(PgFormModel old) {
+    return pgName != old.pgName ||
+        address != old.address ||
+        noOfRooms != old.noOfRooms ||
+        singleRoomRent != old.singleRoomRent ||
+        doubleRoomRent != old.doubleRoomRent ||
+        tripleRoomRent != old.tripleRoomRent ||
+        fourRoomRent != old.fourRoomRent ||
+        powerBackup != old.powerBackup ||
+        acRooms != old.acRooms ||
+        maintenance != old.maintenance ||
+        electricityCharges != old.electricityCharges ||
+        availableFor != old.availableFor ||
+        preferredTenant != old.preferredTenant ||
+        food != old.food ||
+        wifi != old.wifi ||
+        furniture != old.furniture ||
+        noticePeriod != old.noticePeriod ||
+        operatingSince != old.operatingSince ||
+        description != old.description;
+  }
 }

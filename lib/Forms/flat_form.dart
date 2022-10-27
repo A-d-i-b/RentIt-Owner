@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/controllers/update_assets_controller.dart';
+import 'package:househunt/models/flat_form_model.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/dropdown_button.dart';
 import 'package:househunt/widgets/input_field.dart';
@@ -10,11 +11,17 @@ class FlatForm extends StatelessWidget {
   FlatForm({Key? key}) : super(key: key);
 
   final FlatFormController flatFormController = Get.put(FlatFormController());
-  final UpdateController updateController = Get.put(UpdateController());
 
   @override
   Widget build(BuildContext context) {
+    FlatFormModel copy =
+        FlatFormModel.from(flatFormController.flatFormModel.value);
     final bool inEditMode = flatFormController.flatFormModel.value.id != null;
+    late final UpdateController updateController;
+    if (inEditMode) {
+      updateController = Get.put(
+          UpdateController(flatFormController.flatFormModel.value.id ?? -1));
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -289,8 +296,11 @@ class FlatForm extends StatelessWidget {
                         FocusManager.instance.primaryFocus?.unfocus();
 
                         if (inEditMode) {
-                          flatFormController
-                              .updateFlat(updateController.items.toList());
+                          flatFormController.updateFlat(
+                              updateController.items.toList(),
+                              copy,
+                              updateController.originalItems,
+                              updateController.deletedItems);
                         } else {
                           flatFormController.submitForm();
                         }

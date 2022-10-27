@@ -153,4 +153,24 @@ class FlatFormModel
       },
     };
   }
+
+  bool didChange(FlatFormModel old) {
+    return old.flatName != flatName ||
+        old.address != address ||
+        old.noOfRooms != noOfRooms ||
+        old.rent != rent ||
+        old.powerBackup != powerBackup ||
+        old.acRooms != acRooms ||
+        old.maintenance != maintenance ||
+        old.electricityCharges != electricityCharges ||
+        old.availableFor != availableFor ||
+        old.preferredTenant != preferredTenant ||
+        old.food != food ||
+        old.wifi != wifi ||
+        old.furniture != furniture ||
+        old.bhk != bhk ||
+        old.noticePeriod != noticePeriod ||
+        old.builtIn != builtIn ||
+        old.description != description;
+  }
 }

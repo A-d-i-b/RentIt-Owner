@@ -58,4 +58,40 @@ class FlatConnect extends GetConnect {
       throw Exception('Failed to delete flat');
     }
   }
+
+  Future getFlat(String jwt, int id) async {
+    final response = await get(
+      '$HOUSE_URL/$id',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+    if (response.isOk) {
+      final json = response.body['data']['attributes'];
+      json['id'] = response.body['data']['id'];
+
+      return FlatFormModel.fromJson(json: json);
+    } else {
+      throw Exception('Failed to get flat');
+    }
+  }
+
+  Future updateFlat(String jwt, int id, Map data) async {
+    final response = await put(
+      '$HOUSE_URL/$id',
+      data,
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $jwt',
+      },
+    );
+    if (response.isOk) {
+      return response.body;
+    } else {
+      throw Exception('Failed to update flat');
+    }
+  }
 }

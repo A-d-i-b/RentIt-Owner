@@ -24,7 +24,7 @@ class FlatFormController extends GetxController
 
   RxList<FileAsset> assets = <FileAsset>[].obs;
 
-  RxList flats = [].obs;
+  List<FlatFormModel> flats = [];
   void updateDropdowns(flat) {
     flatFormModel.update((val) {
       val!.powerBackup = flat.powerBackup;
@@ -40,7 +40,93 @@ class FlatFormController extends GetxController
     });
   }
 
-  void updateFlat(List<Map> imagesDeleted) {}
+  void updateFlat(
+    List itemsFromFirebase,
+    FlatFormModel old,
+    List originalItemsFromFirebase,
+    List deletedFirebaseImages,
+  ) async {
+    bool imageExist = assets.isEmpty && itemsFromFirebase.isEmpty;
+    bool imageChanged = () {
+      if (originalItemsFromFirebase.length != itemsFromFirebase.length) {
+        return true;
+      }
+      for (int i = 0; i < itemsFromFirebase.length; i++) {
+        if (originalItemsFromFirebase[i]['Url'] !=
+            itemsFromFirebase[i]['Url']) {
+          return true;
+        }
+      }
+      return false;
+    }();
+
+    bool flatChanged = flatFormModel.value.didChange(old);
+
+    if (imageExist) {
+      Get.snackbar('Error', 'Add atleast one image',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    if (!_key.currentState!.validate()) {
+      return;
+    }
+
+    disabledButton.value = true;
+
+    Future placeholderFlatForm() {
+      if (flatChanged) {
+        return _apiProvider.updateFlat(
+          userController.jwt,
+          flatFormModel.value.id!,
+          flatFormModel.value.toJson(
+            userController.user.value.id,
+          ),
+        );
+      } else {
+        return Future.value();
+      }
+    }
+
+    Future placeholderAssets() {
+      if (imageChanged || assets.isNotEmpty) {
+        return FireBaseController.updateAssets(
+          itemsFromFirebase,
+          assets,
+          flatFormModel.value.id!,
+          deletedFirebaseImages,
+        );
+      } else {
+        return Future.value();
+      }
+    }
+
+    try {
+      await Future.wait([
+        placeholderAssets(),
+        placeholderFlatForm(),
+      ]);
+      assets.clear();
+      final flatChanged = await _apiProvider.getFlat(
+          userController.jwt, flatFormModel.value.id!);
+      // find the flat in the list and update it
+      final index =
+          flats.indexWhere((element) => element.id == flatFormModel.value.id);
+
+      flats[index] = flatChanged;
+      change(flats, status: RxStatus.success());
+      Get.back();
+      Get.snackbar(
+        'Success',
+        'Flat Updated',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      return;
+    } finally {
+      disabledButton.value = false;
+    }
+  }
 
   void deleteFlat() async {
     if (flatFormModel.value.id != null) {
@@ -117,6 +203,7 @@ class FlatFormController extends GetxController
         .getFlats(userController.jwt, userController.user.value.id)
         .then(
       (value) {
+        flats = value;
         change(value, status: RxStatus.success());
       },
     ).catchError((error) {

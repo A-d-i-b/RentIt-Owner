@@ -33,7 +33,99 @@ class PgFormController extends GetxController
 
   RxList<FileAsset> assets = <FileAsset>[].obs;
 
-  RxList pgs = [].obs;
+  List<PgFormModel> pgs = [];
+
+  void updateFlat(
+    List itemsFromFirebase,
+    PgFormModel old,
+    List originalItemsFromFirebase,
+    List deletedFirebaseImages,
+  ) async {
+    bool imageExist = assets.isEmpty && itemsFromFirebase.isEmpty;
+    bool imageChanged = () {
+      if (originalItemsFromFirebase.length != itemsFromFirebase.length) {
+        return true;
+      }
+      for (int i = 0; i < itemsFromFirebase.length; i++) {
+        if (originalItemsFromFirebase[i]['Url'] !=
+            itemsFromFirebase[i]['Url']) {
+          return true;
+        }
+      }
+      return false;
+    }();
+
+    bool flatChanged = pgFormModel.value.didChange(old);
+
+    if (imageExist) {
+      Get.snackbar('Error', 'Add atleast one image',
+          snackPosition: SnackPosition.BOTTOM);
+      return;
+    }
+    if (!_key.currentState!.validate()) {
+      return;
+    }
+
+    disabledButton.value = true;
+
+    Future placeholderFlatForm() {
+      if (flatChanged) {
+        return _apiProvider.updatePg(
+          userController.jwt,
+          pgFormModel.value.id!,
+          pgFormModel.value.toJson(
+            userController.user.value.id,
+          ),
+        );
+      } else {
+        return Future.value();
+      }
+    }
+
+    Future placeholderAssets() {
+      if (imageChanged || assets.isNotEmpty) {
+        return FireBaseController.updateAssets(
+          itemsFromFirebase,
+          assets,
+          pgFormModel.value.id!,
+          deletedFirebaseImages,
+        );
+      } else {
+        return Future.value();
+      }
+    }
+
+    print(imageChanged);
+
+    try {
+      await Future.wait([
+        placeholderAssets(),
+        placeholderFlatForm(),
+      ]);
+
+      assets.clear();
+      final flatChanged =
+          await _apiProvider.getPg(userController.jwt, pgFormModel.value.id!);
+      // find the flat in the list and update it
+      final index =
+          pgs.indexWhere((element) => element.id == pgFormModel.value.id);
+
+      pgs[index] = flatChanged;
+
+      change(pgs, status: RxStatus.success());
+      Get.back();
+      Get.snackbar(
+        'Success',
+        'Flat Updated',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    } catch (e) {
+      Get.snackbar('Error', e.toString(), snackPosition: SnackPosition.BOTTOM);
+      return;
+    } finally {
+      disabledButton.value = false;
+    }
+  }
 
   void deletePg() async {
     if (pgFormModel.value.id != null) {
@@ -137,6 +229,7 @@ class PgFormController extends GetxController
   void fetchPgs() async {
     _apiProvider.getPgs(userController.jwt, userController.user.value.id).then(
       (value) {
+        pgs = value;
         change(value, status: RxStatus.success());
       },
     ).catchError(

@@ -22,12 +22,6 @@ class FireBaseController {
       references.add(
         {'db': db, 'file': File(asset.file.path)},
       );
-
-      // assets.add({
-      //   'Url': await db.getDownloadURL(),
-      //   'name': imgPath,
-      //   'type': asset.type == AssetType.photo ? 'photo' : 'video'
-      // });
     }
 
     // promise.allSettled
@@ -122,7 +116,11 @@ class FireBaseController {
   }
 
   static Future updateAssets(
-      List<Map> existingItems, List<FileAsset> items, int id) async {
+    List existingItems,
+    List<FileAsset> files,
+    int id,
+    List deletedItems,
+  ) async {
     final assets = existingItems
         .map((e) => {
               'Url': e['Url'],
@@ -133,40 +131,49 @@ class FireBaseController {
 
     final List<Map<String, dynamic>> references = [];
 
-    for (final asset in items) {
+    for (final asset in files) {
       String imgPath = asset.file.path.split("/").last;
       Reference db = FirebaseStorage.instance.ref("Housing/$id/$imgPath");
 
       references.add(
         {'db': db, 'file': File(asset.file.path)},
       );
-
-      assets.add({
-        'Url': await db.getDownloadURL(),
-        'name': imgPath,
-        'type': asset.type == AssetType.photo ? 'photo' : 'video'
-      });
     }
 
     await Future.wait([
       ...references.map(
         (e) => e['db']!.putFile(
-          File(e['file']!),
+          e['file'],
         ),
       ),
-      FirebaseFirestore.instance.collection('housing').doc('$id').set(
-        {
-          'assets': assets,
-        },
-        SetOptions(merge: true),
-      ),
+      // delete photos from storage
+      ...deletedItems.map((e) {
+        final storageRef =
+            FirebaseStorage.instance.ref("Housing/$id/${e['name']}");
+        return storageRef.delete();
+      })
     ]);
+
+    for (var i = 0; i < references.length; i++) {
+      String imgPath = files[i].file.path.split("/").last;
+      assets.add({
+        'Url': await references[i]['db'].getDownloadURL(),
+        'name': imgPath,
+        'type': files[i].type == AssetType.photo ? 'photo' : 'video'
+      });
+    }
+
+    await FirebaseFirestore.instance.collection('housing').doc('$id').set(
+      {
+        'assets': assets,
+      },
+    );
   }
 
-  static Future<List> getAssets(int id) async {
+  static Future<List<Map<String, dynamic>>> getAssets(int id) async {
     final ref = FirebaseFirestore.instance.collection('housing').doc('$id');
 
-    final List docs = [];
+    final List<Map<String, dynamic>> docs = [];
 
     try {
       await ref.get().then((value) {
@@ -190,7 +197,6 @@ class FireBaseController {
   }
 
   static Widget displayList() {
-    int id23 = 104;
     return StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('housing').snapshots(),
       builder: (context, snapshot) {

@@ -4,7 +4,6 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/Forms/flat_form.dart';
-import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/flat_form_controller.dart';
 import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/models/asset_models.dart';
@@ -19,11 +18,14 @@ class FlatHome extends StatelessWidget {
 
   final FlatFormController flatFormController = Get.put(FlatFormController());
 
-  final UpdateController updateController = Get.put(UpdateController());
-
   @override
   Widget build(BuildContext context) {
     final bool inEditMode = flatFormController.flatFormModel.value.id != null;
+    late UpdateController updateController;
+    if (inEditMode) {
+      updateController =
+          Get.put(UpdateController(flatFormController.flatFormModel.value.id!));
+    }
     FlatFormModel copy =
         FlatFormModel.from(flatFormController.flatFormModel.value);
 
@@ -41,13 +43,16 @@ class FlatHome extends StatelessWidget {
         if (inEditMode) {
           flatFormController.flatFormModel.value = copy;
           flatFormController.updateDropdowns(copy);
-        } else {
-          flatFormController.flatFormModel.value =
-              FlatFormModel(flatName: '', address: '', description: '');
-          flatFormController.updateDropdowns(
-              FlatFormModel(flatName: '', address: '', description: ''));
         }
-        updateController.items.clear();
+        // else {
+        //   flatFormController.flatFormModel.value =
+        //       FlatFormModel(flatName: '', address: '', description: '');
+        //   flatFormController.updateDropdowns(
+        //       FlatFormModel(flatName: '', address: '', description: ''));
+        // }
+        if (inEditMode) {
+          updateController.clearAll();
+        }
         flatFormController.assets.clear();
 
         return true;
@@ -172,79 +177,71 @@ class FlatHome extends StatelessWidget {
                 ),
               ),
             if (inEditMode)
-              Obx(
-                () => FutureBuilder(
-                  future: FireBaseController.getAssets(
-                    flatFormController.flatFormModel.value.id!,
+              Obx(() {
+                if (updateController.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Edit Media',
+                        style: Get.textTheme.headline6,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // display assets
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          ...flatFormController.assets
+                              .map(
+                                (el) => AssetThumb(
+                                  onRemove: () {
+                                    flatFormController.assets.remove(el);
+                                  },
+                                  file: FileImage(el.file),
+                                  isVideo: el.type == AssetType.video,
+                                  newAsset: true,
+                                ),
+                              )
+                              .toList(),
+                          ...updateController.items
+                              .map(
+                                (el) => AssetThumb(
+                                  onRemove: () {
+                                    updateController.deleteItem(el);
+                                  },
+                                  file: CachedNetworkImageProvider(el['Url']!),
+                                ),
+                              )
+                              .toList(),
+                        ]),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AssetPickerWidget(
+                        onAssetPicked: (items) {
+                          flatFormController.assets.addAll(
+                            items.map(
+                              (e) => FileAsset(
+                                file: File(e.file.path),
+                                type: e.type,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
-                  builder: (context, AsyncSnapshot<List> snapshot) {
-                    if (snapshot.hasData) {
-                      return Padding(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Edit Media',
-                              style: Get.textTheme.headline6,
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            // display assets
-                            SingleChildScrollView(
-                              scrollDirection: Axis.horizontal,
-                              child: Row(children: [
-                                ...flatFormController.assets
-                                    .map(
-                                      (el) => AssetThumb(
-                                        onRemove: () {
-                                          flatFormController.assets.remove(el);
-                                        },
-                                        file: FileImage(el.file),
-                                        isVideo: el.type == AssetType.video,
-                                      ),
-                                    )
-                                    .toList(),
-                                ...snapshot.data!
-                                    .map(
-                                      (el) => AssetThumb(
-                                        onRemove: () {
-                                          updateController.items.add(el);
-                                        },
-                                        file: CachedNetworkImageProvider(
-                                            el['Url']!),
-                                      ),
-                                    )
-                                    .toList(),
-                              ]),
-                            ),
-                            const SizedBox(
-                              height: 10,
-                            ),
-                            AssetPickerWidget(
-                              onAssetPicked: (items) {
-                                flatFormController.assets.addAll(
-                                  items.map(
-                                    (e) => FileAsset(
-                                      file: File(e.file.path),
-                                      type: e.type,
-                                    ),
-                                  ),
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    } else {
-                      return const Center(
-                        child: Text('Loading...'),
-                      );
-                    }
-                  },
-                ),
-              ),
+                );
+              }),
             const SizedBox(
               height: 20,
             ),

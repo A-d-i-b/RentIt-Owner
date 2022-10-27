@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
+import 'package:househunt/controllers/update_assets_controller.dart';
+import 'package:househunt/models/pg_form_model.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/utils/dropdown_util.dart';
 import 'package:househunt/widgets/custom_button.dart';
@@ -20,7 +22,13 @@ class _PgFormState extends State<PgForm> {
 
   @override
   Widget build(BuildContext context) {
+    PgFormModel copy = PgFormModel.from(pgFormController.pgFormModel.value);
     final bool inEditMode = pgFormController.pgFormModel.value.id != null;
+    late final UpdateController updateController;
+    if (inEditMode) {
+      updateController = Get.put(
+          UpdateController(pgFormController.pgFormModel.value.id ?? -1));
+    }
 
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
@@ -490,8 +498,15 @@ class _PgFormState extends State<PgForm> {
                     if (pgFormController.disabledButton.value) return;
                     FocusManager.instance.primaryFocus?.unfocus();
 
-                    pgFormController.submitForm();
-                    // print all the values of the form
+                    if (inEditMode) {
+                      pgFormController.updateFlat(
+                          updateController.items.toList(),
+                          copy,
+                          updateController.originalItems,
+                          updateController.deletedItems);
+                    } else {
+                      pgFormController.submitForm();
+                    }
                   },
                   child: SizedBox(
                     width: Get.width / 2.75,

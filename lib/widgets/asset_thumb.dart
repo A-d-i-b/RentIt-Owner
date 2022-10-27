@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class AssetThumb extends StatelessWidget {
   const AssetThumb({
@@ -6,11 +7,13 @@ class AssetThumb extends StatelessWidget {
     required this.onRemove,
     required this.file,
     this.isVideo = false,
+    this.newAsset = false,
   }) : super(key: key);
 
   final VoidCallback onRemove;
   final ImageProvider file;
   final bool isVideo;
+  final bool newAsset;
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -43,6 +46,25 @@ class AssetThumb extends StatelessWidget {
                 Icons.play_arrow,
                 color: Colors.white,
                 size: 15,
+              ),
+            ),
+          ),
+        if (newAsset)
+          Positioned(
+            top: 5,
+            left: 5,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: Text(
+                'New',
+                style: Get.textTheme.button!.copyWith(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/models/asset_models.dart';
@@ -18,12 +17,18 @@ class PgHome extends StatelessWidget {
   PgHome({Key? key}) : super(key: key);
 
   final PgFormController pgFormController = Get.put(PgFormController());
-  final updateController = Get.put(UpdateController());
 
   @override
   Widget build(BuildContext context) {
     final bool inEditMode = pgFormController.pgFormModel.value.id != null;
+    late UpdateController updateController;
+    if (inEditMode) {
+      updateController =
+          Get.put(UpdateController(pgFormController.pgFormModel.value.id!));
+    }
+
     PgFormModel copy = PgFormModel.from(pgFormController.pgFormModel.value);
+
     return WillPopScope(
       onWillPop: () async {
         if (pgFormController.disabledButton.value) return true;
@@ -39,7 +44,11 @@ class PgHome extends StatelessWidget {
         pgFormController.updateDropdowns(copy);
         pgFormController.updateRentFields(copy);
 
-        updateController.items.clear();
+        pgFormController.assets.clear();
+
+        if (inEditMode) {
+          updateController.clearAll();
+        }
 
         return true;
       },
@@ -160,64 +169,72 @@ class PgHome extends StatelessWidget {
                 ),
               ),
             if (inEditMode)
-              FutureBuilder(
-                future: FireBaseController.getAssets(
-                  pgFormController.pgFormModel.value.id!,
-                ),
-                builder: (context, AsyncSnapshot<List> snapshot) {
-                  if (snapshot.hasData) {
-                    return Padding(
-                      padding: const EdgeInsets.only(left: 20, right: 20),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Edit Media',
-                            style: Get.textTheme.headline6,
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          // display assets
-                          SingleChildScrollView(
-                            scrollDirection: Axis.horizontal,
-                            child: Row(
-                              children: snapshot.data!
-                                  .map(
-                                    (el) => AssetThumb(
-                                      onRemove: () {
-                                        updateController.items.add(el);
-                                      },
-                                      file: CachedNetworkImageProvider(
-                                          el['Url']!),
-                                    ),
-                                  )
-                                  .toList(),
-                            ),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          AssetPickerWidget(
-                            onAssetPicked: (items) {
-                              pgFormController.assets.addAll(
-                                items.map(
-                                  (e) => FileAsset(
-                                      file: File(e.file.path), type: e.type),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+              Obx(() {
+                if (updateController.isLoading.value) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                return Padding(
+                  padding: const EdgeInsets.only(left: 20, right: 20),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Edit Media',
+                        style: Get.textTheme.headline6,
                       ),
-                    );
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                },
-              ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      // display assets
+                      SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(children: [
+                          ...pgFormController.assets
+                              .map(
+                                (el) => AssetThumb(
+                                  onRemove: () {
+                                    pgFormController.assets.remove(el);
+                                  },
+                                  file: FileImage(el.file),
+                                  isVideo: el.type == AssetType.video,
+                                  newAsset: true,
+                                ),
+                              )
+                              .toList(),
+                          ...updateController.items
+                              .map(
+                                (el) => AssetThumb(
+                                  onRemove: () {
+                                    updateController.deleteItem(el);
+                                  },
+                                  file: CachedNetworkImageProvider(el['Url']!),
+                                ),
+                              )
+                              .toList(),
+                        ]),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      AssetPickerWidget(
+                        onAssetPicked: (items) {
+                          // print(items);
+                          pgFormController.assets.addAll(
+                            items.map(
+                              (e) => FileAsset(
+                                file: File(e.file.path),
+                                type: e.type,
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                );
+              }),
             const SizedBox(
               height: 20,
             ),

@@ -211,17 +211,3 @@ class LandingHomeScreen extends StatelessWidget {
     );
   }
 }
-
-// pgFormController.pgs.map(
-//                         (pg) {
-//                           return PropertyCard(
-//                             name: pg.pgName,
-//                             description: pg.description,
-//                             onTap: () {
-// Get.toNamed('/add-pg', arguments: {
-//   'pgFormModel': pg,
-// });
-//                             },
-//                           );
-//                         },
-//                       ).toList(),
