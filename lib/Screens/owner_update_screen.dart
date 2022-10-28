@@ -13,7 +13,7 @@ import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
-  const OwnerUpdate({Key? key}) : super(key: key);
+  OwnerUpdate({Key? key}) : super(key: key);
 
   @override
   State<OwnerUpdate> createState() => _OwnerUpdateState();
@@ -117,6 +117,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.firstName,
                     'First Name',
+                    Icons.person,
                   ),
                   const SizedBox(height: 30),
                   textField(
@@ -125,6 +126,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.lastName,
                     'Last Name',
+                    Icons.person,
                   ),
                   const SizedBox(height: 30),
                   textField(
@@ -133,6 +135,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.phone,
                     'Phone Number',
+                    Icons.phone,
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -196,14 +199,15 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
     );
   }
 
-  Widget textField(void Function(String)? onChange, String text, String lab) {
+  Widget textField(
+      void Function(String)? onChange, String text, String lab, IconData data) {
     return TextField(
       onChanged: onChange,
       controller: TextEditingController(text: text),
       decoration: InputDecoration(
-        prefixIcon: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Icon(Icons.person),
+        prefixIcon: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Icon(data),
         ),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
