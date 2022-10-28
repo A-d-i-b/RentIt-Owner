@@ -20,7 +20,7 @@ final routes = [
   GetPage(name: '/sign-in', page: () => const SignIn()),
   GetPage(name: '/otp', page: () => OTPScreen()),
   GetPage(name: '/sign-up', page: () => SignUp()),
-  GetPage(name: '/update', page: () => OwnerUpdate()),
+  GetPage(name: '/update', page: () => const OwnerUpdate()),
   GetPage(
     name: '/home',
     page: () => const HomeScreen(),

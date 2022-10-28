@@ -13,7 +13,7 @@ import 'package:househunt/controllers/firebase_controller.dart';
 import 'package:image_picker/image_picker.dart';
 
 class OwnerUpdate extends StatefulWidget {
-  OwnerUpdate({Key? key}) : super(key: key);
+  const OwnerUpdate({Key? key}) : super(key: key);
 
   @override
   State<OwnerUpdate> createState() => _OwnerUpdateState();
