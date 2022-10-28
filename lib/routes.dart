@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:househunt/Screens/password_update_screen.dart';
 import 'package:househunt/screens/flat_screen.dart';
 import 'package:househunt/screens/otp_screen.dart';
 import 'package:househunt/screens/pg_screen.dart';
@@ -29,4 +30,5 @@ final routes = [
   GetPage(name: '/tenant-profile', page: () => const TenantProfile()),
   GetPage(name: '/contact-screen', page: () => const ContactUs()),
   GetPage(name: '/example', page: () => const Example()),
+  GetPage(name: '/password', page: () => PasswordUpdate()),
 ];
