@@ -46,7 +46,23 @@ class FlatFormController extends GetxController
     List originalItemsFromFirebase,
     List deletedFirebaseImages,
   ) async {
-    bool imageExist = assets.isEmpty && itemsFromFirebase.isEmpty;
+    // bool imageNotExist = assets.isEmpty && itemsFromFirebase.isEmpty;
+    // check atleast one type photo
+    final bool imageNotExist = (() {
+      for (final asset in assets) {
+        if (asset.type == AssetType.photo) {
+          return true;
+        }
+      }
+
+      for (final item in itemsFromFirebase) {
+        if (item['type'] == 'photo') {
+          return true;
+        }
+      }
+
+      return false;
+    })();
     bool imageChanged = () {
       if (originalItemsFromFirebase.length != itemsFromFirebase.length) {
         return true;
@@ -62,7 +78,7 @@ class FlatFormController extends GetxController
 
     bool flatChanged = flatFormModel.value.didChange(old);
 
-    if (imageExist) {
+    if (imageNotExist) {
       Get.snackbar('Error', 'Add atleast one image',
           snackPosition: SnackPosition.BOTTOM);
       return;
@@ -135,9 +151,9 @@ class FlatFormController extends GetxController
           .then((val) {
         fetchFlats();
 
-        FireBaseController.deleteHousing(flatFormModel.value.id!);
-
-        Get.back();
+        FireBaseController.deleteHousing(flatFormModel.value.id!).then(
+          (value) => Get.back(),
+        );
       });
     }
   }

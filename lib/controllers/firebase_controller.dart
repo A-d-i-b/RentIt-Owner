@@ -59,11 +59,9 @@ class FireBaseController {
   }
 
   static Widget display(int id) {
-    return StreamBuilder<DocumentSnapshot>(
-        stream: FirebaseFirestore.instance
-            .collection('housing')
-            .doc('$id')
-            .snapshots(),
+    return FutureBuilder<DocumentSnapshot>(
+        future:
+            FirebaseFirestore.instance.collection('housing').doc('$id').get(),
         builder: (context, snapshot) {
           if (!snapshot.hasData) return const CircularProgressIndicator();
 

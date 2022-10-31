@@ -34,8 +34,9 @@ class FlatHome extends StatelessWidget {
         if (flatFormController.disabledButton.value) return true;
 
         final choice = await alertDialog(
-            title: 'Caution',
-            content: 'All unsaved changes will be lost. Do you want to exit?');
+          title: 'Caution',
+          content: 'All unsaved changes will be lost. Do you want to exit?',
+        );
 
         if (choice != true) {
           return false;
@@ -44,12 +45,7 @@ class FlatHome extends StatelessWidget {
           flatFormController.flatFormModel.value = copy;
           flatFormController.updateDropdowns(copy);
         }
-        // else {
-        //   flatFormController.flatFormModel.value =
-        //       FlatFormModel(flatName: '', address: '', description: '');
-        //   flatFormController.updateDropdowns(
-        //       FlatFormModel(flatName: '', address: '', description: ''));
-        // }
+
         if (inEditMode) {
           updateController.clearAll();
         }
