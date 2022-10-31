@@ -16,6 +16,27 @@ class OTPController extends GetxController {
   bool _disabled = false;
   RxBool loading = false.obs;
 
+  void resendOtp() async {
+    try {
+      await _apiProvider.resendOtp(Get.arguments[0] as String);
+
+      Get.snackbar(
+        'Sent OTP',
+        'OTP sent to ${Get.arguments[0]}',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+
+      resendCodePressed.value += 1;
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      back();
+    }
+  }
+
   void appendNumber(String number) {
     if (otp.length < 6 && !_disabled) {
       otp.add(number);
@@ -103,7 +124,7 @@ class OTPController extends GetxController {
 
   int timeToResend(int times) {
     if (times == 0) {
-      return 0;
+      return 30;
     } else if (times == 1) {
       return 30;
     } else if (times == 2) {

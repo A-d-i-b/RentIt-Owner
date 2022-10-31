@@ -171,7 +171,8 @@ class OTPScreen extends StatelessWidget {
                                 return;
                               }
                               // increment resendButtonPressed
-                              otpController.resendCodePressed.value += 1;
+
+                              otpController.resendOtp();
                             },
                             child: Text(
                                 "Resend code ${otpController.counter.value != 0 ? "(${otpController.counter.value}s)" : ""}",

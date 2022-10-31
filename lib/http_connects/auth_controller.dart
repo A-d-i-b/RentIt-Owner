@@ -55,4 +55,23 @@ class AuthConnect extends GetConnect {
       throw Exception('Failed to get user');
     }
   }
+
+  Future resendOtp(
+    String phone,
+  ) async {
+    final res = await post(
+      RESEND_OTP_URL,
+      {'phone': phone},
+    );
+
+    if (res.isOk) {
+      return res.body;
+    } else if (res.body['error']['name'] == 'ValidationError') {
+      throw Exception('Phone number is not valid');
+    } else if (res.body['error']['name'] == 'ApplicationError') {
+      throw Exception('Phone number is not registered');
+    } else {
+      throw Exception('Failed to resend otp');
+    }
+  }
 }
