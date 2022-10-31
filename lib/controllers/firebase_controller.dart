@@ -51,7 +51,7 @@ class FireBaseController {
   static Future<String> uploadFileProfile(int id, String path) async {
     File img = File(path);
     // String imgPath = img.path.split("/").last;
-    Reference db = FirebaseStorage.instance.ref("Users/$id.jpg");
+    Reference db = FirebaseStorage.instance.ref("Users/$id");
     await db.putFile(img);
     String url = await db.getDownloadURL();
     FirebaseFirestore.instance.collection('users').doc('$id').set({'Url': url});

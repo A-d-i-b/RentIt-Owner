@@ -3,9 +3,7 @@ import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:househunt/controllers/sign_up_controller.dart';
 import 'package:househunt/controllers/user_controller.dart';
-import 'package:househunt/http_connects/auth_controller.dart';
 import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/alert_dialog.dart';
 import 'package:househunt/widgets/image_asset_picker.dart';
@@ -21,9 +19,7 @@ class OwnerUpdate extends StatefulWidget {
 
 class _OwnerUpdateState extends State<OwnerUpdate> {
   final UserController userController = Get.put(UserController());
-  final FireBaseController fireBaseController = Get.put(FireBaseController());
-  final AuthConnect authConnect = Get.put(AuthConnect());
-  final SignUpController signUpController = Get.put(SignUpController());
+
   String firstName = '';
   String lastName = '';
   String mobile = '';
@@ -117,7 +113,6 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.firstName,
                     'First Name',
-                    Icons.person,
                   ),
                   const SizedBox(height: 30),
                   textField(
@@ -126,7 +121,6 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.lastName,
                     'Last Name',
-                    Icons.person,
                   ),
                   const SizedBox(height: 30),
                   textField(
@@ -135,7 +129,6 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.phone,
                     'Phone Number',
-                    Icons.phone,
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -168,8 +161,8 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
 
                     if (body.isEmpty) {
                       userController.isUpdating.value = false;
-                      Get.back();
-                      return;
+                      // Get.back();
+                      // return;
                     }
                     userController.updateUser(body);
 
@@ -185,8 +178,8 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                           val = XFile('');
                         }
                       });
-                      Get.back();
                     }
+                    Get.back();
 
                     userController.isUpdating.value = false;
                   },
@@ -199,15 +192,14 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
     );
   }
 
-  Widget textField(
-      void Function(String)? onChange, String text, String lab, IconData data) {
+  Widget textField(void Function(String)? onChange, String text, String lab) {
     return TextField(
       onChanged: onChange,
       controller: TextEditingController(text: text),
       decoration: InputDecoration(
-        prefixIcon: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Icon(data),
+        prefixIcon: const Padding(
+          padding: EdgeInsets.all(20),
+          child: Icon(Icons.person),
         ),
         enabledBorder: const UnderlineInputBorder(
           borderSide: BorderSide(
