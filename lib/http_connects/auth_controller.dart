@@ -74,4 +74,31 @@ class AuthConnect extends GetConnect {
       throw Exception('Failed to resend otp');
     }
   }
+
+  Future forgotPassword(String phone) async {
+    final res = await post(FORGOT_PASSWORD_URL, {'phone': phone});
+
+    if (res.isOk) {
+      return res.body;
+    } else {
+      throw Exception('No user found with this phone number');
+    }
+  }
+
+  Future resetPassword(Map body) async {
+    final res = await post(RESET_PASSWORD_URL, body);
+
+    if (res.isOk) {
+      return res.body;
+    } else {
+      throw Exception('Failed to reset password');
+    }
+  }
+
+  Future resendResetOtp(String phone) {
+    return post(
+      RESEND_RESET_OTP_URL,
+      {'phone': phone},
+    );
+  }
 }

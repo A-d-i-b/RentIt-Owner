@@ -6,7 +6,7 @@ import '../theme/base_theme.dart';
 import '../utils/string_utils.dart';
 
 class PasswordUpdate extends StatefulWidget {
-  PasswordUpdate({Key? key}) : super(key: key);
+  const PasswordUpdate({Key? key}) : super(key: key);
 
   @override
   State<PasswordUpdate> createState() => _PasswordUpdateState();
@@ -168,7 +168,74 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
 
                           return null;
                         },
-                      )
+                      ),
+
+                      // otp field
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      TextFormField(
+                        controller: updateController.otp,
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Field is required';
+                          }
+                          return null;
+                        },
+                        keyboardType: TextInputType.phone,
+                        decoration: const InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: primary,
+                            ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: primary,
+                            ),
+                          ),
+                          errorBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                            ),
+                          ),
+                          focusedErrorBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red,
+                            ),
+                          ),
+                          labelText: 'OTP',
+                        ),
+                      ),
+                      // resend otp
+                      const SizedBox(
+                        height: 25,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Obx(
+                            () => TextButton(
+                              onPressed: () {
+                                if (updateController.resendCodeDisabled.value) {
+                                  return;
+                                }
+                                updateController.resendOtp();
+                              },
+                              child: Text(
+                                "Resend code ${updateController.counter.value != 0 ? "(${updateController.counter.value}s)" : ""}",
+                                style: Get.textTheme.bodyLarge!.copyWith(
+                                  color:
+                                      updateController.resendCodeDisabled.value
+                                          ? Colors.grey[600]
+                                          : Colors.blue,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

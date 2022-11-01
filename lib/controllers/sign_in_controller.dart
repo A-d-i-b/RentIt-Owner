@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/auth_controller.dart';
+import 'package:househunt/screens/password_update_screen.dart';
 
 class SignInController extends GetxController {
   final TextEditingController mobileController = TextEditingController();
@@ -17,6 +18,38 @@ class SignInController extends GetxController {
   get formKey => _formKey;
 
   RxBool buttonDisabled = false.obs;
+
+  void resendOtp() async {
+    final isValid = _formKey.currentState?.validate();
+    if (Get.context != null) {
+      FocusScope.of(Get.context!).unfocus();
+    }
+    if (isValid!) {
+      _formKey.currentState?.save();
+    } else {
+      return;
+    }
+    buttonDisabled.value = true;
+    try {
+      await _apiProvider.forgotPassword(mobileController.text);
+      Get.snackbar(
+        'Success',
+        'OTP sent successfully',
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      Get.offAll(() => const PasswordUpdate(), arguments: [
+        mobileController.text,
+      ]);
+    } catch (e) {
+      Get.snackbar(
+        'Error',
+        e.toString(),
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+    buttonDisabled.value = false;
+  }
+
   void trySubmit() async {
     final isValid = _formKey.currentState?.validate();
     if (Get.context != null) {

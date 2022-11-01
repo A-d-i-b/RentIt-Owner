@@ -185,7 +185,9 @@ class _SignInState extends State<SignIn> {
                       Row(
                         children: [
                           TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              signInController.resendOtp();
+                            },
                             child: Text(
                               'Forgot Password?',
                               style: TextStyle(
