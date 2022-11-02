@@ -15,6 +15,7 @@ class PasswordUpdate extends StatefulWidget {
 class _PasswordUpdateState extends State<PasswordUpdate> {
   final UpdateController updateController = Get.put(UpdateController());
   bool _obscureText = true;
+  bool _obscureText1 = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -84,6 +85,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                   child: ListView(
                     children: [
                       TextFormField(
+                        obscureText: _obscureText1,
                         controller: updateController.newPassword,
                         validator: (value) {
                           if (value!.isEmpty) {
@@ -95,23 +97,33 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                           return null;
                         },
                         keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
+                        decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: _obscureText1
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
+                              onPressed: () {
+                                setState(() {
+                                  _obscureText1 = !_obscureText1;
+                                });
+                              },
+                            ),
+                            enabledBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: primary,
                               ),
                             ),
-                            focusedBorder: UnderlineInputBorder(
+                            focusedBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: primary,
                               ),
                             ),
-                            errorBorder: UnderlineInputBorder(
+                            errorBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.red,
                               ),
                             ),
-                            focusedErrorBorder: UnderlineInputBorder(
+                            focusedErrorBorder: const UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: Colors.red,
                               ),

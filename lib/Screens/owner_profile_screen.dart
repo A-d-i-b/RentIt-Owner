@@ -106,7 +106,7 @@ class _OwnerProfileState extends State<OwnerProfile> {
           const SizedBox(height: 20),
           ElevatedButton(
             onPressed: () {
-              Get.toNamed('/password');
+              Get.toNamed('/contact-screen');
               // getUrl();
               // Get.toNamed('/contact-screen');
             },
