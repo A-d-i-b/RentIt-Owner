@@ -30,5 +30,5 @@ final routes = [
   GetPage(name: '/tenant-profile', page: () => const TenantProfile()),
   GetPage(name: '/contact-screen', page: () => const ContactUs()),
   GetPage(name: '/example', page: () => const Example()),
-  GetPage(name: '/password', page: () => PasswordUpdate()),
+  GetPage(name: '/password', page: () => const PasswordUpdate()),
 ];

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+enum UrlType { IMAGE, VIDEO, UNKNOWN }
+
 class AssetThumb extends StatelessWidget {
   const AssetThumb({
     Key? key,
@@ -14,6 +16,19 @@ class AssetThumb extends StatelessWidget {
   final ImageProvider file;
   final bool isVideo;
   final bool newAsset;
+  UrlType getUrlType(String url) {
+    Uri uri = Uri.parse(url);
+    String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
+    if (typeString == "jpg") {
+      return UrlType.IMAGE;
+    }
+    if (typeString == "mp4") {
+      return UrlType.VIDEO;
+    } else {
+      return UrlType.UNKNOWN;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -25,10 +40,7 @@ class AssetThumb extends StatelessWidget {
           height: 100,
           margin: const EdgeInsets.only(right: 10),
           decoration: BoxDecoration(
-            image: DecorationImage(
-              fit: BoxFit.cover,
-              image: file,
-            ),
+            image: DecorationImage(fit: BoxFit.cover, image: file),
             borderRadius: BorderRadius.circular(10),
           ),
         ),
@@ -65,6 +77,23 @@ class AssetThumb extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
+              ),
+            ),
+          ),
+        if (isVideo)
+          Positioned(
+            top: 5,
+            right: 5,
+            child: Container(
+              padding: const EdgeInsets.all(5),
+              decoration: BoxDecoration(
+                color: Colors.black.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(5),
+              ),
+              child: const Icon(
+                Icons.play_arrow,
+                color: Colors.white,
+                size: 15,
               ),
             ),
           ),

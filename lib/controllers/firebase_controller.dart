@@ -9,6 +9,8 @@ import 'package:get/get.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:househunt/models/asset_models.dart';
 
+enum UrlType { IMAGE, VIDEO, UNKNOWN }
+
 class FireBaseController {
   static Future uploadFiles(int id, RxList<FileAsset> files,
       {bool merge = false}) async {
@@ -58,7 +60,22 @@ class FireBaseController {
     return url;
   }
 
+  static UrlType getUrlType(String url) {
+    Uri uri = Uri.parse(url);
+    String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
+    if (typeString == "jpg") {
+      return UrlType.IMAGE;
+    }
+    if (typeString == "mp4") {
+      return UrlType.VIDEO;
+    } else {
+      return UrlType.UNKNOWN;
+    }
+  }
+
   static Widget display(int id) {
+    const String url =
+        "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
     return FutureBuilder<DocumentSnapshot>(
         future:
             FirebaseFirestore.instance.collection('housing').doc('$id').get(),
@@ -80,7 +97,10 @@ class FireBaseController {
                   ),
                 ),
               ),
-              imageUrl: '${snapshot.data!['assets'][0]['Url']}',
+              imageUrl: getUrlType('${snapshot.data!['assets'][0]['Url']}') ==
+                      UrlType.IMAGE
+                  ? '${snapshot.data!['assets'][0]['Url']}'
+                  : url,
               fit: BoxFit.fill,
             ),
           );

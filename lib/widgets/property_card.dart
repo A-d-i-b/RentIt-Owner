@@ -32,6 +32,11 @@ class PropertyCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Text(
+                  "Id:-$id",
+                  style: const TextStyle(fontSize: 20, color: Colors.black54),
+                ),
+                const SizedBox(height: 8),
                 SizedBox(
                   height: Get.width / 2.5,
                   width: Get.width / 2,
