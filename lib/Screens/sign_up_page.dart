@@ -74,6 +74,7 @@ class SignUp extends StatelessWidget {
                         "Sign Up",
                         style: Get.textTheme.headline4!.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 10),
@@ -192,12 +193,12 @@ class SignUpPageField extends StatelessWidget {
         labelStyle: const TextStyle(
           color: Colors.black,
         ),
-        enabledBorder: const UnderlineInputBorder(
+        enabledBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: primary,
           ),
         ),
-        focusedBorder: const UnderlineInputBorder(
+        focusedBorder: UnderlineInputBorder(
           borderSide: BorderSide(
             color: primary,
           ),
@@ -255,8 +256,14 @@ class _PasswordFieldState extends State<PasswordField> {
           decoration: InputDecoration(
             suffixIcon: IconButton(
               icon: _obscureText
-                  ? const Icon(Icons.visibility)
-                  : const Icon(Icons.visibility_off),
+                  ? const Icon(
+                      Icons.visibility,
+                      color: Color(0xFF654BD8),
+                    )
+                  : const Icon(
+                      Icons.visibility_off,
+                      color: Color(0xFF654BD8),
+                    ),
               onPressed: () {
                 setState(() {
                   _obscureText = !_obscureText;
@@ -267,7 +274,7 @@ class _PasswordFieldState extends State<PasswordField> {
             labelStyle: const TextStyle(
               color: Colors.black,
             ),
-            enabledBorder: const UnderlineInputBorder(
+            enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: primary,
               ),
@@ -277,7 +284,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 color: Colors.red,
               ),
             ),
-            focusedBorder: const UnderlineInputBorder(
+            focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: primary,
               ),
@@ -310,8 +317,14 @@ class _PasswordFieldState extends State<PasswordField> {
           decoration: InputDecoration(
             suffixIcon: IconButton(
               icon: _obscureText
-                  ? const Icon(Icons.visibility)
-                  : const Icon(Icons.visibility_off),
+                  ? const Icon(
+                      Icons.visibility,
+                      color: Color(0xFF654BD8),
+                    )
+                  : const Icon(
+                      Icons.visibility_off,
+                      color: Color(0xFF654BD8),
+                    ),
               onPressed: () {
                 setState(() {
                   _obscureText = !_obscureText;
@@ -322,7 +335,7 @@ class _PasswordFieldState extends State<PasswordField> {
             labelStyle: const TextStyle(
               color: Colors.black,
             ),
-            enabledBorder: const UnderlineInputBorder(
+            enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: primary,
               ),
@@ -332,7 +345,7 @@ class _PasswordFieldState extends State<PasswordField> {
                 color: Colors.red,
               ),
             ),
-            focusedBorder: const UnderlineInputBorder(
+            focusedBorder: UnderlineInputBorder(
               borderSide: BorderSide(
                 color: primary,
               ),

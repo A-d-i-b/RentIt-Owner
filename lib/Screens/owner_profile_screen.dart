@@ -45,21 +45,20 @@ class _OwnerProfileState extends State<OwnerProfile> {
                     borderRadius: BorderRadius.circular(120),
                   ),
                   child: ClipRRect(
-                    borderRadius: BorderRadius.circular(120),
-                    child: CachedNetworkImage(
-                      imageUrl: userController.image.value != ''
-                          ? userController.image.value
-                          : profileImage.image.toString(),
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => const SizedBox(
-                        width: double.infinity,
-                        height: double.infinity,
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-                  ),
+                      borderRadius: BorderRadius.circular(120),
+                      child: userController.image.value != ''
+                          ? CachedNetworkImage(
+                              imageUrl: userController.image.value,
+                              fit: BoxFit.cover,
+                              placeholder: (context, url) => const SizedBox(
+                                width: double.infinity,
+                                height: double.infinity,
+                                child: CircularProgressIndicator(),
+                              ),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            )
+                          : profileImage),
                 ),
               ),
               const SizedBox(height: 20),

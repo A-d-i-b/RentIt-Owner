@@ -47,7 +47,7 @@ class CustomButton extends StatelessWidget {
                 hintText: "Enter the amount",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
-                  borderSide: const BorderSide(
+                  borderSide: BorderSide(
                     color: primary,
                     width: 1,
                   ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-const primary = Colors.blue;
+Color primary = const Color(0xFF654BD8);
 const secondary = Colors.black;
 const tri = Colors.white;
 final theme = ThemeData.light().copyWith(
@@ -22,11 +22,11 @@ final theme = ThemeData.light().copyWith(
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: primary, width: 1),
+      borderSide: BorderSide(color: primary, width: 1),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(10),
-      borderSide: const BorderSide(color: primary, width: 1),
+      borderSide: BorderSide(color: primary, width: 1),
       gapPadding: 10,
     ),
   ),
@@ -64,7 +64,7 @@ final theme = ThemeData.light().copyWith(
       fontSize: 34,
       fontWeight: FontWeight.w400,
       letterSpacing: 0.25,
-      color: Colors.black,
+      color: Color(0xFF654BD8),
     ),
     headline5: TextStyle(
       fontSize: 24,
@@ -75,7 +75,7 @@ final theme = ThemeData.light().copyWith(
       fontSize: 20,
       fontWeight: FontWeight.w500,
       letterSpacing: 0.15,
-      color: Colors.black,
+      color: Color(0xFF654BD8),
     ),
     subtitle1: TextStyle(
       fontSize: 16,

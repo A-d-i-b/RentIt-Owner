@@ -15,6 +15,7 @@ class _ContactUsState extends State<ContactUs> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        iconTheme: const IconThemeData(color: Color(0xFF654BD8)),
         centerTitle: true,
         elevation: 0.0,
         foregroundColor: Colors.blue,

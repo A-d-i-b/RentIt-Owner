@@ -33,7 +33,7 @@ class LandingHomeScreen extends StatelessWidget {
                       Text(
                         'Hey there,',
                         style: Get.textTheme.headline4!.copyWith(
-                          color: Get.theme.primaryColor,
+                          color: const Color(0xFF654BD8),
                         ),
                       ),
                       const SizedBox(height: 8),
@@ -45,7 +45,16 @@ class LandingHomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 35),
-                Text('Your properties', style: Get.textTheme.headline6),
+                Row(
+                  children: [
+                    Text('Your ',
+                        style: Get.textTheme.headline6!
+                            .copyWith(color: const Color(0xFF654BD8))),
+                    Text('properties',
+                        style: Get.textTheme.headline6!
+                            .copyWith(color: Colors.black))
+                  ],
+                ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.only(left: 8.0),
@@ -137,7 +146,16 @@ class LandingHomeScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 35),
-                Text('Add properties', style: Get.textTheme.headline6),
+                Row(
+                  children: [
+                    Text('Add ',
+                        style: Get.textTheme.headline6!
+                            .copyWith(color: const Color(0xFF654BD8))),
+                    Text('property',
+                        style: Get.textTheme.headline6!
+                            .copyWith(color: Colors.black))
+                  ],
+                ),
                 const SizedBox(height: 16),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,

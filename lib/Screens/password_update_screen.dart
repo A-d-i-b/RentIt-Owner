@@ -108,12 +108,12 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                                 });
                               },
                             ),
-                            enabledBorder: const UnderlineInputBorder(
+                            enabledBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: primary,
                               ),
                             ),
-                            focusedBorder: const UnderlineInputBorder(
+                            focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(
                                 color: primary,
                               ),
@@ -151,7 +151,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                           labelStyle: const TextStyle(
                             color: Colors.black,
                           ),
-                          enabledBorder: const UnderlineInputBorder(
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
                             ),
@@ -161,7 +161,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                               color: Colors.red,
                             ),
                           ),
-                          focusedBorder: const UnderlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
                             ),
@@ -195,7 +195,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                           return null;
                         },
                         keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
+                        decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
@@ -206,12 +206,12 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                               color: primary,
                             ),
                           ),
-                          errorBorder: UnderlineInputBorder(
+                          errorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.red,
                             ),
                           ),
-                          focusedErrorBorder: UnderlineInputBorder(
+                          focusedErrorBorder: const UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: Colors.red,
                             ),
@@ -240,7 +240,7 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                                   color:
                                       updateController.resendCodeDisabled.value
                                           ? Colors.grey[600]
-                                          : Colors.blue,
+                                          : const Color(0xFF654BD8),
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),

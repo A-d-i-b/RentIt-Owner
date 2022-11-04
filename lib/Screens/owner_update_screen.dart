@@ -46,6 +46,7 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
           elevation: 0.0,
           foregroundColor: Colors.blue,
           backgroundColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Color(0xFF654BD8)),
           title: Text(
             "Update Account",
             style: Get.textTheme.headline4,
@@ -107,13 +108,15 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
               () => Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  textField(
-                    (val) {
-                      firstName = val;
-                    },
-                    userController.user.value.firstName,
-                    'First Name',
-                  ),
+                  textField((val) {
+                    firstName = val;
+                  },
+                      userController.user.value.firstName,
+                      'First Name',
+                      const Icon(
+                        Icons.person,
+                        color: Color(0xFF654BD8),
+                      )),
                   const SizedBox(height: 30),
                   textField(
                     (val) {
@@ -121,6 +124,10 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.lastName,
                     'Last Name',
+                    const Icon(
+                      Icons.person,
+                      color: Color(0xFF654BD8),
+                    ),
                   ),
                   const SizedBox(height: 30),
                   textField(
@@ -129,6 +136,10 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
                     },
                     userController.user.value.phone,
                     'Phone Number',
+                    const Icon(
+                      Icons.phone,
+                      color: Color(0xFF654BD8),
+                    ),
                   ),
                   const SizedBox(height: 20),
                 ],
@@ -192,37 +203,40 @@ class _OwnerUpdateState extends State<OwnerUpdate> {
     );
   }
 
-  Widget textField(void Function(String)? onChange, String text, String lab) {
+  Widget textField(
+      void Function(String)? onChange, String text, String lab, Icon icon) {
     return TextField(
       onChanged: onChange,
       controller: TextEditingController(text: text),
       decoration: InputDecoration(
-        prefixIcon: const Padding(
-          padding: EdgeInsets.all(20),
-          child: Icon(Icons.person),
-        ),
-        enabledBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primary,
+          prefixIcon: Padding(
+            padding: const EdgeInsets.all(20),
+            child: icon,
           ),
-        ),
-        focusedBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: primary,
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: primary,
+            ),
           ),
-        ),
-        errorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: primary,
+            ),
           ),
-        ),
-        focusedErrorBorder: const UnderlineInputBorder(
-          borderSide: BorderSide(
-            color: Colors.red,
+          errorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.red,
+            ),
           ),
-        ),
-        labelText: lab,
-      ),
+          focusedErrorBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(
+              color: Colors.red,
+            ),
+          ),
+          labelText: lab,
+          labelStyle: const TextStyle(
+            color: Color(0xFF654BD8),
+          )),
     );
   }
 }

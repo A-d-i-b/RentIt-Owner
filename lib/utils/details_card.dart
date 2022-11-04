@@ -36,7 +36,7 @@ class _DetailCardState extends State<DetailCard> {
             ),
           ]),
           const SizedBox(height: 10),
-          const Divider(
+          Divider(
             thickness: 2,
             color: primary,
           ),

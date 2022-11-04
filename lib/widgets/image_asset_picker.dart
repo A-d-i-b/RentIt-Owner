@@ -15,7 +15,7 @@ class UserImagePicker extends StatelessWidget {
       onTap: handleClick,
       child: Container(
         padding: const EdgeInsets.all(10),
-        decoration: const BoxDecoration(
+        decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: primary,
         ),
