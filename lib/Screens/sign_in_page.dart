@@ -96,6 +96,7 @@ class _SignInState extends State<SignIn> {
                         "Sign In",
                         style: Get.textTheme.headline4!.copyWith(
                           fontWeight: FontWeight.bold,
+                          color: Colors.black,
                         ),
                       ),
                       const SizedBox(height: 25),
@@ -115,28 +116,29 @@ class _SignInState extends State<SignIn> {
                           return null;
                         },
                         keyboardType: TextInputType.phone,
-                        decoration: const InputDecoration(
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: primary,
-                              ),
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: primary,
                             ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: primary,
-                              ),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: primary,
                             ),
-                            errorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.red,
-                              ),
+                          ),
+                          errorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red,
                             ),
-                            focusedErrorBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Colors.red,
-                              ),
+                          ),
+                          focusedErrorBorder: const UnderlineInputBorder(
+                            borderSide: BorderSide(
+                              color: Colors.red,
                             ),
-                            labelText: 'Phone Number'),
+                          ),
+                          labelText: 'Phone Number',
+                        ),
                       ),
                       const SizedBox(height: 25),
                       TextFormField(
@@ -150,20 +152,26 @@ class _SignInState extends State<SignIn> {
                                       _obscureText = false;
                                     });
                                   },
-                                  icon: const Icon(Icons.remove_red_eye))
+                                  icon: const Icon(
+                                    Icons.remove_red_eye,
+                                    color: Color(0xFF654BD8),
+                                  ))
                               : IconButton(
                                   onPressed: () {
                                     setState(() {
                                       _obscureText = true;
                                     });
                                   },
-                                  icon: const Icon(Icons.visibility_off)),
-                          enabledBorder: const UnderlineInputBorder(
+                                  icon: const Icon(
+                                    Icons.visibility_off,
+                                    color: Color(0xFF654BD8),
+                                  )),
+                          enabledBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
                             ),
                           ),
-                          focusedBorder: const UnderlineInputBorder(
+                          focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(
                               color: primary,
                             ),
@@ -204,10 +212,10 @@ class _SignInState extends State<SignIn> {
                             onPressed: () {
                               Get.toNamed('/sign-up');
                             },
-                            child: Text(
+                            child: const Text(
                               'Sign Up',
                               style: TextStyle(
-                                color: Colors.grey[800],
+                                color: Color(0xFF654BD8),
                                 fontSize: 16,
                                 fontWeight: FontWeight.w600,
                                 // underline

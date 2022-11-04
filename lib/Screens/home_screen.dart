@@ -33,7 +33,7 @@ class _HomeScreenState extends State<HomeScreen> {
       bottomNavigationBar: NavigationBarTheme(
         data: NavigationBarThemeData(
           labelTextStyle: MaterialStateProperty.all(
-            const TextStyle(
+            TextStyle(
               color: primary,
             ),
           ),
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             });
             pageController.jumpToPage(index);
           },
-          destinations: const [
+          destinations: [
             BottomBarIcon(
               icon: Icons.home_rounded,
               color: primary,

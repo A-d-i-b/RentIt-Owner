@@ -83,6 +83,7 @@ class _TenantListState extends State<TenantList> {
               "Coming Soon",
               style: TextStyle(
                 fontSize: 30,
+                color: Colors.black,
               ),
             )),
           ),

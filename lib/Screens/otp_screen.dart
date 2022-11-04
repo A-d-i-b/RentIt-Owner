@@ -179,7 +179,7 @@ class OTPScreen extends StatelessWidget {
                                 style: Get.textTheme.caption!.copyWith(
                                   color: otpController.resendCodeDisabled.value
                                       ? Colors.grey[600]
-                                      : Colors.blue,
+                                      : const Color(0xFF654BD8),
                                 )),
                           ),
                         ),
