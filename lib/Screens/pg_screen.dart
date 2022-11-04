@@ -12,6 +12,7 @@ import 'package:househunt/widgets/alert_dialog.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/Forms/pg_form.dart';
 import 'package:househunt/widgets/asset_thumb.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class PgHome extends StatelessWidget {
   PgHome({Key? key}) : super(key: key);
@@ -145,7 +146,11 @@ class PgHome extends StatelessWidget {
                                     pgFormController.assets.remove(el);
                                   },
                                   file: FileImage(el.file),
-                                  isVideo: el.type == AssetType.video,
+                                  videoThumb: el.type == AssetType.video
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el.file.path,
+                                        )
+                                      : null,
                                 ),
                               )
                               .toList(),
@@ -198,7 +203,11 @@ class PgHome extends StatelessWidget {
                                     pgFormController.assets.remove(el);
                                   },
                                   file: FileImage(el.file),
-                                  isVideo: el.type == AssetType.video,
+                                  videoThumb: el.type == AssetType.video
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el.file.path,
+                                        )
+                                      : null,
                                   newAsset: true,
                                 ),
                               )

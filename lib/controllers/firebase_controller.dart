@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:househunt/models/asset_models.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 enum UrlType { IMAGE, VIDEO, UNKNOWN }
 
@@ -38,11 +39,23 @@ class FireBaseController {
 
     for (var i = 0; i < references.length; i++) {
       String imgPath = files[i].file.path.split("/").last;
-      assets.add({
+      final temp = {
         'Url': await references[i]['db'].getDownloadURL(),
         'name': imgPath,
         'type': files[i].type == AssetType.photo ? 'photo' : 'video'
-      });
+      };
+
+      if (files[i].type == AssetType.video) {
+        temp.addAll(
+          {
+            'thumbnail':
+                await VideoThumbnail.thumbnailFile(video: files[i].file.path)
+          },
+        );
+      }
+
+      print(temp);
+      assets.add(temp);
     }
 
     await FirebaseFirestore.instance.collection('housing').doc('$id').set({
@@ -60,35 +73,73 @@ class FireBaseController {
     return url;
   }
 
-  static UrlType getUrlType(String url) {
-    Uri uri = Uri.parse(url);
-    String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
-    if (typeString == "jpg") {
-      return UrlType.IMAGE;
-    }
-    if (typeString == "mp4") {
-      return UrlType.VIDEO;
-    } else {
-      return UrlType.UNKNOWN;
-    }
-  }
+  // static UrlType getUrlType(String url) {
+  //   Uri uri = Uri.parse(url);
+  //   String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
+  //   if (typeString == "jpg") {
+  //     return UrlType.IMAGE;
+  //   }
+  //   if (typeString == "mp4") {
+  //     return UrlType.VIDEO;
+  //   } else {
+  //     return UrlType.UNKNOWN;
+  //   }
+  // }
 
   static Widget display(int id) {
-    const String url =
-        "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
+    // const String url =
+    //     "https://images.pexels.com/photos/186077/pexels-photo-186077.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1";
     return FutureBuilder<DocumentSnapshot>(
         future:
             FirebaseFirestore.instance.collection('housing').doc('$id').get(),
         builder: (context, snapshot) {
-          if (!snapshot.hasData) return const CircularProgressIndicator();
+          if (!snapshot.hasData) {
+            return const SizedBox(
+              height: double.infinity,
+              width: double.infinity,
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
 
           // print(snapshot.data.);
+          // if (snapshot.data!['assets'][0]['type'] == 'video') {
+          //   return FutureBuilder<String?>(
+          //     future: VideoThumbnail.thumbnailFile(
+          //       video: snapshot.data!['assets'][0]['Url'],
+          //     ),
+          //     builder: (context, snapshot) {
+          //       if (!snapshot.hasData) {
+          //         return const SizedBox(
+          //           height: double.infinity,
+          //           width: double.infinity,
+          //           child: Center(
+          //             child: CircularProgressIndicator(),
+          //           ),
+          //         );
+          //       }
+          //       return Image.file(
+          //         File(snapshot.data!),
+          //         fit: BoxFit.cover,
+          //       );
+          //     },
+          //   );
+          // }
+
+          final image = () {
+            for (final asset in snapshot.data!['assets']) {
+              if (asset['type'] == 'photo') {
+                return asset;
+              }
+            }
+          }()['Url'];
+
           return ClipRRect(
             borderRadius: BorderRadius.circular(8),
             child: CachedNetworkImage(
               progressIndicatorBuilder: (context, url, downloadProgress) =>
                   SizedBox(
-                // make it expand to fit the parent
                 width: double.infinity,
                 height: double.infinity,
                 child: Center(
@@ -97,11 +148,8 @@ class FireBaseController {
                   ),
                 ),
               ),
-              imageUrl: getUrlType('${snapshot.data!['assets'][0]['Url']}') ==
-                      UrlType.IMAGE
-                  ? '${snapshot.data!['assets'][0]['Url']}'
-                  : url,
-              fit: BoxFit.fill,
+              imageUrl: image,
+              fit: BoxFit.cover,
             ),
           );
         });

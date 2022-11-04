@@ -6,14 +6,15 @@ import 'package:househunt/http_connects/pg_connect.dart';
 import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/pg_form_model.dart';
 import 'package:flutter/material.dart';
+import 'package:househunt/utils/array_utils.dart';
 
 // final FireBaseController fireBaseController = FireBaseController();
 
 class PgFormController extends GetxController
     with TextControllers, RentsTextControllers, StateMixin<List<PgFormModel>> {
   final userController = Get.find<UserController>();
-  late final GlobalKey<FormState> _key;
-  get key => _key;
+  // late final GlobalKey<FormState> _key;
+  // get key => _key;
   final _apiProvider = PgConnect();
 
   var disabledButton = false.obs;
@@ -36,33 +37,23 @@ class PgFormController extends GetxController
   List<PgFormModel> pgs = [];
 
   void updateFlat(
-    List itemsFromFirebase,
-    PgFormModel old,
-    List originalItemsFromFirebase,
-    List deletedFirebaseImages,
-  ) async {
-    bool imageExist = assets.isEmpty && itemsFromFirebase.isEmpty;
-    bool imageChanged = () {
-      if (originalItemsFromFirebase.length != itemsFromFirebase.length) {
-        return true;
-      }
-      for (int i = 0; i < itemsFromFirebase.length; i++) {
-        if (originalItemsFromFirebase[i]['Url'] !=
-            itemsFromFirebase[i]['Url']) {
-          return true;
-        }
-      }
-      return false;
-    }();
+      List itemsFromFirebase,
+      PgFormModel old,
+      List originalItemsFromFirebase,
+      List deletedFirebaseImages,
+      GlobalKey<FormState> key) async {
+    bool imageExist = imageExists(assets, itemsFromFirebase);
+    bool imageChanged =
+        itemsChanged(originalItemsFromFirebase, itemsFromFirebase);
 
     bool flatChanged = pgFormModel.value.didChange(old);
 
-    if (imageExist) {
+    if (!imageExist) {
       Get.snackbar('Error', 'Add atleast one image',
           snackPosition: SnackPosition.BOTTOM);
       return;
     }
-    if (!_key.currentState!.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
 
@@ -94,8 +85,6 @@ class PgFormController extends GetxController
         return Future.value();
       }
     }
-
-    print(imageChanged);
 
     try {
       await Future.wait([
@@ -174,23 +163,21 @@ class PgFormController extends GetxController
 
   @override
   void onReady() async {
-    _key = GlobalKey<FormState>();
-
     fetchPgs();
     super.onReady();
   }
 
   // dispose all text controllers
 
-  void submitForm() async {
-    if (!_key.currentState!.validate()) {
+  void submitForm(GlobalKey<FormState> key) async {
+    if (!key.currentState!.validate()) {
       Get.snackbar('Error', 'Please fill all the fields',
           snackPosition: SnackPosition.BOTTOM);
 
       return;
     }
 
-    if (assets.isEmpty) {
+    if (!imageExists(assets, null)) {
       Get.snackbar('Error', 'Please add atleast one image',
           snackPosition: SnackPosition.BOTTOM);
       return;

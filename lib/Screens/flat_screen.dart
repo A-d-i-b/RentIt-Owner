@@ -12,6 +12,7 @@ import 'package:househunt/theme/base_theme.dart';
 import 'package:househunt/widgets/alert_dialog.dart';
 import 'package:househunt/widgets/asset_picker.dart';
 import 'package:househunt/widgets/asset_thumb.dart';
+import 'package:video_thumbnail/video_thumbnail.dart';
 
 class FlatHome extends StatelessWidget {
   FlatHome({Key? key}) : super(key: key);
@@ -147,7 +148,11 @@ class FlatHome extends StatelessWidget {
                                     flatFormController.assets.remove(el);
                                   },
                                   file: FileImage(el.file),
-                                  isVideo: el.type == AssetType.video,
+                                  videoThumb: el.type == AssetType.video
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el.file.path,
+                                        )
+                                      : null,
                                 ),
                               )
                               .toList(),
@@ -202,7 +207,11 @@ class FlatHome extends StatelessWidget {
                                     flatFormController.assets.remove(el);
                                   },
                                   file: FileImage(el.file),
-                                  isVideo: el.type == AssetType.video,
+                                  videoThumb: el.type == AssetType.video
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el.file.path,
+                                        )
+                                      : null,
                                   newAsset: true,
                                 ),
                               )
@@ -214,6 +223,14 @@ class FlatHome extends StatelessWidget {
                                     updateController.deleteItem(el);
                                   },
                                   file: CachedNetworkImageProvider(el['Url']!),
+                                  videoThumb: el['type'] == 'video'
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el['Url']!,
+                                          imageFormat: ImageFormat.JPEG,
+                                          maxWidth: 100,
+                                          quality: 25,
+                                        )
+                                      : null,
                                 ),
                               )
                               .toList(),

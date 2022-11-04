@@ -5,6 +5,7 @@ import 'package:househunt/controllers/user_controller.dart';
 import 'package:househunt/http_connects/flat_connect.dart';
 import 'package:househunt/models/asset_models.dart';
 import 'package:househunt/models/flat_form_model.dart';
+import 'package:househunt/utils/array_utils.dart';
 
 import 'firebase_controller.dart';
 
@@ -14,8 +15,7 @@ class FlatFormController extends GetxController
   final _apiProvider = FlatConnect();
 
   var disabledButton = false.obs;
-  late final GlobalKey<FormState> _key;
-  get key => _key;
+
   Rx<FlatFormModel> flatFormModel = FlatFormModel(
     flatName: '',
     address: '',
@@ -45,45 +45,22 @@ class FlatFormController extends GetxController
     FlatFormModel old,
     List originalItemsFromFirebase,
     List deletedFirebaseImages,
+    GlobalKey<FormState> key,
   ) async {
     // bool imageNotExist = assets.isEmpty && itemsFromFirebase.isEmpty;
     // check atleast one type photo
-    final bool imageNotExist = (() {
-      for (final asset in assets) {
-        if (asset.type == AssetType.photo) {
-          return true;
-        }
-      }
-
-      for (final item in itemsFromFirebase) {
-        if (item['type'] == 'photo') {
-          return true;
-        }
-      }
-
-      return false;
-    })();
-    bool imageChanged = () {
-      if (originalItemsFromFirebase.length != itemsFromFirebase.length) {
-        return true;
-      }
-      for (int i = 0; i < itemsFromFirebase.length; i++) {
-        if (originalItemsFromFirebase[i]['Url'] !=
-            itemsFromFirebase[i]['Url']) {
-          return true;
-        }
-      }
-      return false;
-    }();
+    final bool imageExist = imageExists(assets, itemsFromFirebase);
+    bool imageChanged =
+        itemsChanged(originalItemsFromFirebase, itemsFromFirebase);
 
     bool flatChanged = flatFormModel.value.didChange(old);
 
-    if (imageNotExist) {
-      Get.snackbar('Error', 'Add atleast one image',
+    if (!imageExist) {
+      Get.snackbar('Error', 'Add atleast one image ',
           snackPosition: SnackPosition.BOTTOM);
       return;
     }
-    if (!_key.currentState!.validate()) {
+    if (!key.currentState!.validate()) {
       return;
     }
 
@@ -160,24 +137,19 @@ class FlatFormController extends GetxController
 
   @override
   void onReady() async {
-    _key = GlobalKey<FormState>();
-
     fetchFlats();
     super.onReady();
   }
 
   // dispose all text controllers
-  void submitForm() async {
-    if (!_key.currentState!.validate()) {
+  void submitForm(GlobalKey<FormState> key) async {
+    if (!key.currentState!.validate()) {
       return;
     }
 
-    if (assets.isEmpty) {
-      Get.snackbar(
-        'Error',
-        'Please add atleast one image',
-        snackPosition: SnackPosition.BOTTOM,
-      );
+    if (!imageExists(assets, null)) {
+      Get.snackbar('Error', 'Please add atleast one image',
+          snackPosition: SnackPosition.BOTTOM);
       return;
     }
 

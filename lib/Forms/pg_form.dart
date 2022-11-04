@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:househunt/controllers/key_controller.dart';
 import 'package:househunt/controllers/pg_form_controller.dart';
 import 'package:househunt/controllers/update_assets_controller.dart';
 import 'package:househunt/models/pg_form_model.dart';
@@ -19,6 +20,7 @@ class PgForm extends StatefulWidget {
 class _PgFormState extends State<PgForm> {
   // insert controller
   PgFormController pgFormController = Get.put(PgFormController());
+  KeyController keyController = Get.put(KeyController());
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +35,7 @@ class _PgFormState extends State<PgForm> {
     return Padding(
       padding: const EdgeInsets.only(left: 20, right: 20),
       child: Form(
-        key: pgFormController.key,
+        key: keyController.key,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -500,12 +502,14 @@ class _PgFormState extends State<PgForm> {
 
                     if (inEditMode) {
                       pgFormController.updateFlat(
-                          updateController.items.toList(),
-                          copy,
-                          updateController.originalItems,
-                          updateController.deletedItems);
+                        updateController.items.toList(),
+                        copy,
+                        updateController.originalItems,
+                        updateController.deletedItems,
+                        keyController.key,
+                      );
                     } else {
-                      pgFormController.submitForm();
+                      pgFormController.submitForm(keyController.key);
                     }
                   },
                   child: SizedBox(

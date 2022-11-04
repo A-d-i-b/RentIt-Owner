@@ -1,33 +1,38 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-enum UrlType { IMAGE, VIDEO, UNKNOWN }
+
 
 class AssetThumb extends StatelessWidget {
-  const AssetThumb({
+  AssetThumb({
     Key? key,
     required this.onRemove,
     required this.file,
-    this.isVideo = false,
+    // this.isVideo = false,
     this.newAsset = false,
+    this.videoThumb,
   }) : super(key: key);
 
   final VoidCallback onRemove;
   final ImageProvider file;
-  final bool isVideo;
+  // final bool isVideo;
   final bool newAsset;
-  UrlType getUrlType(String url) {
-    Uri uri = Uri.parse(url);
-    String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
-    if (typeString == "jpg") {
-      return UrlType.IMAGE;
-    }
-    if (typeString == "mp4") {
-      return UrlType.VIDEO;
-    } else {
-      return UrlType.UNKNOWN;
-    }
-  }
+  Future<String?>? videoThumb = Future.value();
+
+  // UrlType getUrlType(String url) {
+  //   Uri uri = Uri.parse(url);
+  //   String typeString = uri.path.substring(uri.path.length - 3).toLowerCase();
+  //   if (typeString == "jpg") {
+  //     return UrlType.IMAGE;
+  //   }
+  //   if (typeString == "mp4") {
+  //     return UrlType.VIDEO;
+  //   } else {
+  //     return UrlType.UNKNOWN;
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -35,19 +40,51 @@ class AssetThumb extends StatelessWidget {
       // allow overflow
       clipBehavior: Clip.none,
       children: [
-        Container(
-          width: 100,
-          height: 100,
-          margin: const EdgeInsets.only(right: 10),
-          decoration: BoxDecoration(
-            image: DecorationImage(fit: BoxFit.cover, image: file),
-            borderRadius: BorderRadius.circular(10),
-          ),
-        ),
-        if (isVideo)
+        (videoThumb != null)
+            ? FutureBuilder<String?>(
+                future: videoThumb,
+                builder: (context, snapshot) {
+                  if (snapshot.data == null) {
+                    return const SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: Center(
+                        child: CircularProgressIndicator(),
+                      ),
+                    );
+                  }
+
+                  return Container(
+                    width: 100,
+                    height: 100,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      image: DecorationImage(
+                        image: FileImage(
+                          File(snapshot.data!),
+                        ),
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  );
+                })
+            : Container(
+                width: 100,
+                height: 100,
+                margin: const EdgeInsets.only(right: 10),
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: file,
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+        if (videoThumb != null)
           Positioned(
-            top: 5,
-            right: 5,
+            bottom: 5,
+            right: 15,
             child: Container(
               padding: const EdgeInsets.all(5),
               decoration: BoxDecoration(
@@ -77,23 +114,6 @@ class AssetThumb extends StatelessWidget {
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                 ),
-              ),
-            ),
-          ),
-        if (isVideo)
-          Positioned(
-            top: 5,
-            right: 5,
-            child: Container(
-              padding: const EdgeInsets.all(5),
-              decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.5),
-                borderRadius: BorderRadius.circular(5),
-              ),
-              child: const Icon(
-                Icons.play_arrow,
-                color: Colors.white,
-                size: 15,
               ),
             ),
           ),

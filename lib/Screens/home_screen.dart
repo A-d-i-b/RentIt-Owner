@@ -52,17 +52,17 @@ class _HomeScreenState extends State<HomeScreen> {
           },
           destinations: const [
             BottomBarIcon(
-              icon: Icons.home,
+              icon: Icons.home_rounded,
               color: primary,
               labelName: "Home",
             ),
             BottomBarIcon(
-              icon: Icons.apartment,
+              icon: Icons.people_rounded,
               color: primary,
-              labelName: "Tenant",
+              labelName: "Tenants",
             ),
             BottomBarIcon(
-              icon: Icons.person,
+              icon: Icons.settings_rounded,
               color: primary,
               labelName: "Profile",
             ),
