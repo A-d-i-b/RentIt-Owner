@@ -96,7 +96,6 @@ class _PasswordUpdateState extends State<PasswordUpdate> {
                           }
                           return null;
                         },
-                        keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                             suffixIcon: IconButton(
                               icon: _obscureText1
