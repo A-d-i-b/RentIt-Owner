@@ -44,7 +44,7 @@ class SignUpController extends GetxController {
             snackPosition: SnackPosition.BOTTOM,
           );
 
-          Get.offAllNamed('/login');
+          Get.offAllNamed('/sign-in');
         } else {
           buttonDisabled.value = false;
           Get.snackbar(
