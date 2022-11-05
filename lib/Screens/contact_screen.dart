@@ -39,10 +39,10 @@ class _ContactUsState extends State<ContactUs> {
           ),
           const SizedBox(height: 20),
           DetailCard(
-            detail: "8708558486",
+            detail: "7820013159",
             icon: Icons.phone,
             ontap: () {
-              launchUrlString("tel:+918708558486");
+              launchUrlString("tel:+917820013159");
             },
           ),
           const SizedBox(height: 20),

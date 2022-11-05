@@ -38,7 +38,6 @@ class SignUpController extends GetxController {
       if (res.statusCode == 400) {
         if (resBody["error"]["message"].contains("Email")) {
           buttonDisabled.value = false;
-
           Get.snackbar(
             "Info",
             "User already exists",
