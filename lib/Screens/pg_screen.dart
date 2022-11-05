@@ -219,6 +219,14 @@ class PgHome extends StatelessWidget {
                                     updateController.deleteItem(el);
                                   },
                                   file: CachedNetworkImageProvider(el['Url']!),
+                                  videoThumb: el['type'] == 'video'
+                                      ? VideoThumbnail.thumbnailFile(
+                                          video: el['Url']!,
+                                          imageFormat: ImageFormat.JPEG,
+                                          maxWidth: 100,
+                                          quality: 25,
+                                        )
+                                      : null,
                                 ),
                               )
                               .toList(),
@@ -229,7 +237,6 @@ class PgHome extends StatelessWidget {
                       ),
                       AssetPickerWidget(
                         onAssetPicked: (items) {
-                          // print(items);
                           pgFormController.assets.addAll(
                             items.map(
                               (e) => FileAsset(
