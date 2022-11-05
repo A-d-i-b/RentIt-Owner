@@ -94,6 +94,7 @@ class SignUp extends StatelessWidget {
                             child: SignUpPageField(
                               labelText: 'Last Name',
                               controller: signUpController.lastNameController,
+                              required: false,
                             ),
                           ),
                         ],
@@ -175,6 +176,7 @@ class SignUpPageField extends StatelessWidget {
     this.textInputType = TextInputType.text,
     required this.controller,
     this.validator,
+    this.required = true,
   }) : super(key: key);
 
   final String labelText;
@@ -182,6 +184,7 @@ class SignUpPageField extends StatelessWidget {
   final TextInputType textInputType;
   final TextEditingController controller;
   final RegExp? validator;
+  final bool required;
 
   @override
   Widget build(BuildContext context) {
@@ -215,11 +218,11 @@ class SignUpPageField extends StatelessWidget {
         ),
       ),
       validator: (value) {
-        if (value!.isEmpty) {
+        if (required && value!.isEmpty) {
           return 'Please enter $labelText';
         }
 
-        if (validator != null && !validator!.hasMatch(value)) {
+        if (validator != null && !validator!.hasMatch(value!)) {
           return 'Please enter valid $labelText';
         }
 
