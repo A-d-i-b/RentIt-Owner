@@ -30,6 +30,7 @@ class SignUpController extends GetxController {
       "lastName": lastNameController.text,
       "phone": mobileController.text,
       "password": passwordController.text,
+      "role": 3
     };
 
     _apiProvider.signUp(response).then((res) {
